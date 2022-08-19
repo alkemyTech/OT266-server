@@ -34,7 +34,7 @@ exports.editMember = async (req, res) => {
 exports.deleteMember = async (req, res) => {
     try {
         const id = req.params;
-        await Members.destroy(req.body, {
+        await Members.destroy({
             where: { id }
         });
         res.json('Member deleted successfully');
