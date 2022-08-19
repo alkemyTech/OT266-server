@@ -10,8 +10,6 @@ const {
 router.get('/', async function (req, res, next) {
   let userData = await getAllUsers();
   res.send(userData)
-  
-  //res.send('respond with a resource');
 });
 
 module.exports = router;
