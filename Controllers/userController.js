@@ -19,4 +19,13 @@ const createUser = async(r)=>{
 }
 
 
-module.exports = {getAllUsers,createUser}
+const deleteUserById = async(userId)=>{
+    let softDeleteUser = await User.destroy({
+        where:{
+            id: userId
+        }
+    })
+}
+
+
+module.exports = {getAllUsers,createUser,deleteUserById}

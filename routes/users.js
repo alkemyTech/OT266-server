@@ -4,7 +4,8 @@ var router = express.Router();
 //Import controllers
 const {
   getAllUsers,
-  createUser
+  createUser,
+  deleteUserById
 } = require("../Controllers/userController")
 
 /* GET users listing. */
@@ -22,7 +23,15 @@ router.get('/crear', async function (req, res) {
 router.post('/crear', async function (req, res) {
   //console.log(req.body)
   let create = await createUser(req.body);
-  console.log('Prueba debug create en users.js', create)
+  res.send('Form post para crear user')
+});
+
+//Ruta delete
+router.delete('/delete/:id', async function (req, res) {
+  let userId = Number(req.params.id);
+
+  let deleteUser = await deleteUserById(userId);
+
   res.send('Form post para crear user')
 });
 
