@@ -20,10 +20,11 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
     password: DataTypes.STRING,
     roleId: DataTypes.INTEGER,
-    deletedAt: DataTypes.DATE
+    //deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'User',
+    paranoid: true
   });
   return User;
 };
