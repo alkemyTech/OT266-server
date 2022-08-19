@@ -12,4 +12,10 @@ router.get('/', async function (req, res, next) {
   res.send(userData)
 });
 
+//Ruta crear
+router.get('/crear', async function (req, res) {
+  res.send('Form para crear user')
+});
+
+
 module.exports = router;
