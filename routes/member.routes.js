@@ -4,11 +4,11 @@ const Members = require('../controllers/member.controller');
 
 const router = express.Router();
 
-router.get('/', Members.allMembers);
+router.get('/', Members.listMembers);
 
 router.post('/new', Members.createMember);
 
-router.update('/update/:id', Members.editMember);
+router.put('/update/:id', Members.editMember);
 
 router.delete('/delete/:id', Members.deleteMember);
 

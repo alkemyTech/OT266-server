@@ -9,18 +9,21 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    /**static associate(models) {
-      Member.belongsTo(models.Role, {as: 'role'});
-    }**/
+    static associate(models) {
+      
+    }
   };
   Member.init({
-    name: DataTypes.STRING,
+    nameMember: DataTypes.STRING,
     facebookUrl: DataTypes.STRING,
     instagramUrl: DataTypes.STRING,
     linkedinUrl: DataTypes.STRING,
     image: DataTypes.STRING,
     description: DataTypes.INTEGER,
-    deletedAt: DataTypes.DATE
+    deletedAt: DataTypes.DATE,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    softDelete: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Member',
