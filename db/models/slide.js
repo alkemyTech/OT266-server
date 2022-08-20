@@ -2,7 +2,9 @@
 const {
   Model
 } = require('sequelize');
-const slides = require('../../../OT225-server/models/slides');
+
+//const slides = require('../../../OT225-server/models/slides');
+
 module.exports = (sequelize, DataTypes) => {
   class Slide extends Model {
     /**
@@ -12,7 +14,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Slide.belongsTo(models.Organization)
+
+      //Slide.belongsTo(models.Organization)
+      
     }
   };
   Slide.init({
