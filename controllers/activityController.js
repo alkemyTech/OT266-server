@@ -1,4 +1,4 @@
-const { Activity } = require('../models');
+const { Activity } = require('../db/models');
 
 
 const activityPost = async(req, res) => {
