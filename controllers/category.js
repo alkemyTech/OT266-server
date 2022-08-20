@@ -1,5 +1,5 @@
 const { request, response } = require("express");
-const {Category} = require("../models");
+const {Category} = require("../db/models");
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
 
