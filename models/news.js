@@ -10,16 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      //News.belongsTo(models.Role, {as: 'role'});
+      // define association here
     }
-  };
-
+  }
   News.init({
     name: DataTypes.STRING,
     content: DataTypes.TEXT,
     image: DataTypes.STRING,
     categoryId: DataTypes.INTEGER,
-    deletedAt: DataTypes.DATE
+    softDeleted: DataTypes.BOOLEAN
+    // Debo agregar un deleted at?
   }, {
     sequelize,
     modelName: 'News',
