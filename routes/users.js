@@ -1,9 +1,29 @@
 var express = require('express');
 var router = express.Router();
 
+//Import controllers
+const {
+  getAllUsersGET,
+  createUserPOST,
+  updateUserPATCH,
+  deleteUserById
+} = require("../Controllers/userController")
+
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/', getAllUsersGET);
+
+//Ruta crear
+router.get('/create', async function (req, res) {
+  res.send('Form para crear user y enviar peticion post a la misma ruta, con POST')
 });
+
+//Ruta crear POST
+router.post('/create', createUserPOST);
+
+//Ruta para modificar 
+router.patch('/edit/:id', updateUserPATCH)
+
+//Ruta delete/:id
+router.delete('/delete/:id', deleteUserById);
 
 module.exports = router;
