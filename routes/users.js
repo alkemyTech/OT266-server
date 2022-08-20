@@ -3,17 +3,14 @@ var router = express.Router();
 
 //Import controllers
 const {
-  getAllUsers,
-  createUser,
+  getAllUsersGET,
+  createUserPOST,
   updateUserPATCH,
   deleteUserById
 } = require("../Controllers/userController")
 
 /* GET users listing. */
-router.get('/', async function (req, res, next) {
-  let userData = await getAllUsers();
-  res.send(userData)
-});
+router.get('/', getAllUsersGET);
 
 //Ruta crear
 router.get('/create', async function (req, res) {
@@ -21,21 +18,12 @@ router.get('/create', async function (req, res) {
 });
 
 //Ruta crear POST
-router.post('/create', async function (req, res) {
-  let create = await createUser(req.body);
-  res.send('Usuario creado')
-});
+router.post('/create', createUserPOST);
 
 //Ruta para modificar 
 router.patch('/edit/:id', updateUserPATCH)
 
 //Ruta delete/:id
-router.delete('/delete/:id', async function (req, res) {
-  let userId = Number(req.params.id);
-
-  let deleteUser = await deleteUserById(userId);
-
-  res.send('Form post para crear user')
-});
+router.delete('/delete/:id', deleteUserById);
 
 module.exports = router;

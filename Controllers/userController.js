@@ -1,21 +1,27 @@
 const { User } = require('../db/connection');
 
-const getAllUsers = async() => {
+const getAllUsersGET = async(req,res) => {
     let userData = await User.findAll();
-    //devuelvo el array completo de users
-    return userData
+    //Teniendo el paranoid, ya muestra directamente los deletedAt =null
+    res.send(userData);
 };
 
-const createUser = async(r)=>{
+const createUserPOST = async(req,res) =>{
     //Need inputs: firstName, lastName, email, password, photo?(null)
-    let { firstName, lastName, email, password } = r;
+    let { firstName, lastName, email, password } = req.body;
 
-    let newUser = await User.create({
-        firstName,
-        lastName,
-        email,
-        password
-    })
+    try {
+        let newUser = await User.create({
+            firstName,
+            lastName,
+            email,
+            password
+        })
+    
+        res.send('Usuario creado')
+    } catch (error) {
+        console.log('Error en la creacion: ', error)
+    }
 }
 
 const updateUserPATCH = async (req,res) => {
@@ -46,13 +52,20 @@ const updateUserPATCH = async (req,res) => {
     }
 }
 
+const deleteUserById = async(req,res) => {
+    let userId = Number(req.params.id);
 
-const deleteUserById = async(userId)=>{
-    let softDeleteUser = await User.destroy({
-        where:{
-            id: userId
-        }
-    })
+    try {
+        let softDeleteUser = await User.destroy({
+            where:{
+                id: userId
+            }
+        })
+        res.send(`deleted user with id: ${userId}`)
+    } catch (error) {
+        console.log('Error en delete: ', error)
+    }
+    
 }
 
-module.exports = {getAllUsers,createUser,deleteUserById, updateUserPATCH}
+module.exports = {getAllUsersGET,createUserPOST,deleteUserById, updateUserPATCH}
