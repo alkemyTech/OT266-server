@@ -5,6 +5,7 @@ var router = express.Router();
 const {
   getAllUsers,
   createUser,
+  updateUserPATCH,
   deleteUserById
 } = require("../Controllers/userController")
 
@@ -15,18 +16,20 @@ router.get('/', async function (req, res, next) {
 });
 
 //Ruta crear
-router.get('/crear', async function (req, res) {
-  res.send('Form para crear user')
+router.get('/create', async function (req, res) {
+  res.send('Form para crear user y enviar peticion post a la misma ruta, con POST')
 });
 
 //Ruta crear POST
-router.post('/crear', async function (req, res) {
-  //console.log(req.body)
+router.post('/create', async function (req, res) {
   let create = await createUser(req.body);
-  res.send('Form post para crear user')
+  res.send('Usuario creado')
 });
 
-//Ruta delete
+//Ruta para modificar 
+router.patch('/edit/:id', updateUserPATCH)
+
+//Ruta delete/:id
 router.delete('/delete/:id', async function (req, res) {
   let userId = Number(req.params.id);
 
@@ -34,6 +37,5 @@ router.delete('/delete/:id', async function (req, res) {
 
   res.send('Form post para crear user')
 });
-
 
 module.exports = router;
