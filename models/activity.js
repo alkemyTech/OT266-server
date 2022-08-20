@@ -20,8 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         softDelete: DataTypes.BOOLEAN
     }, {
         sequelize,
-        modelName: 'Activity',
-        paranoid: true
+        modelName: 'Activity'
     });
     return Activity;
 };
