@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 
 //const slides = require('../../../OT225-server/models/slides');
 
@@ -14,20 +12,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-
       //Slide.belongsTo(models.Organization)
-      
     }
-  };
-  Slide.init({
-    imageUrl: DataTypes.STRING,
-    text: DataTypes.TEXT,
-    order: DataTypes.INTEGER,
-    organizationId: DataTypes.INTEGER
-  }, {
-    sequelize,
-    paranoid: true,
-    modelName: 'Slides',
-  });
+  }
+  Slide.init(
+    {
+      imageUrl: DataTypes.STRING,
+      text: DataTypes.TEXT,
+      order: DataTypes.INTEGER,
+      organizationId: DataTypes.INTEGER,
+    },
+    {
+      sequelize,
+      paranoid: true,
+      modelName: "Slides",
+    }
+  );
   return Slide;
 };
