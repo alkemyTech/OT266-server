@@ -2,7 +2,7 @@
 const {User} = require('../db/models/index');
 
 //Import helpers
-const {hashPassword} = require('../utils/bcryptHelper')
+const {hashPassword,comparePassword} = require('../utils/bcryptHelper')
 
 //Register
 const authRegisterPOST = async (req,res) => {
@@ -51,7 +51,12 @@ Si existe, comparar contraseña encriptada con contraseña enviada en petición
     if (searchUser == null) {
         res.send('{ok: false}, No existe user')
     } else {
-        console.log(searchUser)
+        //De la busqueda searchUser, saco el hash de la password.
+        let hashedPass = searchUser.password
+        //Hago la comparacion de la pass introducida y el hash
+        let isPass = comparePassword(password,hashedPass)
+
+        console.log('comprobacion:', isPass)
         res.send('Todo Ok:')
     }
 
