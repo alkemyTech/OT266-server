@@ -7,8 +7,9 @@ const {
     authLoginGET,
     authLoginPOST
 } = require("../controllers/authController")
+//Validators
 const {registerFormValidate} = require('../utils/validators/registerForm/registerUser')
-
+const {loginFormValidate} = require("../utils/validators/LoginForm/loginUser")
 
 /* GET home page. */
 router.get('/register', function(req, res) {
@@ -19,6 +20,6 @@ router.post('/register',registerFormValidate, authRegisterPOST)
 
 //For login
 router.get('/login', authLoginGET)
-router.post('/login', authLoginPOST)
+router.post('/login',loginFormValidate, authLoginPOST)
 
 module.exports = router;

@@ -5,15 +5,15 @@ const validateResult = (req,res,next) => {
         //from req body
         let { email, password } = req.body;
         //Create an object for sending the info, so the user can see what he sent
-        let inputsValuesWithError= {email, password};
+        let inputsValuesWithError= {email};
 
     try {
         validationResult(req).throw()
         return next()
     } catch (error) {
         let errores = error.array();
-        console.log(errores);
-        res.send("Errores:", errores)
+        //console.log(errores);
+        res.json(errores)
     }
 }
 
