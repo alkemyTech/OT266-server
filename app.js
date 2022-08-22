@@ -8,12 +8,14 @@ require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-
+const testimonyRouter = require('./routes/testimony');
 const categoriesRouter = require('./routes/categories')
 const newsRouter = require('./routes/news');
 const membersRouter = require('./routes/member.routes');
 const activityRouter = require('./routes/activity');
+const authRouter = require('./routes/auth')
 const testimonyRouter = require('./routes/testimony');
+
 
 const app = express();
 app.use(cors())
@@ -34,8 +36,8 @@ app.use('/category', categoriesRouter);
 app.use('/members', membersRouter);
 app.use('/activities', activityRouter);
 app.use('/news', newsRouter);
+app.use('/auth', authRouter);
 app.use('/testimony', testimonyRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
