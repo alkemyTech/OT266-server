@@ -11,7 +11,7 @@ const { testimonyGet,
 router.get('/', testimonyGet);
 router.get('/:id', testimonyGetOne);
 router.post('/', testimonyPost);
-router.put('/', testimonyPut);
-router.delete('/', testimonyDelete);
+router.put('/:id', testimonyPut);
+router.delete('/:id', testimonyDelete);
 
 module.exports = router;
