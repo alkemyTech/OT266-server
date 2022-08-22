@@ -1,18 +1,29 @@
+//import models
+const {User} = require('../db/models/index');
+
 //Import helpers
 const {hashPassword} = require('../utils/bcryptHelper')
 
-const authRegisterPOST = (req,res) => {
-//El endpoint deberá validar los campos Nombre, Apellido, Email, Contraseña. 
-//La contraseña debe ser encriptada. 
-//Deberá devolver como respuesta el usuario generado.
+const authRegisterPOST = async (req,res) => {
     let { firstName, lastName, email, password } = req.body;
 
-    //Hash password - Sync
-    let passwordHashed = hashPassword(password);
-    console.log(passwordHashed);
+    try {
+        //Hash password - Sync
+        let passwordHashed = hashPassword(password);
+        console.log(passwordHashed);
 
+        //Create new user
+        let newUser = await User.create({
+            firstName,
+            lastName,
+            email,
+            password: passwordHashed
+        })
 
-res.send('VISTA DE: POST /auth/register')
+        res.send(`User creado ${JSON.stringify(newUser)}`)
+    } catch (error) {
+        res.json(error)
+    }
 }
 
 
