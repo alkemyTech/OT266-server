@@ -2,8 +2,9 @@
 const {User} = require('../db/models/index');
 
 //Import helpers
-const {hashPassword} = require('../utils/bcryptHelper')
+const {hashPassword,comparePassword} = require('../utils/bcryptHelper')
 
+//Register
 const authRegisterPOST = async (req,res) => {
     let { firstName, lastName, email, password } = req.body;
 
@@ -26,5 +27,37 @@ const authRegisterPOST = async (req,res) => {
     }
 }
 
+//Login
+const authLoginGET = async (req,res) => {
+    res.send('login GET form page')
+}
+const authLoginPOST = async (req,res) => {
+    let {email,password} = req.body;
+    //Busco email
+    const searchUser = await User.findOne({
+        where: {
+            email: email
+        }
+    })
 
-module.exports = {authRegisterPOST}
+    //searchUser == null : no existe el usuario, else si existe
+    if (searchUser == null) {
+        res.send('{ok: false}, No existe user')
+    } else {
+        //De la busqueda searchUser, saco el hash de la password.
+        let hashedPass = searchUser.password
+        //Hago la comparacion de la pass introducida y el hash
+        let isPass = comparePassword(password,hashedPass)
+        //console.log('comprobacion:', isPass)
+
+        if (isPass == true) {
+            //La password introducida es correcta
+            res.json({"Email":searchUser.email,"Password":isPass})
+        } else {
+            //Password introducida es incorrecta
+            res.json({"Email":searchUser.email,"Password":isPass})
+        }
+    }
+}
+
+module.exports = {authRegisterPOST,authLoginGET, authLoginPOST}
