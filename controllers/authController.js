@@ -32,14 +32,7 @@ const authLoginGET = async (req,res) => {
     res.send('login GET form page')
 }
 const authLoginPOST = async (req,res) => {
-    /*
-Deberá validarse el envío de los campos email y password en la petición, y desencriptar la contraseña para autenticarse
-Validar email y password en petición
-Verificar si existe usuario con el email solicitado
-Si existe, comparar contraseña encriptada con contraseña enviada en petición
-    */
     let {email,password} = req.body;
-
     //Busco email
     const searchUser = await User.findOne({
         where: {
@@ -55,11 +48,16 @@ Si existe, comparar contraseña encriptada con contraseña enviada en petición
         let hashedPass = searchUser.password
         //Hago la comparacion de la pass introducida y el hash
         let isPass = comparePassword(password,hashedPass)
+        //console.log('comprobacion:', isPass)
 
-        console.log('comprobacion:', isPass)
-        res.send('Todo Ok:')
+        if (isPass == true) {
+            //La password introducida es correcta
+            res.json({"Email":searchUser.email,"Password":isPass})
+        } else {
+            //Password introducida es incorrecta
+            res.json({"Email":searchUser.email,"Password":isPass})
+        }
     }
-
 }
 
 module.exports = {authRegisterPOST,authLoginGET, authLoginPOST}
