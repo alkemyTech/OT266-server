@@ -14,6 +14,8 @@ const newsRouter = require('./routes/news');
 const membersRouter = require('./routes/member.routes');
 const activityRouter = require('./routes/activity');
 const authRouter = require('./routes/auth')
+const testimonyRouter = require('./routes/testimony');
+
 
 const app = express();
 app.use(cors())
