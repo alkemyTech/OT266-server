@@ -3,7 +3,9 @@ var router = express.Router();
 
 //Import controllers
 const {
-    authRegisterPOST
+    authRegisterPOST,
+    authLoginGET,
+    authLoginPOST
 } = require("../controllers/authController")
 const {registerFormValidate} = require('../utils/validators/registerForm/registerUser')
 
@@ -15,5 +17,8 @@ router.get('/register', function(req, res) {
 
 router.post('/register',registerFormValidate, authRegisterPOST)
 
+//For login
+router.get('/login', authLoginGET)
+router.post('/login', authLoginPOST)
 
 module.exports = router;

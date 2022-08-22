@@ -4,6 +4,7 @@ const {User} = require('../db/models/index');
 //Import helpers
 const {hashPassword} = require('../utils/bcryptHelper')
 
+//Register
 const authRegisterPOST = async (req,res) => {
     let { firstName, lastName, email, password } = req.body;
 
@@ -26,5 +27,34 @@ const authRegisterPOST = async (req,res) => {
     }
 }
 
+//Login
+const authLoginGET = async (req,res) => {
+    res.send('login GET form page')
+}
+const authLoginPOST = async (req,res) => {
+    /*
+Deberá validarse el envío de los campos email y password en la petición, y desencriptar la contraseña para autenticarse
+Validar email y password en petición
+Verificar si existe usuario con el email solicitado
+Si existe, comparar contraseña encriptada con contraseña enviada en petición
+    */
+    let {email,password} = req.body;
 
-module.exports = {authRegisterPOST}
+    //Busco email
+    const searchUser = await User.findOne({
+        where: {
+            email: email
+        }
+    })
+
+    //searchUser == null : no existe el usuario, else si existe
+    if (searchUser == null) {
+        res.send('{ok: false}, No existe user')
+    } else {
+        console.log(searchUser)
+        res.send('Todo Ok:')
+    }
+
+}
+
+module.exports = {authRegisterPOST,authLoginGET, authLoginPOST}
