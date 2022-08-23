@@ -1,8 +1,10 @@
 //import models
+const { token } = require('morgan');
 const {User} = require('../db/models/index');
 
 //Import helpers
 const {hashPassword,comparePassword} = require('../utils/bcryptHelper')
+const { signToken7d, verifyToken } = require('../utils/jwtHelper')
 
 //Register
 const authRegisterPOST = async (req,res) => {
@@ -13,12 +15,13 @@ const authRegisterPOST = async (req,res) => {
         let passwordHashed = hashPassword(password);
         console.log(passwordHashed);
 
-        //Create new user
+        //Create new user, asigno automaticamente rol 2: usuario regular
         let newUser = await User.create({
             firstName,
             lastName,
             email,
-            password: passwordHashed
+            password: passwordHashed,
+            roleId: 2
         })
 
         res.send(`User creado ${JSON.stringify(newUser)}`)
@@ -52,7 +55,18 @@ const authLoginPOST = async (req,res) => {
 
         if (isPass == true) {
             //La password introducida es correcta
-            res.json({"Email":searchUser.email,"Password":isPass})
+
+            //Armo objeto para firmar token: id,name,rol
+            let dataForToken = {
+                id: searchUser.id,
+                name: searchUser.firstName,
+                rol:searchUser.roleId
+            }
+
+            //Firmo token
+            let JWT = await signToken7d(dataForToken)
+
+            res.json({"Email":searchUser.email,"Password":isPass,"JWT Token": JWT})
         } else {
             //Password introducida es incorrecta
             res.json({"Email":searchUser.email,"Password":isPass})
