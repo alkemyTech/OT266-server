@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const {verifyToken} = require('../utils/jwtHelper');
 
 const verifyUser = async (req, res, next) => {
@@ -6,10 +5,10 @@ const verifyUser = async (req, res, next) => {
     const {id} = req.params;
 
     const token = req.header('Authorization');
-    console.log(token);
     if (!token) {
         return res.status(403).json({
-            error: 'Unauthorized', message: 'Access denied'
+            error: 'Unauthorized', 
+            message: 'Access denied'
         })
         
     }else{
