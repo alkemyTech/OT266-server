@@ -7,7 +7,8 @@ const {
   createUserPOST,
   updateUserPATCH,
   deleteUserById
-} = require("../controllers/userController")
+} = require("../controllers/userController");
+const { verifyUser } = require('../middleware/verifyUser');
 
 /* GET users listing. */
 router.get('/', getAllUsersGET);
@@ -21,7 +22,7 @@ router.get('/create', async function (req, res) {
 router.post('/create', createUserPOST);
 
 //Ruta para modificar 
-router.patch('/edit/:id', updateUserPATCH)
+router.patch('/edit/:id', verifyUser ,updateUserPATCH)
 
 //Ruta delete/:id
 router.delete('/delete/:id', deleteUserById);
