@@ -26,6 +26,6 @@ router.post('/create', createUserPOST);
 router.patch('/edit/:id', verifyUser, updateUserPATCH);
 
 //Ruta delete/:id
-router.delete('/delete/:id', verifyAdmin, deleteUserById);
+router.delete('/delete/:id', verifyUser, deleteUserById);
 
 module.exports = router;
