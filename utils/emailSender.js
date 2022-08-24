@@ -5,15 +5,20 @@ const sgMail = require('@sendgrid/mail');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-function sendEmail(addressee, title, message, html) {
+async function sendEmail(addressee, title, message, html) { 
+  
+  let dataTitle = html.replace('T&iacute;tulo',title);
+  let dataBody = dataTitle.replace('Texto del email',message);
+  let dataOrg = dataBody.replace('Datos de contacto de ONG',
+  'Datos de contacto de ONG: Aca iría la data correspondiente a la organización');
+  
   const msg = {
     to: addressee, // Destinatario
     from: process.env.SENDER_EMAIL, // Email del sender. Podemos crear uno.
     subject: title,
     text: message,
-    html: html
+    html: dataOrg
   };
-
   sgMail
   .send(msg)
   .then(() => {
