@@ -11,9 +11,17 @@ exports.listMembers = async (req, res) => {
 
 exports.createMember = async (req, res) => {
     try {
-        const data = req.body;
-        const newMember = await Member.create(data);
+        const { nameMember, facebookUrl, instagramUrl, linkedinUrl, image, description } = req.body;
+        const newMember = await Member.create({
+            nameMember,
+            facebookUrl,
+            instagramUrl,
+            linkedinUrl,
+            image,
+            description
+        });
         await newMember.save();
+        res.json('Member created successfully');
     } catch (error) {
         console.log(error);
     }
