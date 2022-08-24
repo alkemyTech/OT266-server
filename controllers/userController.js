@@ -49,4 +49,4 @@ const deleteUserById = async(req, res) => {
 
 }
 
-module.exports = { getAllUsersGET, createUserPOST, deleteUserById, updateUserPATCH }
+module.exports = { getAllUsersGET, deleteUserById, updateUserPATCH }
