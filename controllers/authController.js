@@ -3,6 +3,7 @@ const { token } = require('morgan');
 const {User} = require('../db/models/index');
 
 //Import helpers
+const {checkEmailExists} = require("./userController")
 const {hashPassword,comparePassword} = require('../utils/bcryptHelper')
 const { signToken7d, verifyToken } = require('../utils/jwtHelper')
 
@@ -13,23 +14,31 @@ const authRegisterGET = async (req,res) => {
 const authRegisterPOST = async (req,res) => {
     let { firstName, lastName, email, password } = req.body;
 
-    try {
-        //Hash password - Sync
-        let passwordHashed = hashPassword(password);
-        console.log(passwordHashed);
+    let existeEmail = await checkEmailExists(email)
 
-        //Create new user, asigno automaticamente rol 2: usuario regular
-        let newUser = await User.create({
-            firstName,
-            lastName,
-            email,
-            password: passwordHashed,
-            roleId: 2
-        })
-
-        res.send(`User creado ${JSON.stringify(newUser)}`)
-    } catch (error) {
-        res.json(error)
+    //Si existeEmail es true, existe el user en la DB y hay que devolver que el correo ya existe.
+    //Caso contrario, se hace el insert en la DB
+    if(existeEmail == true){
+        res.send('El correo ya tiene una cuenta hecha')
+    } else {
+        try {
+            //Hash password - Sync
+            let passwordHashed = hashPassword(password);
+            console.log(passwordHashed);
+    
+            //Create new user, asigno automaticamente rol 2: usuario regular
+            let newUser = await User.create({
+                firstName,
+                lastName,
+                email,
+                password: passwordHashed,
+                roleId: 2
+            })
+    
+            res.send(`User creado ${JSON.stringify(newUser)}`)
+        } catch (error) {
+            res.json(error)
+        }
     }
 }
 

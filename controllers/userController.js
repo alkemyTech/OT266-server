@@ -49,4 +49,22 @@ const deleteUserById = async(req, res) => {
 
 }
 
-module.exports = { getAllUsersGET, deleteUserById, updateUserPATCH }
+//Funcion auxiliar: si existe el email en la DB user devuelve true, sino se devuelve false
+const checkEmailExists = async (email) =>{
+    let respuesta;
+    //Busco email para comprobar si existe en la DB
+    const searchUserEmail = await User.findOne({
+        where: {
+            email: email
+        }
+    })
+    //searchUser == null : no existe el usuario, else si existe
+    if (searchUserEmail == null) {
+        return false
+    } else {
+        return true
+    }
+    
+}
+
+module.exports = { getAllUsersGET, deleteUserById, updateUserPATCH, checkEmailExists }
