@@ -1,5 +1,33 @@
 const { User } = require('../db/models/index');
 
+
+const createUserPOST = async(req, res) => {
+    //Need inputs: firstName, lastName, email, password, photo?(null)
+    let { firstName, lastName, email, password } = req.body;
+
+    try {
+        let newUser = await User.create({
+            firstName,
+            lastName,
+            email,
+            password
+        })
+        let html = await fs.readFileSync('./utils/emailTemplates/plantilla_email.html','utf8', (err, data) => {
+            if (err) throw err;
+            return data;
+        });
+        
+        sendEmail(email, 'Registración exitosa', 'Gracias por formar parte de nuestra organización.', html);
+  
+
+        res.send('Usuario creado')
+    } catch (error) {
+        console.log('Error en la creacion: ', error)
+    }
+}
+
+
+
 const getAllUsersGET = async(req, res) => {
     let userData = await User.findAll();
     //Teniendo el paranoid, ya muestra directamente los deletedAt =null
