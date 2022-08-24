@@ -85,8 +85,8 @@ const activityDelete = async(req, res) => {
             where: {
                 id: id
             }
-        })
-        res.estatus(200).send({
+        });
+        return res.status(200).send({
             message: "Activity deleted."
         })
     } catch (err) {
