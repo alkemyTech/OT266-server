@@ -10,7 +10,11 @@ async function sendEmail(addressee, title, message, html) {
   let dataTitle = html.replace('T&iacute;tulo',title);
   let dataBody = dataTitle.replace('Texto del email',message);
   let dataOrg = dataBody.replace('Datos de contacto de ONG',
-  'Datos de contacto de ONG: Aca iría la data correspondiente a la organización');
+  `Datos de contacto de ONG:
+  ● Mail: somosfundacionmas@gmail.com
+  ● Instagram: SomosMás
+  ● Facebook: Somos_Más
+  ● Teléfono de contacto: 1160112988`);
   
   const msg = {
     to: addressee, // Destinatario

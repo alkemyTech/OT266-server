@@ -17,6 +17,13 @@ const createUserPOST = async(req, res) => {
             email,
             password
         })
+        let html = await fs.readFileSync('./utils/emailTemplates/plantilla_email.html','utf8', (err, data) => {
+            if (err) throw err;
+            return data;
+        });
+        
+        sendEmail(email, 'Registración exitosa', 'Gracias por formar parte de nuestra organización.', html);
+  
 
         res.send('Usuario creado')
     } catch (error) {
