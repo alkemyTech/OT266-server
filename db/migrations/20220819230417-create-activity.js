@@ -20,8 +20,8 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING
             },
-            softDelete: {
-                type: Sequelize.BOOLEAN
+            deletedAt: {
+                type: Sequelize.DATE
             },
             createdAt: {
                 allowNull: false,

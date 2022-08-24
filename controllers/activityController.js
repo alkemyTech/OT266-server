@@ -10,10 +10,12 @@ const activityPost = async(req, res) => {
             softDelete: false
         };
         const createActivity = await Activity.create(body);
-        return res.status(200).json({ msg: "Actividad Creada" });
+        return res.status(200).json({
+            message: "Activity created."
+        });
 
     } catch (err) {
-        res.status(400).json({
+        return res.status(400).json({
             message: err
         });
     }
@@ -22,14 +24,11 @@ const activityPost = async(req, res) => {
 const activityGet = async(req, res) => {
     try {
         const activity = await Activity.findAll({
-            where: {
-                softDelete: false
-            },
             attributes: ['name', 'content', 'image'],
         });
         res.status(200).json(activity);
     } catch (err) {
-        res.status(400).json({
+        return res.status(400).json({
             message: err
         });
     }
@@ -40,10 +39,12 @@ const activityUpdate = async(req, res) => {
     try {
         activity = await Activity.findByPk(id);
         if (!activity) {
-            return res.json({ message: "Actividad no encontrada." });
+            return res.json({
+                message: "Activity not found."
+            });
         }
     } catch (err) {
-        res.json({
+        return res.status(400).json({
             message: err
         });
     }
@@ -52,9 +53,11 @@ const activityUpdate = async(req, res) => {
         activity.update(req.body, {
             where: { id: id }
         });
-        res.json({ success: 'Actividad modificada.' });
+        res.json({
+            success: "Activity modified."
+        });
     } catch (err) {
-        res.status(400).json({
+        return res.status(400).json({
             message: err
         });
     }
@@ -62,14 +65,13 @@ const activityUpdate = async(req, res) => {
 
 const activityDelete = async(req, res) => {
     const id = req.params.id;
-    const updateActivity = {
-        softDelete: true
-    }
     try {
         activity = await Activity.findByPk(id);
 
         if (!activity) {
-            return res.status(404).json({ message: "Actividad no encontrada." });
+            return res.status(404).json({
+                message: "Activity not found."
+            });
         }
 
     } catch (err) {
@@ -79,14 +81,16 @@ const activityDelete = async(req, res) => {
     }
 
     try {
-        activity.update(updateActivity, {
-            where: { id: id }
-        });
-        return res.json({ success: 'Actividad eliminada.' });
-
+        let softDeleteActivity = await Activity.destroy({
+            where: {
+                id: id
+            }
+        })
+        res.estatus(200).send({
+            message: "Activity deleted."
+        })
     } catch (err) {
-
-        return res.status(400).json({
+        return res.status(404).json({
             message: err
         });
     }
