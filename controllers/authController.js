@@ -3,36 +3,52 @@ const { token } = require('morgan');
 const {User} = require('../db/models/index');
 
 //Import helpers
+const {checkEmailExists} = require("./userController")
 const {hashPassword,comparePassword} = require('../utils/bcryptHelper')
-const { signToken7d, verifyToken } = require('../utils/jwtHelper')
+const { signToken7d, verifyToken } = require('../utils/jwtHelper');
+const { sendEmail } = require('../utils/emailSender');
 
 //Register
+const authRegisterGET = async (req,res) => {
+    res.send('Peticion GET a /auth/login -> Aqui form con campos: firstName,lastName,email,password')
+}
 const authRegisterPOST = async (req,res) => {
     let { firstName, lastName, email, password } = req.body;
 
-    try {
-        //Hash password - Sync
-        let passwordHashed = hashPassword(password);
-        console.log(passwordHashed);
+    let existeEmail = await checkEmailExists(email)
 
-        //Create new user, asigno automaticamente rol 2: usuario regular
-        let newUser = await User.create({
-            firstName,
-            lastName,
-            email,
-            password: passwordHashed,
-            roleId: 2
-        })
-
-        res.send(`User creado ${JSON.stringify(newUser)}`)
-    } catch (error) {
-        res.json(error)
+    //Si existeEmail es true, existe el user en la DB y hay que devolver que el correo ya existe.
+    //Caso contrario, se hace el insert en la DB
+    if(existeEmail == true){
+        res.send('El correo ya tiene una cuenta hecha')
+    } else {
+        try {
+            //Hash password - Sync
+            let passwordHashed = hashPassword(password);
+            console.log(passwordHashed);
+    
+            //Create new user, asigno automaticamente rol 2: usuario regular
+            let newUser = await User.create({
+                firstName,
+                lastName,
+                email,
+                password: passwordHashed,
+                roleId: 2
+            })
+            
+            sendEmail(email, 'Registración exitosa',
+            `Gracias ${firstName} por tu registro.`);
+    
+            res.send(`User creado ${JSON.stringify(newUser)}`)
+        } catch (error) {
+            res.json(error)
+        }
     }
 }
 
 //Login
 const authLoginGET = async (req,res) => {
-    res.send('login GET form page')
+    res.send('Peticion GET a /auth/register -> Aqui form con campos: email,password')
 }
 const authLoginPOST = async (req,res) => {
     let {email,password} = req.body;
@@ -74,4 +90,4 @@ const authLoginPOST = async (req,res) => {
     }
 }
 
-module.exports = {authRegisterPOST,authLoginGET, authLoginPOST}
+module.exports = {authRegisterGET,authRegisterPOST,authLoginGET, authLoginPOST}
