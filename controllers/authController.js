@@ -5,7 +5,8 @@ const {User} = require('../db/models/index');
 //Import helpers
 const {checkEmailExists} = require("./userController")
 const {hashPassword,comparePassword} = require('../utils/bcryptHelper')
-const { signToken7d, verifyToken } = require('../utils/jwtHelper')
+const { signToken7d, verifyToken } = require('../utils/jwtHelper');
+const { sendEmail } = require('../utils/emailSender');
 
 //Register
 const authRegisterGET = async (req,res) => {
@@ -34,6 +35,9 @@ const authRegisterPOST = async (req,res) => {
                 password: passwordHashed,
                 roleId: 2
             })
+            
+            sendEmail(email, 'Registración exitosa',
+            `Gracias ${firstName} por tu registro.`);
     
             res.send(`User creado ${JSON.stringify(newUser)}`)
         } catch (error) {
