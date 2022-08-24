@@ -6,24 +6,6 @@ const getAllUsersGET = async(req, res) => {
     res.send(userData);
 };
 
-const createUserPOST = async(req, res) => {
-    //Need inputs: firstName, lastName, email, password, photo?(null)
-    let { firstName, lastName, email, password } = req.body;
-
-    try {
-        let newUser = await User.create({
-            firstName,
-            lastName,
-            email,
-            password
-        })
-
-        res.send('Usuario creado')
-    } catch (error) {
-        console.log('Error en la creacion: ', error)
-    }
-}
-
 const updateUserPATCH = async(req, res) => {
     let userId = Number(req.params.id);
 
