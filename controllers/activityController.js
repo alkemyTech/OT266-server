@@ -6,8 +6,7 @@ const activityPost = async(req, res) => {
         const body = {
             name: req.body.name,
             content: req.body.content,
-            image: req.body.image,
-            softDelete: false
+            image: req.body.image
         };
         const createActivity = await Activity.create(body);
         return res.status(200).json({
@@ -50,12 +49,10 @@ const activityUpdate = async(req, res) => {
     }
 
     try {
-        activity.update(req.body, {
+        let activityUp = activity.update(req.body, {
             where: { id: id }
         });
-        res.json({
-            success: "Activity modified."
-        });
+        res.status(200).json(activity);
     } catch (err) {
         return res.status(400).json({
             message: err
