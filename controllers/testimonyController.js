@@ -122,15 +122,15 @@ const testimonyPut = async (req = request, res = response) => {
 
 //virtual DELETE
 const testimonyDelete = async (req = request, res = response) => {
-    
+
     const {id} = req.params;
     
     const updatedTestimony = {
-        softDeleted:1
+        softDeleted:true
     }
 
     try {
-        const testimony = await testimony.findByPk(id)
+        const testimony = await Testimony.findByPk(id)
         
         if(!testimony){
             return res.status(404).json({
@@ -141,12 +141,12 @@ const testimonyDelete = async (req = request, res = response) => {
         await testimony.update(updatedTestimony);
 
         return res.status(200).json({
-            testimony: testimony
+            testimony
         })
 
     } catch (error) {
         return res.status(400).json({
-            error: error
+            error
         })
     }
 }
