@@ -6,12 +6,11 @@ const activityPost = async(req, res) => {
         const body = {
             name: req.body.name,
             content: req.body.content,
-            image: req.body.image,
-            softDelete: false
+            image: req.body.image
         };
         const createActivity = await Activity.create(body);
         return res.status(200).json({
-            message: "Activity created."
+            message: createActivity
         });
 
     } catch (err) {
@@ -40,7 +39,7 @@ const activityUpdate = async(req, res) => {
         activity = await Activity.findByPk(id);
         if (!activity) {
             return res.json({
-                message: "Activity not found."
+                message: "Activity not exist."
             });
         }
     } catch (err) {
@@ -50,12 +49,10 @@ const activityUpdate = async(req, res) => {
     }
 
     try {
-        activity.update(req.body, {
-            where: { id: id }
+        activityUp = activity.update(req.body, {
+            where: { id: id },
         });
-        res.json({
-            success: "Activity modified."
-        });
+        return res.status(200).json({ activity });
     } catch (err) {
         return res.status(400).json({
             message: err
