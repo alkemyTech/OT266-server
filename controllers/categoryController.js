@@ -127,11 +127,11 @@ const categoryDelete = async (req = request, res = response) => {
     const {id} = req.params;
     
     const updatedCategory = {
-        softDeleted:1
+        softDeleted:true
     }
-
+    
     try {
-        const category = await category.findByPk(id)
+        const category = await Category.findByPk(id)
         
         if(!category){
             return res.status(404).json({
@@ -141,13 +141,14 @@ const categoryDelete = async (req = request, res = response) => {
 
         await category.update(updatedCategory);
 
+
         return res.status(200).json({
             category: category
         })
 
     } catch (error) {
         return res.status(400).json({
-            error: error
+            error
         })
     }
 }
