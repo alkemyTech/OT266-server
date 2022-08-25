@@ -3,6 +3,7 @@ var router = express.Router();
 
 //Import controllers
 const {
+    authRegisterGET,
     authRegisterPOST,
     authLoginGET,
     authLoginPOST
@@ -12,10 +13,7 @@ const {registerFormValidate} = require('../utils/validators/registerForm/registe
 const {loginFormValidate} = require("../utils/validators/LoginForm/loginUser")
 
 /* GET home page. */
-router.get('/register', function(req, res) {
-    res.send('register form GET');
-});
-
+router.get('/register', authRegisterGET);
 router.post('/register',registerFormValidate, authRegisterPOST)
 
 //For login

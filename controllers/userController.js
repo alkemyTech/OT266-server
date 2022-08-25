@@ -1,10 +1,5 @@
 const { User } = require('../db/models/index');
 
-const getAllUsersGET = async(req, res) => {
-    let userData = await User.findAll();
-    //Teniendo el paranoid, ya muestra directamente los deletedAt =null
-    res.send(userData);
-};
 
 const createUserPOST = async(req, res) => {
     //Need inputs: firstName, lastName, email, password, photo?(null)
@@ -17,19 +12,20 @@ const createUserPOST = async(req, res) => {
             email,
             password
         })
-        let html = await fs.readFileSync('./utils/emailTemplates/plantilla_email.html','utf8', (err, data) => {
-            if (err) throw err;
-            return data;
-        });
-        
-        sendEmail(email, 'Registración exitosa', 'Gracias por formar parte de nuestra organización.', html);
-  
 
         res.send('Usuario creado')
     } catch (error) {
         console.log('Error en la creacion: ', error)
     }
 }
+
+
+
+const getAllUsersGET = async(req, res) => {
+    let userData = await User.findAll();
+    //Teniendo el paranoid, ya muestra directamente los deletedAt =null
+    res.send(userData);
+};
 
 const updateUserPATCH = async(req, res) => {
     let userId = Number(req.params.id);
@@ -74,4 +70,22 @@ const deleteUserById = async(req, res) => {
 
 }
 
-module.exports = { getAllUsersGET, createUserPOST, deleteUserById, updateUserPATCH }
+//Funcion auxiliar: si existe el email en la DB user devuelve true, sino se devuelve false
+const checkEmailExists = async (email) =>{
+    let respuesta;
+    //Busco email para comprobar si existe en la DB
+    const searchUserEmail = await User.findOne({
+        where: {
+            email: email
+        }
+    })
+    //searchUser == null : no existe el usuario, else si existe
+    if (searchUserEmail == null) {
+        return false
+    } else {
+        return true
+    }
+    
+}
+
+module.exports = { getAllUsersGET, deleteUserById, updateUserPATCH, checkEmailExists }

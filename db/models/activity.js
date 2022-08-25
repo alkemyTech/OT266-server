@@ -17,10 +17,11 @@ module.exports = (sequelize, DataTypes) => {
         name: DataTypes.STRING,
         content: DataTypes.STRING,
         image: DataTypes.STRING,
-        softDelete: DataTypes.BOOLEAN
+        deletedAt: DataTypes.DATE
     }, {
         sequelize,
-        modelName: 'Activity'
+        modelName: 'Activity',
+        paranoid: true
     });
     return Activity;
 };
