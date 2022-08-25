@@ -6,12 +6,13 @@ const { testimonyGet,
         testimonyPost, 
         testimonyPut, 
         testimonyDelete} = require('../controllers/testimonyController');
+const { verifyAdmin } = require('../middleware/verifyAdmin');
 
 /* GET categories listing. */
-router.get('/', testimonyGet);
-router.get('/:id', testimonyGetOne);
-router.post('/', testimonyPost);
-router.put('/:id', testimonyPut);
-router.delete('/:id', testimonyDelete);
+router.get('/', verifyAdmin ,testimonyGet);
+router.get('/:id', verifyAdmin, testimonyGetOne);
+router.post('/',verifyAdmin, testimonyPost);
+router.put('/:id', verifyAdmin, testimonyPut);
+router.delete('/:id', verifyAdmin, testimonyDelete);
 
 module.exports = router;
