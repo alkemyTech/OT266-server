@@ -5,7 +5,7 @@ const { testimonyGet,
         testimonyGetOne, 
         testimonyPost, 
         testimonyPut, 
-        testimonyDelete} = require('../controllers/testimony');
+        testimonyDelete} = require('../controllers/testimonyController');
 
 /* GET categories listing. */
 router.get('/', testimonyGet);
