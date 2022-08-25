@@ -41,10 +41,9 @@ exports.editMember = async (req, res) => {
 
 exports.deleteMember = async (req, res) => {
     try {
-        const id = req.params;
-        await Member.destroy({
-            where: { id }
-        });
+        const {id} = req.params;
+        const member = await Member.findByPk(id)
+        await member.destroy();
         res.json('Member deleted successfully');
     } catch (error) {
         console.log(error);
