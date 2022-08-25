@@ -1,5 +1,16 @@
 const {Organization} = require("../db/models");
 
+exports.listOrganizationpublic = async (req, res) => {
+    try {
+        const allOrganizations = await Organization.findAll({
+            attributes: { exclude: ['id', 'email', 'welcomeText', 'aboutUsText', 'createdAt', 'updatedAt', 'deletedAt' ]  }
+          });
+        res.json(allOrganizations)
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 exports.listOrganization = async (req, res) => {
     try {
         const allOrganizations = await Organization.findAll();
