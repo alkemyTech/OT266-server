@@ -5,7 +5,7 @@ const {categoryGet,
         categoryGetOne, 
         categoryPost, 
         categoryPut, 
-        categoryDelete} = require('../controllers/category');
+        categoryDelete} = require('../controllers/categoryController');
 const { verifyAdmin } = require('../middleware/verifyAdmin');
 
 /* GET categories listing. */
