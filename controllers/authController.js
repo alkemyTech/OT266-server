@@ -25,7 +25,7 @@ const authRegisterPOST = async (req,res) => {
         try {
             //Hash password - Sync
             let passwordHashed = hashPassword(password);
-            console.log(passwordHashed);
+            //console.log(passwordHashed);
     
             //Create new user, asigno automaticamente rol 2: usuario regular
             let newUser = await User.create({
@@ -36,10 +36,20 @@ const authRegisterPOST = async (req,res) => {
                 roleId: 2
             })
             
-            sendEmail(email, 'Registración exitosa',
-            `Gracias ${firstName} por tu registro.`);
-    
-            res.send(`User creado ${JSON.stringify(newUser)}`)
+            //Se envia correo de bienvenida
+            sendEmail(email, 'Registración exitosa', `Gracias ${firstName} por tu registro.`);
+
+            //Se crea un jwt como usuario autenticado.
+                //Armo objeto con informacion para firmar token: id,name,rol
+                    let dataForToken = {
+                        id: newUser.id,
+                        name: newUser.firstName,
+                        rol:newUser.roleId
+                    }        
+                //Firmo token
+                    let JWT = await signToken7d(dataForToken)
+
+            res.send(`User creado ${JSON.stringify(newUser)}, JWT post registro: ${JWT}`)
         } catch (error) {
             res.json(error)
         }
