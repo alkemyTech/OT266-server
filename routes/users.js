@@ -11,7 +11,7 @@ const {
 } = require("../controllers/userController");
 
 /* GET users listing. */
-router.get('/', getAllUsersGET);
+router.get('/', verifyAdmin, getAllUsersGET);
 
 //Ruta para modificar 
 router.patch('/edit/:id', verifyUser, updateUserPATCH);
