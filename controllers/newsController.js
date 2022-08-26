@@ -1,7 +1,9 @@
 const { request, response } = require("express");
 const { News } = require("../db/models");
 const Sequelize = require("sequelize");
+const { sendEmail } = require("../utils/emailSender");
 const Op = Sequelize.Op;
+const fs = require('fs');
 
 const getAll = async (req = request, res = response) => {
   try {
@@ -44,7 +46,7 @@ const getById = async (req = request, res = response) => {
 
 const createNews = async (req = request, res = response) => {
   const { name, content, image } = req.body;
-
+  
   const softDeleted = false;
 
   const createdNews = new News({

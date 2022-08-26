@@ -1,20 +1,20 @@
 const { request, response } = require("express");
-const {Category} = require("../db/models");
+const {Testimony} = require("../db/models");
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
 
 
-const categoryGet = async (req = request, res = response) => {
+const testimonyGet = async (req = request, res = response) => {
 
     try {
-        const categories = await Category.findAll({
+        const testimonies = await Testimony.findAll({
             where: {
                 softDeleted: false
             }
         }); 
 
         return res.status(200).json({
-            categories: categories
+            testimonies: testimonies
         });
 
     } catch (error) {
@@ -26,12 +26,12 @@ const categoryGet = async (req = request, res = response) => {
 }
 
 
-const categoryGetOne = async (req = request, res = response) => {   
+const testimonyGetOne = async (req = request, res = response) => {   
     
     const {id} = req.params;
 
     try {
-        const category = await Category.findOne({
+        const testimony = await Testimony.findOne({
             where: {
                 id: id,
                 softDeleted: false
@@ -39,7 +39,7 @@ const categoryGetOne = async (req = request, res = response) => {
         })
     
         res.status(200).json({
-            category : category,
+            testimony : testimony,
         })
 
     } catch (error) {
@@ -50,27 +50,26 @@ const categoryGetOne = async (req = request, res = response) => {
 }
 
 
-const categoryPost = async (req = request, res = response) => {
+const testimonyPost = async (req = request, res = response) => {
 
     const {
             name, 
-            description, 
+            content, 
             image, 
         } = req.body;
 
     const softDeleted = false;
 
-    const newCategory = new Category({
+    const newTestimony = new Testimony({
         name,
-        description,
-        image,
-        softDeleted
+        content,
+        image
     })
 
     try {
-        await newCategory.save()
+        await newTestimony.save()
         return res.status(201).json({
-            category: newCategory
+            testimony: newTestimony
         })
     } catch (error) {
         return res.status(400).json({
@@ -81,7 +80,7 @@ const categoryPost = async (req = request, res = response) => {
 }
 
 
-const categoryPut = async (req = request, res = response) => {
+const testimonyPut = async (req = request, res = response) => {
 
     const {id} = req.params;
 
@@ -91,25 +90,25 @@ const categoryPut = async (req = request, res = response) => {
         image
     } = req.body;
 
-    const updatedCategory = {
+    const updatedTestimony = {
         name,
         description,
         image
     }
 
     try {
-        const category = await Category.findByPk(id)
+        const testimony = await Testimony.findByPk(id)
         
-        if(!category){
+        if(!testimony){
             return res.status(404).json({
-                msg:`category not found ${id}`
+                msg:`testimony not found ${id}`
             })
         }
 
-        await category.update(updatedCategory);
+        await testimony.update(updatedTestimony);
 
         return res.status(200).json({
-            category: category
+            testimony: testimony
         })
 
     } catch (error) {
@@ -122,54 +121,54 @@ const categoryPut = async (req = request, res = response) => {
 
 
 //virtual DELETE
-const categoryDelete = async (req = request, res = response) => {
-    
+const testimonyDelete = async (req = request, res = response) => {
+
     const {id} = req.params;
     
-    const updatedCategory = {
-        softDeleted:false
+    const updatedTestimony = {
+        softDeleted:true
     }
 
     try {
-        const category = await category.findByPk(id)
+        const testimony = await Testimony.findByPk(id)
         
-        if(!category){
+        if(!testimony){
             return res.status(404).json({
-                msg:`category not found ${id}`
+                msg:`testimony not found ${id}`
             })
         }
 
-        await category.update(updatedCategory);
+        await testimony.update(updatedTestimony);
 
         return res.status(200).json({
-            category: category
+            testimony
         })
 
     } catch (error) {
         return res.status(400).json({
-            error: error
+            error
         })
     }
 }
 
 //phisical DELETE
-const categoryPhisicalDelete = async (req = request, res = response) => {
+const testimonyPhisicalDelete = async (req = request, res = response) => {
     
     const {id} = req.params;
     
     try {
-        const category = await category.findByPk(id)
+        const testimony = await testimony.findByPk(id)
         
-        if(!category){
+        if(!testimony){
             return res.status(404).json({
-                msg:`category not found ${id}`
+                msg:`testimony not found ${id}`
             })
         }
 
-        await category.destroy();
+        await testimony.destroy();
 
         return res.status(200).json({
-            msg: 'category Deleted'
+            msg: 'testimony Deleted'
         })
 
     } catch (error) {
@@ -181,9 +180,9 @@ const categoryPhisicalDelete = async (req = request, res = response) => {
 
 
 module.exports = {
-    categoryGet,
-    categoryGetOne,
-    categoryPost,
-    categoryPut,
-    categoryDelete,
+    testimonyGet,
+    testimonyGetOne,
+    testimonyPost,
+    testimonyPut,
+    testimonyDelete,
 }
