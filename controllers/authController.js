@@ -10,7 +10,7 @@ const { sendEmail } = require('../utils/emailSender');
 
 //Register
 const authRegisterGET = async (req,res) => {
-    res.send('Peticion GET a /auth/login -> Aqui form con campos: firstName,lastName,email,password')
+    res.send('Peticion GET a /auth/register -> Aqui form con campos: firstName,lastName,email,password')
 }
 const authRegisterPOST = async (req,res) => {
     let { firstName, lastName, email, password } = req.body;
@@ -58,7 +58,7 @@ const authRegisterPOST = async (req,res) => {
 
 //Login
 const authLoginGET = async (req,res) => {
-    res.send('Peticion GET a /auth/register -> Aqui form con campos: email,password')
+    res.send('Peticion GET a /auth/login -> Aqui form con campos: email,password')
 }
 const authLoginPOST = async (req,res) => {
     let {email,password} = req.body;
