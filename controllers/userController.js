@@ -1,3 +1,4 @@
+//Importo modelos
 const { User } = require('../db/models/index');
 
 
@@ -18,15 +19,11 @@ const createUserPOST = async(req, res) => {
         console.log('Error en la creacion: ', error)
     }
 }
-
-
-
 const getAllUsersGET = async(req, res) => {
     let userData = await User.findAll();
     //Teniendo el paranoid, ya muestra directamente los deletedAt =null
     res.send(userData);
 };
-
 const updateUserPATCH = async(req, res) => {
     let userId = Number(req.params.id);
 
@@ -53,7 +50,6 @@ const updateUserPATCH = async(req, res) => {
         console.log('Error en el update: ', error)
     }
 }
-
 const deleteUserById = async(req, res) => {
     let userId = Number(req.params.id);
 
@@ -69,7 +65,6 @@ const deleteUserById = async(req, res) => {
     }
 
 }
-
 //Funcion auxiliar: si existe el email en la DB user devuelve true, sino se devuelve false
 const checkEmailExists = async (email) =>{
     let respuesta;
