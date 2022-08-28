@@ -8,6 +8,7 @@ const {hashPassword,comparePassword} = require('../utils/bcryptHelper')
 const { signToken7d, verifyToken } = require('../utils/jwtHelper');
 const { sendEmail } = require('../utils/emailSender');
 
+
 //Register
 const authRegisterGET = async (req,res) => {
     res.send('Peticion GET a /auth/register -> Aqui form con campos: firstName,lastName,email,password')
@@ -60,6 +61,7 @@ const authRegisterPOST = async (req,res) => {
 const authLoginGET = async (req,res) => {
     res.send('Peticion GET a /auth/login -> Aqui form con campos: email,password')
 }
+
 const authLoginPOST = async (req,res) => {
     let {email,password} = req.body;
     //Busco email
@@ -100,4 +102,18 @@ const authLoginPOST = async (req,res) => {
     }
 }
 
-module.exports = {authRegisterGET,authRegisterPOST,authLoginGET, authLoginPOST}
+// Funcion para traer la información del usuario
+const authMyInfoGET = async (req,res) => {
+    
+    const searchUser = await User.findOne({
+        attributes: ['firstName', 'lastName', 'email', 'image'],
+        where: {
+            id: 1,
+        },
+        
+    })
+
+    res.json(searchUser);
+}
+
+module.exports = {authRegisterGET,authRegisterPOST,authLoginGET, authLoginPOST,authMyInfoGET}
