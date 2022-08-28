@@ -102,17 +102,20 @@ const authLoginPOST = async (req,res) => {
     }
 }
 
-// Funcion para traer la información del usuario
+// Function to bring the information of an specific user
 const authMyInfoGET = async (req,res) => {
-    
+    // It should fetch the ID from the token
+    // const { id } = from token?
+
+    // Searches the user and return only some fields
     const searchUser = await User.findOne({
         attributes: ['firstName', 'lastName', 'email', 'image'],
         where: {
             id: 1,
         },
-        
     })
 
+    // Returns the object with the user info
     res.json(searchUser);
 }
 

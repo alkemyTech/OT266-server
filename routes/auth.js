@@ -21,6 +21,7 @@ router.post('/register',registerFormValidate, authRegisterPOST)
 router.get('/login', authLoginGET)
 router.post('/login',loginFormValidate, authLoginPOST)
 
+//For getting the user information
 router.get('/me', authMyInfoGET);
 
 module.exports = router;
