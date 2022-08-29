@@ -13,8 +13,14 @@ const categoryGet = async (req = request, res = response) => {
             }
         }); 
 
+        const categoriesNames = [];
+
+        categories.forEach(category => {
+            categoriesNames.push(category.name);
+        });
+
         return res.status(200).json({
-            categories: categories
+            categories: categoriesNames
         });
 
     } catch (error) {
