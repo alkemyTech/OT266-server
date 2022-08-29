@@ -114,7 +114,7 @@ const categoryPut = async (req = request, res = response) => {
         
         if(!category){
             return res.status(404).json({
-                msg:`category not found ${id}`
+                msg:`category ${id} not found `
             })
         }
 
