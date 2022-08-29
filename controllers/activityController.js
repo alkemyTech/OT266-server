@@ -49,10 +49,14 @@ const activityUpdate = async(req, res) => {
     }
 
     try {
-        let activityUp = activity.update(req.body, {
+        activity.update(req.body, {
             where: { id: id }
         });
-        res.status(200).json(activity);
+        res.status(200).json({
+            'name': activity.name,
+            'content': activity.content,
+            'image': activity.image
+        });
     } catch (err) {
         return res.status(400).json({
             message: err
