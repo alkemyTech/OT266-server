@@ -33,10 +33,15 @@ const getById = async (req = request, res = response) => {
         softDeleted: false,
       },
     });
-
-    res.status(200).json({
-        news: news,
-    });
+    if(news){
+      res.status(200).json({
+          news: news,
+      });
+    } else {
+      res.status(404).json({
+        error: 'News not found',
+      });
+    }
   } catch (error) {
     res.status(400).json({
       error: error,
