@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     Activity.init({
         name: DataTypes.STRING,
-        content: DataTypes.STRING,
+        content: DataTypes.TEXT,
         image: DataTypes.STRING,
         deletedAt: DataTypes.DATE
     }, {

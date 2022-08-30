@@ -13,8 +13,14 @@ const categoryGet = async (req = request, res = response) => {
             }
         }); 
 
+        const categoriesNames = [];
+
+        categories.forEach(category => {
+            categoriesNames.push(category.name);
+        });
+
         return res.status(200).json({
-            categories: categories
+            categories: categoriesNames
         });
 
     } catch (error) {
@@ -37,13 +43,19 @@ const categoryGetOne = async (req = request, res = response) => {
                 softDeleted: false
             }
         })
+
+        if(!category){
+            return res.status(404).json({
+                msg: `category ${id} not found`
+            })
+        }
     
-        res.status(200).json({
+        return res.status(200).json({
             category : category,
         })
 
     } catch (error) {
-        res.status(400).json({
+        return res.status(400).json({
             error : error
         })
     }
@@ -102,7 +114,7 @@ const categoryPut = async (req = request, res = response) => {
         
         if(!category){
             return res.status(404).json({
-                msg:`category not found ${id}`
+                msg:`category ${id} not found `
             })
         }
 
@@ -135,7 +147,7 @@ const categoryDelete = async (req = request, res = response) => {
         
         if(!category){
             return res.status(404).json({
-                msg:`category not found ${id}`
+                msg:`category ${id} not found`
             })
         }
 
@@ -163,7 +175,7 @@ const categoryPhisicalDelete = async (req = request, res = response) => {
         
         if(!category){
             return res.status(404).json({
-                msg:`category not found ${id}`
+                msg:`category ${id} not found`
             })
         }
 
