@@ -7,7 +7,7 @@ const categoryFormValidate = [
     .notEmpty().withMessage('Empty field, Please enter category name'),
 
     check('name', 'Please use the variable name')
-    .isString.withMessage('Please enter a string'),
+    .isString().withMessage('Please enter a string'),
 
     check('description', 'Please use the variable content')
     .exists()
