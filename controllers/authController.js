@@ -104,6 +104,7 @@ const authLoginPOST = async (req,res) => {
 
 // Function to bring the information of an specific user
 const authMyInfoGET = async (req,res) => {
+
     // Searches the user and return only some fields
     const searchUser = await User.findOne({
         attributes: ['firstName', 'lastName', 'email', 'image'],
