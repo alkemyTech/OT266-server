@@ -34,9 +34,15 @@ const getById = async (req = request, res = response) => {
       },
     });
 
-    res.status(200).json({
-        news: news,
+    if(news){
+      res.status(200).json({
+          news: news,
+      });
+    } else {
+      res.status(404).json({
+        message: 'News not found'
     });
+    }
   } catch (error) {
     res.status(400).json({
       error: error,
