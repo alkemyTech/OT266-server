@@ -104,14 +104,14 @@ const authLoginPOST = async (req,res) => {
 
 // Function to bring the information of an specific user
 const authMyInfoGET = async (req,res) => {
-    // Viene desde VerifyUser
-    const { id } = req.payload;
+    // It should fetch the ID from the token
+    // const { id } = from token?
 
     // Searches the user and return only some fields
     const searchUser = await User.findOne({
         attributes: ['firstName', 'lastName', 'email', 'image'],
         where: {
-            id,
+            id: 1,
         },
     })
 

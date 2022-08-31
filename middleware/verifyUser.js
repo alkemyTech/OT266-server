@@ -15,22 +15,12 @@ const verifyUser = async (req, res, next) => {
         try {
             const payload = await verifyToken(token);
 
-            // if(payload.id != id){
-            //     return res.status(403).json({
-            //         error:'Access denied',
-            //         message:"You don't have permission to access"
-            //     })
-            // }  
-
-            // Agregue lo de verificar rol y se reemplaza lo que esta comentado anteriormente
-            if(payload.rol != 2){
+            if(payload.id != id){
                 return res.status(403).json({
                     error:'Access denied',
                     message:"You don't have permission to access"
                 })
-            }
-
-            req.payload = payload; // Almacena el payload retornado para que pase a la sig. funcion.
+            }  
     
             next();
         } 
