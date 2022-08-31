@@ -113,14 +113,14 @@ const deleteNews = async (req = request, res = response) => {
 
     if (!news) {
       return res.status(404).json({
-        msg: `news not found ${id}`,
+        msg: `news with id ${id} not found`,
       });
     }
 
     await news.update(updatedNews);
 
     return res.status(200).json({
-        news: news,
+        msg: `new with id ${id} deleted successfully`
     });
   } catch (error) {
     return res.status(400).json({
