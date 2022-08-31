@@ -20,7 +20,8 @@ exports.upload = (req, res) => {
     const params = {
         Bucket: s3.bucket_name,
         Key: req.file.originalname.replace(/\s+/g, "-"),
-        Body: req.file.buffer
+        Body: req.file.buffer,
+        ACL: 'public-read',
     };
 
     console.log('Starting file upload op');
