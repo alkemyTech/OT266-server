@@ -4,7 +4,7 @@ const { validateResult } = require('./validateNewsResult')
 const newsFormValidate = [
     check('name', 'Please use the variable name')
     .exists()
-    .notEmpty().withMessage('Empty field, Please enter activity name'),
+    .notEmpty().withMessage('Empty field, Please enter news name'),
 
     check('content', 'Please use the variable content')
     .exists()
