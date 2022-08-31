@@ -19,7 +19,7 @@ exports.upload = (req, res) => {
     // setting up s3 upload parameters
     const params = {
         Bucket: s3.bucket_name,
-        Key: req.file.originalname.replace(/\s+/g, "-"),
+        Key: Date.now() + '-' + req.file.originalname.replace(/\s+/g, "-"),
         Body: req.file.buffer,
         ACL: 'public-read',
     };
@@ -30,6 +30,7 @@ exports.upload = (req, res) => {
             // console.log(err);
             res.status(500).json({ error: 'Error while uploading file' });
         } else {
+            console.log(Date.now()),
             console.log(data);
             res.json({
                 data
