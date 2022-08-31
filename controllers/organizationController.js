@@ -1,7 +1,14 @@
 const {Organization} = require("../db/models");
+const ImageAWS = require("../utils/imageUpload");
 
 exports.listOrganizationpublic = async (req, res) => {
     try {
+        
+        url_image = req.body.url_image
+        name_image = req.body.name_image
+        exten = req.body.extension
+        image_Result = await ImageAWS.uploadFile(url_image, name_image, exten)
+        console.log(image_Result)
         const allOrganizations = await Organization.findAll({
             attributes: { exclude: ['id', 'email', 'welcomeText', 'aboutUsText', 'createdAt', 'updatedAt', 'deletedAt' ]  }
           });

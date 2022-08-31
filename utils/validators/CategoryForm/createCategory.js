@@ -4,10 +4,10 @@ const { validateResult } = require('./validateCategoryResult')
 const categoryFormValidate = [
     check('name', 'Please use the variable name')
     .exists()
-    .notEmpty().withMessage('Empty field, Please enter category name'),
+    .notEmpty().withMessage('Empty field, Please enter category name')
+    .isString()
+    .withMessage('name must be a String'),
 
-    check('name', 'Please enter a string')
-    .isString,
 
     check('description', 'Please use the variable content')
     .exists()

@@ -7,7 +7,7 @@ const { activityFormValidate } = require('../utils/validators/ActivityForm/creat
 
 /* GET activities listing. */
 router.get('/', activityGet);
-router.post('/', activityFormValidate, activityPost);
+router.post('/', verifyAdmin, activityFormValidate, activityPost);
 router.put('/:id', verifyAdmin, activityUpdate);
 router.delete('/:id', activityDelete);
 
