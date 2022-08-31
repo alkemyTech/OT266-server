@@ -8,7 +8,6 @@ const categoryFormValidate = [
     .isString()
     .withMessage('name must be a String'),
 
-
     check('description', 'Please use the variable content')
     .exists()
     .notEmpty().withMessage('Empty field, Please enter a description'),
