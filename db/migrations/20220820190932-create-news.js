@@ -17,7 +17,7 @@ module.exports = {
             image: {
                 type: Sequelize.STRING
             },
-            news: {
+            type: {
                 type: Sequelize.STRING
             },
             categoryId: {

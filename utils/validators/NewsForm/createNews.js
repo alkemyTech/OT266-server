@@ -10,9 +10,9 @@ const newsFormValidate = [
     .exists()
     .notEmpty().withMessage('Empty field, Please enter a content'),
 
-    check('news', 'Please use the variable news')
+    check('type', 'Please use the variable news')
     .exists()
-    .notEmpty().withMessage('Empty field, Please enter a news'),
+    .notEmpty().withMessage('Empty field, Please enter a type'),
 
     (req, res, next) => {
         validateResult(req, res, next)
