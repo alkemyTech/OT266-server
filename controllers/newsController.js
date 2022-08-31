@@ -26,6 +26,7 @@ const getAll = async(req = request, res = response) => {
 const getById = async(req = request, res = response) => {
     const { id } = req.params;
 
+
     try {
         const news = await News.findOne({
             where: {
@@ -35,6 +36,7 @@ const getById = async(req = request, res = response) => {
         });
 
         if(news){
+
       res.status(200).json({
           news: news,
       });
