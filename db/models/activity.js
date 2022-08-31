@@ -15,7 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     }
     Activity.init({
         name: DataTypes.STRING,
+<<<<<<< HEAD
         content: DataTypes.STRING,
+=======
+        content: DataTypes.TEXT,
+>>>>>>> OT266-Sprint-2
         image: DataTypes.STRING,
         deletedAt: DataTypes.DATE
     }, {

@@ -12,6 +12,7 @@ const {
 //Validators
 const {registerFormValidate} = require('../utils/validators/registerForm/registerUser')
 const {loginFormValidate} = require("../utils/validators/LoginForm/loginUser");
+const { verifyMe } = require('../middleware/verifyMe');
 
 /* GET home page. */
 router.get('/register', authRegisterGET);
@@ -22,6 +23,6 @@ router.get('/login', authLoginGET)
 router.post('/login',loginFormValidate, authLoginPOST)
 
 //For getting the user information
-router.get('/me', authMyInfoGET);
+router.get('/me', verifyMe, authMyInfoGET);
 
 module.exports = router;
