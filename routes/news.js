@@ -7,7 +7,7 @@ const { getAll, getById, createNews, putNews, deleteNews } = require('../control
 router.get('/', getAll);
 router.get('/:id', getById);
 router.post('/new/', createNews);
-router.put('/update/:id', putNews);
+router.put('/:id', verifyAdmin, putNews);
 router.delete('/delete/:id', deleteNews);
 
 module.exports = router;
