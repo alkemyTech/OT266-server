@@ -8,7 +8,7 @@ const { newsFormValidate } = require('../utils/validators/NewsForm/createNews');
 /* GET categories listing. */
 router.get('/', getAll);
 router.get('/:id', verifyAdmin, getById);
-router.post('/news/', verifyAdmin, newsFormValidate, createNews);
+router.post('/', verifyAdmin, newsFormValidate, createNews);
 router.put('/update/:id', putNews);
 router.delete('/delete/:id', deleteNews);
 
