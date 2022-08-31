@@ -10,6 +10,6 @@ router.get('/', getAll);
 router.get('/:id', verifyAdmin, getById);
 router.post('/', verifyAdmin, newsFormValidate, createNews);
 router.put('/update/:id', putNews);
-router.delete('/delete/:id', deleteNews);
+router.delete('/delete/:id',verifyAdmin, deleteNews);
 
 module.exports = router;
