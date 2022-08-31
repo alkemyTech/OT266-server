@@ -45,7 +45,7 @@ const getById = async(req = request, res = response) => {
 };
 
 const createNews = async(req = request, res = response) => {
-    const { name, content, image, news } = req.body;
+    const { name, content, image, type } = req.body;
 
     const softDeleted = false;
 
@@ -53,7 +53,7 @@ const createNews = async(req = request, res = response) => {
         name,
         content,
         image,
-        news,
+        type,
         softDeleted,
     });
 
@@ -72,12 +72,13 @@ const createNews = async(req = request, res = response) => {
 const putNews = async(req = request, res = response) => {
     const { id } = req.params;
 
-    const { name, content, image } = req.body;
+    const { name, content, image, type } = req.body;
 
     const updatedNews = {
         name,
         content,
         image,
+        type,
     };
 
     try {

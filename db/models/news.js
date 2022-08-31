@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         name: DataTypes.STRING,
         content: DataTypes.TEXT,
         image: DataTypes.STRING,
-        news: DataTypes.STRING,
+        type: DataTypes.STRING,
         categoryId: DataTypes.INTEGER,
         softDeleted: DataTypes.BOOLEAN
             // Debo agregar un deleted at?
