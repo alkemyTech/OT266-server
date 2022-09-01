@@ -17,12 +17,9 @@ const slideInfoById = async(req,res) => {
     let id = Number(req.params.id) || 0;
 
     //findByPk query with params id, if exits send all data, if it does not exist send 404 error
-    let slideData = await Slides.findByPk(id)
-    if(slideData != null){
-        res.json(slideData)
-    }else {
-        res.status(404).send(`Slide does not exist with id: ${id}`)
-    }
+    let slideDataById = await Slides.findByPk(id)
+    //Res send data
+    res.json(slideDataById)
 }
 
 module.exports = {slidesGET,slideInfoById}

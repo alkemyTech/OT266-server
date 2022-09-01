@@ -9,8 +9,10 @@ const {
 
 //Middlewares
 const { verifyAdmin } = require('../middleware/verifyAdmin');
+const {checkSlideExistsById} = require('../middleware/checkSlideExistsById')
 
+//Routes
 router.get('/', verifyAdmin, slidesGET)
-router.get('/:id', verifyAdmin, slideInfoById)
+router.get('/:id', verifyAdmin, checkSlideExistsById, slideInfoById)
 
 module.exports = router
