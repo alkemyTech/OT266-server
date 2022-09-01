@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         deletedAt: DataTypes.DATE
     }, {
         sequelize,
-        modelName: 'Contacts',
+        modelName: 'Contact',
         paranoid: true,
     });
     return Contacts;
