@@ -15,7 +15,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Member.init({
     nameMember: DataTypes.STRING,
-    image: DataTypes.STRING
+    facebookUrl: DataTypes.STRING,
+    instagramUrl: DataTypes.STRING,
+    linkedinUrl: DataTypes.STRING,
+    image: DataTypes.STRING,
+    description: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Member',
