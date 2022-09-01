@@ -10,20 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      
+      // define association here
     }
-  };
+  }
   Member.init({
     nameMember: DataTypes.STRING,
     facebookUrl: DataTypes.STRING,
     instagramUrl: DataTypes.STRING,
     linkedinUrl: DataTypes.STRING,
     image: DataTypes.STRING,
-    description: DataTypes.INTEGER,
-    deletedAt: DataTypes.DATE,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
-    softDelete: DataTypes.BOOLEAN
+    description: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Member',
