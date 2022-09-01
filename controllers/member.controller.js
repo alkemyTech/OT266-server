@@ -65,7 +65,10 @@ exports.editMember = async (req, res) => {
 exports.deleteMember = async (req, res) => {
     try {
         const {id} = req.params;
-        const member = await Member.findByPk(id)
+        const member = await Member.findByPk(id);
+        if (!member) {
+            res.json({ msg: "Member doesn't exist" });
+        }
         await member.destroy();
         res.json('Member deleted successfully');
     } catch (error) {
