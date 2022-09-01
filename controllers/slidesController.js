@@ -54,4 +54,22 @@ const slideUpdateById = async(req,res) => {
     }
 }
 
-module.exports = {slidesGET,slideInfoById,slideUpdateById}
+//for DELETE-> http://localhost:3000/slides/:id
+const deleteUserById = async(req, res) => {
+    //First id via param
+    let slideId = Number(req.params.id);
+
+    //Destroy query for delete
+    try {
+        let softDeleteSlide = await Slides.destroy({
+            where: {
+                id: slideId
+            }
+        })
+        res.send(`deleted slide with id: ${slideId}`)
+    } catch (error) {
+        console.log('Error delete slide: ', error)
+    }
+}
+
+module.exports = {slidesGET,slideInfoById,slideUpdateById,deleteUserById}

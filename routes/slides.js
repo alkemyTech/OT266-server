@@ -5,7 +5,8 @@ const router = express.Router();
 const {
     slidesGET,
     slideInfoById,
-    slideUpdateById
+    slideUpdateById,
+    deleteUserById
 } = require('../controllers/slidesController');
 
 //Middlewares
@@ -16,5 +17,6 @@ const {checkSlideExistsById} = require('../middleware/checkSlideExistsById')
 router.get('/', verifyAdmin, slidesGET)
 router.get('/:id', verifyAdmin, checkSlideExistsById, slideInfoById)
 router.put('/:id', verifyAdmin, checkSlideExistsById, slideUpdateById)
+router.delete('/:id', verifyAdmin, checkSlideExistsById, deleteUserById)
 
 module.exports = router
