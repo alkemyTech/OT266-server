@@ -9,6 +9,6 @@ const {slidesGET
 //Middlewares
 const { verifyAdmin } = require('../middleware/verifyAdmin');
 
-router.get('/', slidesGET)
+router.get('/', verifyAdmin, slidesGET)
 
 module.exports = router
