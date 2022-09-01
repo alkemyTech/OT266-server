@@ -6,7 +6,7 @@ const { Slides } = require('../db/models/index');
 const slidesGET = async(req,res) => {
     //Select query
     const activeSlides = Slides.findAll({
-        attributes: ['imageUrl','text','order']
+        attributes: ['imageUrl','order']
     });
     res.send(activeSlides)
 
