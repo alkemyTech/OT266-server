@@ -8,9 +8,10 @@ const {hashPassword,comparePassword} = require('../utils/bcryptHelper')
 const { signToken7d, verifyToken } = require('../utils/jwtHelper');
 const { sendEmail } = require('../utils/emailSender');
 
+
 //Register
 const authRegisterGET = async (req,res) => {
-    res.send('Peticion GET a /auth/login -> Aqui form con campos: firstName,lastName,email,password')
+    res.send('Peticion GET a /auth/register -> Aqui form con campos: firstName,lastName,email,password')
 }
 const authRegisterPOST = async (req,res) => {
     let { firstName, lastName, email, password } = req.body;
@@ -25,7 +26,7 @@ const authRegisterPOST = async (req,res) => {
         try {
             //Hash password - Sync
             let passwordHashed = hashPassword(password);
-            console.log(passwordHashed);
+            //console.log(passwordHashed);
     
             //Create new user, asigno automaticamente rol 2: usuario regular
             let newUser = await User.create({
@@ -36,10 +37,20 @@ const authRegisterPOST = async (req,res) => {
                 roleId: 2
             })
             
-            sendEmail(email, 'Registración exitosa',
-            `Gracias ${firstName} por tu registro.`);
-    
-            res.send(`User creado ${JSON.stringify(newUser)}`)
+            //Se envia correo de bienvenida
+            sendEmail(email, 'Registración exitosa', `Gracias ${firstName} por tu registro.`);
+
+            //Se crea un jwt como usuario autenticado.
+                //Armo objeto con informacion para firmar token: id,name,rol
+                    let dataForToken = {
+                        id: newUser.id,
+                        name: newUser.firstName,
+                        rol:newUser.roleId
+                    }        
+                //Firmo token
+                    let JWT = await signToken7d(dataForToken)
+
+            res.send(`User creado ${JSON.stringify(newUser)}, JWT post registro: ${JWT}`)
         } catch (error) {
             res.json(error)
         }
@@ -48,8 +59,9 @@ const authRegisterPOST = async (req,res) => {
 
 //Login
 const authLoginGET = async (req,res) => {
-    res.send('Peticion GET a /auth/register -> Aqui form con campos: email,password')
+    res.send('Peticion GET a /auth/login -> Aqui form con campos: email,password')
 }
+
 const authLoginPOST = async (req,res) => {
     let {email,password} = req.body;
     //Busco email
@@ -90,4 +102,19 @@ const authLoginPOST = async (req,res) => {
     }
 }
 
-module.exports = {authRegisterGET,authRegisterPOST,authLoginGET, authLoginPOST}
+// Function to bring the information of an specific user
+const authMyInfoGET = async (req,res) => {
+
+    // Searches the user and return only some fields
+    const searchUser = await User.findOne({
+        attributes: ['firstName', 'lastName', 'email', 'image'],
+        where: {
+            id: res.locals.userId,
+        },
+    })
+
+    // Returns the object with the user info
+    res.json(searchUser);
+}
+
+module.exports = {authRegisterGET,authRegisterPOST,authLoginGET, authLoginPOST,authMyInfoGET}

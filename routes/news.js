@@ -2,12 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 const { getAll, getById, createNews, putNews, deleteNews } = require('../controllers/newsController');
+const { verifyAdmin } = require('../middleware/verifyAdmin');
+const { newsFormValidate } = require('../utils/validators/NewsForm/createNews');
 
 /* GET categories listing. */
 router.get('/', getAll);
-router.get('/:id', getById);
-router.post('/new/', createNews);
-router.put('/update/:id', putNews);
-router.delete('/delete/:id', deleteNews);
+router.get('/:id', verifyAdmin, getById);
+router.post('/', verifyAdmin, newsFormValidate, createNews);
+router.put('/:id', verifyAdmin, putNews);
+router.delete('/delete/:id',verifyAdmin, deleteNews);
 
 module.exports = router;

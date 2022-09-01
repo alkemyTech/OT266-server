@@ -8,7 +8,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 function sendEmail(addressee, title, message) { 
   
-  console.log('entra',addressee, title, message)
+  //console.log('entra',addressee, title, message)
   let html = fs.readFileSync('./utils/emailTemplates/plantilla_email.html','utf8', (err, data) => {
     if (err) console.log(err);
     return data;
