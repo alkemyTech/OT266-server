@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', Members.listMembers);
 
-router.get('/', verifyAdmin, Members.listMembersAttributes);
+router.get('/attributes', verifyAdmin, Members.listMembersAttributes);
 
 router.post('/new', Members.createMember);
 
