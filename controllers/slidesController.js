@@ -17,12 +17,41 @@ const slideInfoById = async(req,res) => {
     let id = Number(req.params.id) || 0;
 
     //findByPk query with params id, if exits send all data, if it does not exist send 404 error
-    let slideData = await Slides.findByPk(id)
-    if(slideData != null){
-        res.json(slideData)
-    }else {
-        res.status(404).send(`Slide does not exist with id: ${id}`)
+    let slideDataById = await Slides.findByPk(id)
+    //Res send data
+    res.json(slideDataById)
+}
+
+//for PUT-> http://localhost:3000/slides/:id
+const slideUpdateById = async(req,res) => {
+    let slideId = Number(req.params.id);
+
+    //Need inputs: text, order, organizationId, imageUrl
+    let { text, order, organizationId, imageUrl } = req.body;
+
+    //Check every input, if is undefined doesnt go to the query
+    let updateSlideData = {}
+    if (text != undefined) { updateSlideData.text = text };
+    if (order != undefined) { updateSlideData.order = order };
+    if (organizationId != undefined) { updateSlideData.organizationId = organizationId };
+    if (imageUrl != undefined) { updateSlideData.imageUrl = imageUrl };
+
+    try {
+        //Update query
+        let updateSlide = await Slides.update(
+            updateSlideData, {
+                where: {
+                    id: slideId
+                }
+            }
+        )
+        //Get the updated info
+        let updatedSlide = await Slides.findByPk(slideId);
+        //Send response
+        res.json({"Update Status":"OK","Updated Data:":updatedSlide})
+    } catch (error) {
+        console.log('Error en el update de Slide: ', error)
     }
 }
 
-module.exports = {slidesGET,slideInfoById}
+module.exports = {slidesGET,slideInfoById,slideUpdateById}
