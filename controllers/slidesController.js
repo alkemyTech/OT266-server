@@ -1,6 +1,8 @@
 //Models
 const { Slides } = require('../db/models/index');
 
+//Import modules
+const fs = require('fs')
 
 //for GET-> http://localhost:3000/slides
 const slidesGET = async(req,res) => {
@@ -11,6 +13,37 @@ const slidesGET = async(req,res) => {
     res.send(activeSlides)
 
 }
+
+
+
+
+
+
+
+
+//for POST ->http://localhost:3000/slides
+const slidesPOST = async(req,res) => {
+    //Inputs required: imageBase64? , text(varchar),order(int),organizationId
+    let {imageBase64,text,order,organizationId} = req.body;
+
+/* 
+    //creo archivo
+    fs.writeFile('imagen.jpeg',test64,{encoding:'base64'}, function(error){
+        if(error){
+            console.log('Error creando imagen: ', error)
+        }
+    })
+*/
+
+    let data = {imageBase64,text,order,organizationId}
+    res.send(data)
+}
+
+
+
+
+
+
 
 //for GET-> http://localhost:3000/slides/:id
 const slideInfoById = async(req,res) => {
@@ -72,4 +105,4 @@ const deleteUserById = async(req, res) => {
     }
 }
 
-module.exports = {slidesGET,slideInfoById,slideUpdateById,deleteUserById}
+module.exports = {slidesGET,slidesPOST,slideInfoById,slideUpdateById,deleteUserById}
