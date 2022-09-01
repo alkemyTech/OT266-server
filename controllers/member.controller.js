@@ -5,7 +5,24 @@ exports.listMembers = async (req, res) => {
         const allMembers = await Member.findAll();
         res.json(allMembers)
     } catch (error) {
-        console.log(error);
+        return {
+            message: error.message,
+            success: false
+        }
+    }
+};
+
+exports.listMembersAttributes = async (req, res) => {
+    try {
+        const allMembers = await Member.findAll({
+            attributes: ['nameMember', 'image']
+        });
+        res.json(allMembers)
+    } catch (error) {
+        return {
+            message: error.message,
+            success: false
+        }
     }
 };
 
@@ -23,7 +40,10 @@ exports.createMember = async (req, res) => {
         await newMember.save();
         res.json('Member created successfully');
     } catch (error) {
-        console.log(error);
+        return {
+            message: error.message,
+            success: false
+        }
     }
 }
 
@@ -35,17 +55,26 @@ exports.editMember = async (req, res) => {
         });
         res.json('Member updated successfully');
     } catch (error) {
-        console.log(error);
+        return {
+            message: error.message,
+            success: false
+        }
     }
 }
 
 exports.deleteMember = async (req, res) => {
     try {
         const {id} = req.params;
-        const member = await Member.findByPk(id)
+        const member = await Member.findByPk(id);
+        if (!member) {
+            res.json({ msg: "Member doesn't exist" });
+        }
         await member.destroy();
         res.json('Member deleted successfully');
     } catch (error) {
-        console.log(error);
+        return {
+            message: error.message,
+            success: false
+        }
     }
 }

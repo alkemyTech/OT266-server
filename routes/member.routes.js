@@ -1,12 +1,16 @@
 const express = require('express');
+const { verifyAdmin } = require('../middleware/verifyAdmin');
 
 const Members = require('../controllers/member.controller'); 
+const { verifyUser } = require('../middleware/verifyUser');
 
 const router = express.Router();
 
 router.get('/', Members.listMembers);
 
-router.post('/new', Members.createMember);
+router.get('/attributes', verifyAdmin, Members.listMembersAttributes);
+
+router.post('/', verifyUser, Members.createMember);
 
 router.put('/update/:id', Members.editMember);
 
