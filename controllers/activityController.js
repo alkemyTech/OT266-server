@@ -73,7 +73,7 @@ const activityDelete = async(req, res) => {
 
         if (!activity) {
             return res.status(404).json({
-                message: "Activity not found."
+                message: "Activity not exist."
             });
         }
 
