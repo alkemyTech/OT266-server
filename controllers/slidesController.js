@@ -100,14 +100,36 @@ const slideUpdateById = async(req,res) => {
     let slideId = Number(req.params.id);
 
     //Need inputs: text, order, organizationId, imageUrl
-    let { text, order, organizationId, imageUrl } = req.body;
+    let { text, order, organizationId, imageBase64 } = req.body;
 
     //Check every input, if is undefined doesnt go to the query
     let updateSlideData = {}
     if (text != undefined) { updateSlideData.text = text };
     if (order != undefined) { updateSlideData.order = order };
     if (organizationId != undefined) { updateSlideData.organizationId = organizationId };
-    if (imageUrl != undefined) { updateSlideData.imageUrl = imageUrl };
+
+    //image logic:
+    if (imageBase64 != undefined) {
+            //Get important image data
+            let imageExtension = imageBase64.split(';')[0].split('/')[1];
+            let imageData = imageBase64.split(',')[1]
+        //Name the file to save it
+            let fileNameToSave = `image-${Date.now()}.${imageExtension}`
+        //Create file with the data; and save it at root/utils/temporaryImages
+            fs.writeFile(`./utils/temporaryImages/${fileNameToSave}`,imageData,{encoding:'base64'}, function(error){
+                if(error){
+                    console.log('Error creando imagen: ', error)
+                }
+            })
+        //Upload image, using same path from the writeFile and same name
+            let uploadImage = await uploadFile(fileNameToSave);
+                //Save uploaded link    
+            let uploadedLink = uploadImage.Location;
+            updateSlideData.imageUrl = uploadedLink;
+
+        //Remove the file after its uploaded
+            await unlinkFile(`./utils/temporaryImages/${fileNameToSave}`);
+    };
 
     try {
         //Update query
