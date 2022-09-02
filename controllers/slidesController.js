@@ -25,17 +25,21 @@ const slidesGET = async(req,res) => {
 const slidesPOST = async(req,res) => {
     //Inputs required: imageBase64? , text(varchar),order(int),organizationId
     let {imageBase64,text,order,organizationId} = req.body;
+    //imageBase64 would be: data:image/jpeg;base64,/9j/4AAQSkZJRgA.....
+    // The image data is after the ","  /9j/4AAQSkZJRgA..
 
-/* 
-    //creo archivo
-    fs.writeFile('imagen.jpeg',test64,{encoding:'base64'}, function(error){
+    //Get important image data
+
+    let imageExtension = imageBase64.split(';')[0].split('/')[1];
+    let imageData = imageBase64.split(',')[1]
+
+    //Create file with the data
+    fs.writeFile(`image.${imageExtension}`,imageData,{encoding:'base64'}, function(error){
         if(error){
             console.log('Error creando imagen: ', error)
         }
     })
-*/
 
-    let data = {imageBase64,text,order,organizationId}
     res.send(data)
 }
 
