@@ -1,6 +1,14 @@
 //Models
 const { Slides } = require('../db/models/index');
 
+//Import modules
+const fs = require('fs')
+const utils = require('util')
+const unlinkFile = utils.promisify(fs.unlink);
+
+//Import utils
+const  {uploadFile} = require('../utils/imageUpload2')
+
 
 //for GET-> http://localhost:3000/slides
 const slidesGET = async(req,res) => {
@@ -10,6 +18,71 @@ const slidesGET = async(req,res) => {
     });
     res.send(activeSlides)
 
+}
+
+//for POST ->http://localhost:3000/slides
+const slidesPOST = async(req,res) => {
+    //Inputs required: imageBase64? , text(varchar),order(int),organizationId
+        let {imageBase64,text} = req.body;
+        let order = Number(req.body.order) || undefined;
+        let organizationId = Number(req.body.organizationId);
+
+    //Start image logic to upload and delete the file after it is on S3 server.
+        //imageBase64 would be: data:image/jpeg;base64,/9j/4AAQSkZJRgA.....
+        // The image data is after the ","  /9j/4AAQSkZJRgA..
+
+        //Get important image data
+            let imageExtension = imageBase64.split(';')[0].split('/')[1];
+            let imageData = imageBase64.split(',')[1]
+        //Name the file to save it
+            let fileNameToSave = `image-${Date.now()}.${imageExtension}`
+        //Create file with the data; and save it at root/utils/temporaryImages
+            fs.writeFile(`./utils/temporaryImages/${fileNameToSave}`,imageData,{encoding:'base64'}, function(error){
+                if(error){
+                    console.log('Error creando imagen: ', error)
+                }
+            })
+        //Upload image, using same path from the writeFile and same name
+            let uploadImage = await uploadFile(fileNameToSave);
+
+            /* uploadImage response:
+                {
+                    ETag: '"f20e857a14c683ec8f9adbc6322aaf01"',
+                    Location: 'https://cohorte-agosto-38d749a7.s3.amazonaws.com/image-1662133101246.jpeg',
+                    key: 'image-1662133101246.jpeg',
+                    Key: 'image-1662133101246.jpeg',
+                    Bucket: 'cohorte-agosto-38d749a7'
+                }
+            */
+            
+
+                //Save uploaded link    
+            let uploadedLink = uploadImage.Location
+    
+        //Remove the file after its uploaded
+            await unlinkFile(`./utils/temporaryImages/${fileNameToSave}`);
+    //Finish image logic
+
+    //Get last order number if order inputs is null:
+    if(order == undefined){
+        let lastRecord = await Slides.findAll({
+            limit: 1,
+            order: [ [ 'createdAt', 'DESC' ]]
+            })
+        let lastRecordOrder = lastRecord[0].order;
+        order = lastRecordOrder
+    }     
+
+    //Got all information so save it in the DB
+    //Create new record
+    let newSlideRecord = await Slides.create({
+        imageUrl: uploadedLink,
+        text: text,
+        order: order,
+        organizationId: organizationId
+    })
+
+    res.json({newSlideRecord})
 }
 
 //for GET-> http://localhost:3000/slides/:id
@@ -72,4 +145,4 @@ const deleteUserById = async(req, res) => {
     }
 }
 
-module.exports = {slidesGET,slideInfoById,slideUpdateById,deleteUserById}
+module.exports = {slidesGET,slidesPOST,slideInfoById,slideUpdateById,deleteUserById}
