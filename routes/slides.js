@@ -16,11 +16,7 @@ const {checkSlideExistsById} = require('../middleware/checkSlideExistsById')
 
 //Routes
 router.get('/', verifyAdmin, slidesGET)
-
-router.post('/', slidesPOST)
-//router.post('/', verifyAdmin, slidesPOST)
-
-
+router.post('/', verifyAdmin, slidesPOST)
 router.get('/:id', verifyAdmin, checkSlideExistsById, slideInfoById)
 router.put('/:id', verifyAdmin, checkSlideExistsById, slideUpdateById)
 router.delete('/:id', verifyAdmin, checkSlideExistsById, deleteUserById)
