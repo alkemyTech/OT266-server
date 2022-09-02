@@ -4,6 +4,10 @@ const { Slides } = require('../db/models/index');
 //Import modules
 const fs = require('fs')
 
+//Import utils
+const  {uploadFile} = require('../utils/imageUpload2')
+
+
 //for GET-> http://localhost:3000/slides
 const slidesGET = async(req,res) => {
     //Select query
@@ -24,23 +28,35 @@ const slidesGET = async(req,res) => {
 //for POST ->http://localhost:3000/slides
 const slidesPOST = async(req,res) => {
     //Inputs required: imageBase64? , text(varchar),order(int),organizationId
-    let {imageBase64,text,order,organizationId} = req.body;
+        let {imageBase64,text,order,organizationId} = req.body;
     //imageBase64 would be: data:image/jpeg;base64,/9j/4AAQSkZJRgA.....
     // The image data is after the ","  /9j/4AAQSkZJRgA..
 
     //Get important image data
+        let imageExtension = imageBase64.split(';')[0].split('/')[1];
+        let imageData = imageBase64.split(',')[1]
+    //Name the file
+        let fileNameToSave = `image-${Date.now()}.${imageExtension}`
+    //Create file with the data; and save it at root/utils/temporaryImages
+        fs.writeFile(`./utils/temporaryImages/${fileNameToSave}`,imageData,{encoding:'base64'}, function(error){
+            if(error){
+                console.log('Error creando imagen: ', error)
+            }
+        })
+        //Upload image, using same path from the writeFile and same name
+        let uploadImage = await uploadFile(fileNameToSave);
+        /* 
+            Respuesta de uploadImage:
+            {
+                ETag: '"f20e857a14c683ec8f9adbc6322aaf01"',
+                Location: 'https://cohorte-agosto-38d749a7.s3.amazonaws.com/image-1662133101246.jpeg',
+                key: 'image-1662133101246.jpeg',
+                Key: 'image-1662133101246.jpeg',
+                Bucket: 'cohorte-agosto-38d749a7'
+            }
+        */
 
-    let imageExtension = imageBase64.split(';')[0].split('/')[1];
-    let imageData = imageBase64.split(',')[1]
-
-    //Create file with the data
-    fs.writeFile(`image.${imageExtension}`,imageData,{encoding:'base64'}, function(error){
-        if(error){
-            console.log('Error creando imagen: ', error)
-        }
-    })
-
-    res.send(data)
+    res.json({imageExtension,imageData})
 }
 
 
