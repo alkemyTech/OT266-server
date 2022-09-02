@@ -1,14 +1,18 @@
 const { default: fetch } = require("node-fetch");
 
 const getAll = async (req,res) => {
+    const authorization = req.header('Authorization');
+
     try {
-        fetch('http://localhost:3000/contacts/')
+        const contacts = await fetch('http://localhost:3000/contacts/', {
+            headers: {
+                'Authorization': authorization
+            }, 
+        })
         .then(response => response.json())
-        .then(data => console.log(data));
+        .catch(error => console.log(error))
+        return res.status(200).json(contacts);
         
-        return res.status(200).json({
-            message: 'Its working'
-        });
     } catch (error) {
         console.log(error)
         return res.status(400).json({
