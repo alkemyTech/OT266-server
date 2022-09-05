@@ -15,7 +15,21 @@ const contactGet = async(req, res) => {
     }
 }
 
+// Function to fetch all contacts
+const getAllContacts = async(req = request, res = response) => {
+    try {
+        const contacts = await Contact.findAll({});
 
+        return res.status(200).json({
+            contacts: contacts,
+        });
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({
+            error: error,
+        });
+    }
+};
 
 // Enter contact
 const contactPost = async(req, res) => {
@@ -82,4 +96,5 @@ module.exports = {
     contactGet,
     contactPost,
     contactDelete,
+    getAllContacts
 }
