@@ -10,7 +10,7 @@ router.get('/', Members.listMembers);
 
 router.get('/attributes', verifyAdmin, Members.listMembersAttributes);
 
-router.post('/', verifyUser, Members.createMember);
+router.post('/', Members.createMember);
 
 router.put('/update/:id', Members.editMember);
 
