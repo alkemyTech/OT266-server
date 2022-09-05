@@ -29,6 +29,9 @@ exports.listMembersAttributes = async (req, res) => {
 exports.createMember = async (req, res) => {
     try {
         const { nameMember, facebookUrl, instagramUrl, linkedinUrl, image, description } = req.body;
+        if(typeof(nameMember) != 'string'){
+            res.json({msg: 'The name must to be a string'});
+        }
         const newMember = await Member.create({
             nameMember,
             facebookUrl,
