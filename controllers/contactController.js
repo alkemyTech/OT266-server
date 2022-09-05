@@ -1,4 +1,5 @@
 const { Contact } = require('../db/models');
+const {sendEmail} = require('../utils/emailSender');
 
 // Function to fetch all contacts
 const getAllContacts = async(req = request, res = response) => {
@@ -26,6 +27,8 @@ const contactPost = async(req, res) => {
             message: req.body.message
         };
         const createContact = await Contact.create(body);
+        sendEmail(req.body.email, `Hola ${req.body.name}`, 
+        `Tu contacto ha sido recibido correctamente.\nAgradecemos tu apoyo para que podamos seguir ayudando a los más necesitados.`);
         return res.status(200).json({
             'name': createContact.name,
             'phone': createContact.phone,
@@ -39,7 +42,6 @@ const contactPost = async(req, res) => {
         });
     }
 }
-
 
 module.exports = {
     contactPost,
