@@ -43,6 +43,7 @@ const contactPost = async(req, res) => {
     }
 }
 
+
 module.exports = {
     contactPost,
     getAllContacts
