@@ -7,13 +7,7 @@ exports.listMembers = async (req, res) => {
         const allMembers = await Member.findAll();
         //Response
         res.json(allMembers)
-    } catch (mistake) {
-        //to print the mistake
-        return {
-            message: mistake.message,
-            success: false
-        }
-    }
+    } catch (err) { res.status(500).json(err); }
 };
 
 exports.listMembersAttributes = async (req, res) => {
@@ -25,13 +19,7 @@ exports.listMembersAttributes = async (req, res) => {
         });
         //response
         res.json(allMembers)
-    } catch (mistake) {
-        //to print the mistake
-        return {
-            message: mistake.message,
-            success: false
-        }
-    }
+    } catch (err) { res.status(500).json(err); }
 };
 
 exports.createMember = async (req, res) => {
@@ -41,7 +29,7 @@ exports.createMember = async (req, res) => {
         const { nameMember, facebookUrl, instagramUrl, linkedinUrl, image, description } = req.body;
         //condition to ensure about the type of the data
         if(typeof(nameMember) != 'string'){
-            res.json({msg: 'The name must to be a string'});
+            res.status(400).json({msg: 'The name must to be a string'});
         }
         //Instruction to create a member in the database
         const newMember = await Member.create({
@@ -55,14 +43,8 @@ exports.createMember = async (req, res) => {
         //instruction to save the new member in the data base
         await newMember.save();
         //response
-        res.json('Member created successfully');
-    } catch (mistake) {
-        //to print the mistake
-        return {
-            message: mistake.message,
-            success: false
-        }
-    }
+        res.status(201).json('Member created successfully');
+    } catch (err) { res.status(500).json(err); }
 }
 
 exports.editMember = async (req, res) => {
@@ -88,7 +70,7 @@ exports.editMember = async (req, res) => {
         //validation to ensure that the member exists
         if (!member) {
             //response
-            res.json({ msg: "Member doesn't exist" });
+            res.status(404).json({ msg: "Member doesn't exist" });
         }
         //instruction to update the information of the member
         await member.update(dataToUpdate);
@@ -96,13 +78,7 @@ exports.editMember = async (req, res) => {
         return res.status(200).json({
             member: member
         })
-    } catch (mistake) {
-        //to print the mistake
-        return {
-            message: mistake.message,
-            success: false
-        }
-    }
+    } catch (err) { res.status(500).json(err); }
 }
 
 exports.deleteMember = async (req, res) => {
@@ -115,7 +91,7 @@ exports.deleteMember = async (req, res) => {
         //validation to ensure that the member exists
         if (!member) {
             //response
-            res.json({ msg: "Member doesn't exist" });
+            res.status(404).json({ msg: "Member doesn't exist" });
         }
         //instruction to delete the member of the database
         await member.destroy();
@@ -123,11 +99,5 @@ exports.deleteMember = async (req, res) => {
         return res.status(200).json({
             member: member
         })
-    } catch (mistake) {
-        //to print the mistake
-        return {
-            message: mistake.message,
-            success: false
-        }
-    }
+    } catch (err) { res.status(500).json(err); }
 }

@@ -4,6 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const swaggerUI = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
@@ -20,6 +22,9 @@ const imagesRouter = require('./routes/images');
 const contactRouter = require('./routes/contact');
 const slidesRouter = require('./routes/slides')
 const backOfficeRouter = require('./routes/backoffice');
+const swaggerOptions = require('./utils/swagger')
+
+const swaggerSpecs = swaggerJSDoc(swaggerOptions);
 
 const app = express();
 app.use(cors())
@@ -36,10 +41,10 @@ app.use(logger('dev'));
 app.use(express.json({limit: '25mb'}));
 app.use(express.urlencoded({limit: '25mb', extended: true}));
 
-
-
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/api', swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
