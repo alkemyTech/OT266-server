@@ -96,7 +96,6 @@ exports.editMember = async (req, res) => {
         return res.status(200).json({
             member: member
         })
-
     } catch (mistake) {
         //to print the mistake
         return {
@@ -121,7 +120,9 @@ exports.deleteMember = async (req, res) => {
         //instruction to delete the member of the database
         await member.destroy();
         //response
-        res.json({ msg: 'Member deleted successfully' });
+        return res.status(200).json({
+            member: member
+        })
     } catch (mistake) {
         //to print the mistake
         return {
