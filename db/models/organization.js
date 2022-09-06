@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Organization.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+  },
     name: DataTypes.STRING,
     image: DataTypes.STRING,
     address: DataTypes.STRING,
@@ -29,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Organization',
     paranoid: true
+
   });
   return Organization;
 };

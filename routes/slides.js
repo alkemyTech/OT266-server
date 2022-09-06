@@ -8,6 +8,7 @@ const {
     slideInfoById,
     slideUpdateById,
     deleteUserById
+
 } = require('../controllers/slidesController');
 
 //Middlewares

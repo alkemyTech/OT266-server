@@ -1,12 +1,19 @@
 const {Organization} = require("../db/models");
 const ImageAWS = require("../utils/imageUpload");
+const Slides = require("../controllers/slidesController");
+
 
 exports.listOrganizationpublic = async (req, res) => {
     try {
-        const allOrganizations = await Organization.findAll({
-            attributes: { exclude: ['id', 'email', 'welcomeText', 'aboutUsText', 'createdAt', 'updatedAt', 'deletedAt' ]  }
-          });
-        res.json(allOrganizations)
+       
+        const slide = await Slides.slideInfoByOrganization(req,res)
+        const allOrganizations = await Organization.findOne({
+            where: {
+                id: req.body.id
+            }
+        })
+        data = {Organziation : allOrganizations , Slides: slide.slideDataByIdOrg }
+          res.json(data)
     } catch (error) {
         console.log(error);
     }
