@@ -1,8 +1,7 @@
 const express = require('express');
 const { verifyAdmin } = require('../middleware/verifyAdmin');
 
-const Members = require('../controllers/member.controller'); 
-const { verifyUser } = require('../middleware/verifyUser');
+const Members = require('../controllers/member.controller');
 
 const router = express.Router();
 
