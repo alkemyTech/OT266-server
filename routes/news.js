@@ -5,11 +5,154 @@ const { getAll, getById, createNews, putNews, deleteNews } = require('../control
 const { verifyAdmin } = require('../middleware/verifyAdmin');
 const { newsFormValidate } = require('../utils/validators/NewsForm/createNews');
 
-/* GET categories listing. */
+/* GET news listing. */
+
+/**
+ * @swagger
+ * /news:
+ *  get:
+ *      summary: To see all the news in the database
+ *      tags: [News]
+ *      responses:
+ *          200:
+ *              description: Ok
+ *          400:
+ *              description: Bad Request
+ */
 router.get('/', getAll);
+
+/**
+ * @swagger
+ * /news/{id}:
+ *  get:
+ *      summary: To see one new
+ *      tags: [News]
+ *      parameters:
+ *          - name: id
+ *            in: path
+ *            required: true
+ *            description: New's id
+ *            schema: 
+ *              type: number
+ *              example: 1
+ *      responses:
+ *          200:
+ *              description: Ok
+ *          404:
+ *              description: Not Found
+ *          400:
+ *              description: Bad Request
+ */
 router.get('/:id', verifyAdmin, getById);
+
+/**
+ * @swagger
+ * /news:
+ *  post:
+ *      summary: To create a news
+ *      tags: [News]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                    type: object
+ *                    required:
+ *                      -name
+ *                      -content
+ *                      -image
+ *                      -type
+ *                    properties:
+ *                      name:
+ *                          type: string
+ *                          example: "tituaslo"
+ *                      content:
+ *                          type: string
+ *                          example: "David Rush, de Idaho, Estados Unidos, acaba de batir el Récord Mundial Guinness de lanzamiento de panchos. ¿De cuánto fue la distancia? Bastante impresionante: 51 metros, más de media cancha de fútbol, pulverizando el récord anterior de 47,5 metros."
+ *                      image:
+ *                          type: string
+ *                          example: "https://i0.wp.com/www.periodismo.com/wp-content/subid/Record-Mundial-de-lanzamiento-de-panchos.jpg?fit=1920%2C1080&ssl=1"
+ *                      type:
+ *                          type: string
+ *                          example: "news"    
+ *      responses:
+ *          201:
+ *              description: news created successfully
+ *          400:
+ *              description: Bad Request
+ */
 router.post('/', verifyAdmin, newsFormValidate, createNews);
+
+/**
+ * @swagger
+ * /news/{id}:
+ *  put:
+ *      summary: To update a new from the database
+ *      tags: [News]
+ *      parameters:
+ *          - name: id
+ *            in: path
+ *            required: true
+ *            description: new's id
+ *            schema: 
+ *              type: number
+ *              example: 1
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                    type: object
+ *                    required:
+ *                      -name
+ *                      -content
+ *                      -image
+ *                      -type
+ *                    properties:
+ *                      name:
+ *                          type: string
+ *                          example: "tituaslo"
+ *                      content:
+ *                          type: string
+ *                          example: "David Rush, de Idaho, Estados Unidos, acaba de batir el Récord Mundial Guinness de lanzamiento de panchos. ¿De cuánto fue la distancia? Bastante impresionante: 51 metros, más de media cancha de fútbol, pulverizando el récord anterior de 47,5 metros."
+ *                      image:
+ *                          type: string
+ *                          example: "https://i0.wp.com/www.periodismo.com/wp-content/subid/Record-Mundial-de-lanzamiento-de-panchos.jpg?fit=1920%2C1080&ssl=1"
+ *                      type:
+ *                          type: string
+ *                          example: "news" 
+ *      responses:
+ *          404:
+ *              description: Not Found
+ *          200:
+ *              Ok
+ *          400:
+ *              description: Bad Request
+ */
 router.put('/:id', verifyAdmin, putNews);
+
+/**
+ * @swagger
+ * /news/delete/{id}:
+ *  delete:
+ *      summary: To delete a new from the database
+ *      tags: [News]
+ *      parameters:
+ *          - name: id
+ *            in: path
+ *            required: true
+ *            description: new's id
+ *            schema: 
+ *              type: number
+ *              example: 1
+ *      responses:
+ *          404:
+ *              description: Not Found
+ *          200:
+ *              Ok
+ *          400:
+ *              description: Bad Request
+ */
 router.delete('/delete/:id',verifyAdmin, deleteNews);
 
 module.exports = router;

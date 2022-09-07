@@ -15,7 +15,7 @@ const router = express.Router();
  *          200:
  *              description: Ok
  *          500:
- *              description: Bad Request
+ *              description: Internal Server Error
  */
 router.get('/', Members.listMembers);
 
@@ -29,7 +29,7 @@ router.get('/', Members.listMembers);
  *          200:
  *              description: Ok
  *          500:
- *              description: Bad Request
+ *              description: Internal Server Error
  */
 router.get('/attributes', verifyAdmin, Members.listMembersAttributes);
 
@@ -37,7 +37,7 @@ router.get('/attributes', verifyAdmin, Members.listMembersAttributes);
  * @swagger
  * /members:
  *  post:
- *      summary: Para registrar un nuevo alumno
+ *      summary: To create a new member
  *      tags: [Members]
  *      security: []
  *      requestBody:
@@ -76,7 +76,7 @@ router.get('/attributes', verifyAdmin, Members.listMembersAttributes);
  *          400:
  *              description: Bad Request
  *          201:
- *              description: Alumno creado con exito
+ *              description: Member created successfully
  *          500:
  *              description: Internal Server Error
  */
@@ -92,10 +92,10 @@ router.post('/', Members.createMember);
  *          - name: id
  *            in: path
  *            required: true
- *            description: id del alumno
+ *            description: Member's id
  *            schema: 
- *              type: string
- *              example: "62bc788a0b718d90f48fd8ef"
+ *              type: number
+ *              example: 1
  *      requestBody:
  *          required: true
  *          content:
@@ -130,7 +130,7 @@ router.post('/', Members.createMember);
  *                          example: "CEO"
  *      responses:
  *          404:
- *              description: Bad Request
+ *              description: Not Found
  *          200:
  *              description: Ok
  *          500:
@@ -148,10 +148,10 @@ router.put('/update/:id', Members.editMember);
  *          - name: id
  *            in: path
  *            required: true
- *            description: id del alumno
+ *            description: Member's id
  *            schema: 
- *              type: string
- *              example: "62bc788a0b718d90f48fd8ef"
+ *              type: number
+ *              example: 1
  *      responses:
  *          404:
  *              description: Not Found
