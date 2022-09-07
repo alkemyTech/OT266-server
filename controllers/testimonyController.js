@@ -3,54 +3,37 @@ const { Testimony } = require("../db/models");
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
 
+const { getPagination, getPagingData } = require('../utils/paginator');
+
 
 const testimonyGet = async(req = request, res = response) => {
-    //Recibe variable page
-    let page = req.query.page;
-    //Definir items por pagina
-    let size = 10;
+    const { page = 1, size = 10 } = req.query;
 
-    page = page - 1
-        //Si variable viene indefinida le asigno 0 (para mostrar primera pagina)
-    if (page == undefined || page < 0) {
-        page = 0;
-    }
-    //Desde que pagina comieza a mostrar (paginas que se salta)
-    let pages = page * size
+    const { limit, offset } = getPagination(page, size);
+
     try {
         const testimonies = await Testimony.findAndCountAll({
             attributes: ['id', 'name', 'content', 'image'],
-            limit: size,
-            offset: pages,
+            limit: limit,
+            offset: offset,
             where: {
-                softDeleted: false
-            }
+                softDeleted: false,
+            },
         });
 
-        let prev;
-        let next;
-        //Divide el total de datos por el tamaño de pagina y asigna a la variable 'limit' el numero entero menor
-        let limit = Math.floor(testimonies.count / size);
-
-        //Condición: si la pagina es mayor a 0, manda el enlace a la pagina anterior, por el contrario null
-        prev = page > 0 ? next = `http://localhost:3000/testimony?page=${Number(page)}` : null
-
-        //Condición: si la pagina es menora al total de paginas, manda el enlace a la pagina siguiente, por el contrario null
-        next = page < limit ? next = `http://localhost:3000/testimony?page=${Number(page)+2}` : null
+        const response = getPagingData(testimonies, page, limit, "testimonies");
 
         return res.status(200).json({
-            'testimonies': testimonies.rows,
-            prev,
-            next
+            response
         });
 
-    } catch (error) {
-        return res.status(400).json({
-            error: error
-        })
-    }
 
-}
+    } catch (error) {
+        return res.status(500).json({
+            error: error,
+        });
+    }
+};
 
 
 const testimonyGetOne = async(req = request, res = response) => {
