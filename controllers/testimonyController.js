@@ -29,7 +29,7 @@ const testimonyGet = async(req = request, res = response) => {
 
         let prev;
         let next;
-        //Divide el total de datos por el tamaño por pagina y asigna a la variable 'limit' el numero entero menor
+        //Divide el total de datos por el tamaño de pagina y asigna a la variable 'limit' el numero entero menor
         let limit = Math.floor(testimonies.count / size);
 
         //Condición: si la pagina es mayor a 0, manda el enlace a la pagina anterior, por el contrario null
