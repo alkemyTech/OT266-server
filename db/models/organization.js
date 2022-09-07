@@ -14,17 +14,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Organization.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+  },
     name: DataTypes.STRING,
     image: DataTypes.STRING,
     address: DataTypes.STRING,
     phone: DataTypes.INTEGER,
     email: DataTypes.STRING,
     welcomeText: DataTypes.TEXT,
-    aboutUsText: DataTypes.TEXT
+    aboutUsText: DataTypes.TEXT,
+    urlFacebook: DataTypes.TEXT,
+    urlLinkedin: DataTypes.TEXT,
+    urlInstagram: DataTypes.TEXT
+
   }, {
     sequelize,
     modelName: 'Organization',
     paranoid: true
+
   });
   return Organization;
 };
