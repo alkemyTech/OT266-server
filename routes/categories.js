@@ -25,7 +25,7 @@ const { categoryFormValidate } = require('../utils/validators/CategoryForm/creat
  *          400:
  *              description: Bad Request
  */
-router.get('/',verifyAdmin ,categoryGet);
+router.get('/',categoryGet);
 
 /**
  * @swagger

@@ -6,29 +6,70 @@ const Op = Sequelize.Op;
 
 const categoryGet = async (req = request, res = response) => {
 
-    try {
-        const categories = await Category.findAll({
+    let currentPage = Number(req.query.page) || 0;
+    let offsetForQuery = (currentPage * 10);
+
+        const allCategories = await Category.findAll({
+            limit:10,
+            offset: offsetForQuery,
+            where: {
+                softDeleted: false
+            },
+            order:  [['id', 'ASC']],
+        }); 
+
+        //Logic for page links
+        const countCategories = await Category.count({
             where: {
                 softDeleted: false
             }
-        }); 
-
-        const categoriesNames = [];
-
-        categories.forEach(category => {
-            categoriesNames.push(category.name);
-        });
-
-        return res.status(200).json({
-            categories: categoriesNames
-        });
-
-    } catch (error) {
-        return res.status(400).json({
-            error : error
         })
-    }
+        //To know how many pages i need, the count of categories row / 10.
+        const pagesAvailable = Math.floor((countCategories / 10))
+        console.log('pageAvaib:', pagesAvailable)
+        console.log(`cuenta de rows:${countCategories} y la cantidad de paginas disponibles: ${pagesAvailable}`)
 
+        //Get array of pages with content
+        let pagesWithContent = [];
+        for (let i = 0; i <= pagesAvailable; i++) {
+            pagesWithContent.push(i)
+        }
+        //Al pages with content saved in an array called pages.
+        console.log('push after for: ', pagesWithContent)
+
+        //New array just with middle pages with content
+        let middlePagesWithContent = [];
+        for (let i = 1; i < pagesAvailable; i++) {
+            middlePagesWithContent.push(i)
+        }
+        console.log('middlepages:', middlePagesWithContent)
+
+        //Get array with 3 pages: previous,current,next
+        let pages = [];
+        //push into array for reference
+        if(currentPage == 0){
+            pages.push((currentPage));
+            pages.push((currentPage + 1));
+        } else if(middlePagesWithContent.includes(currentPage)){
+            pages.push((currentPage - 1));
+            pages.push((currentPage));
+            pages.push((currentPage + 1));
+        } else if(currentPage == pagesAvailable){
+            pages.push((currentPage - 1));
+            pages.push((currentPage));
+        }
+
+        dataForRes = {
+            allCategories,
+            pagesWithContent,
+            pages
+        }
+        //If search by param gets no results == array allCategories is 0.
+        if(allCategories.length == 0){
+            res.send(dataForRes)
+        }else if(allCategories.length > 0){
+            res.status(200).send(dataForRes);
+        }
 }
 
 
