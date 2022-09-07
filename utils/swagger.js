@@ -2,7 +2,7 @@ const swaggerOptions = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "Alkemy - ONS",
+            title: "Alkemy - ONG",
             version: "1.0.0",
         },
         servers: [
