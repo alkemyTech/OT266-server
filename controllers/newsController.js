@@ -10,8 +10,6 @@ const getAll = async(req = request, res = response) => {
     // FIX: En el caso de que no haya un parametro page, le asigno "0" para que devuelva la primera pegina.
     req.query.page ? page = req.query.page : page = 0;
 
-    console.log(page);
-
     // Genero el tamaño de elementos. El limite es igual al tamaño. El offset se arma multiplicando
     // el tamaño por el parametro recibido por query.
     let size = 10;
