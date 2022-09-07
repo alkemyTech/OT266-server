@@ -3,7 +3,6 @@ const {Member} = require("../db/models");
 exports.listMembers = async (req, res) => {
 
     req.query.page ? page = req.query.page : page = 0;
-    console.log(req.query.page)
     let size = 10;
 
     //block try catch; try to work with some instructions, catch to return an mistake in case it exists
