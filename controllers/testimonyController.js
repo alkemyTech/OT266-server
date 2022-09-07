@@ -9,8 +9,10 @@ const testimonyGet = async(req = request, res = response) => {
     let page = req.query.page;
     //Definir items por pagina
     let size = 10;
-    //Si variable viene indefinida le asigno 0 (para mostrar primera pagina)
-    if (page == undefined) {
+
+    page = page - 1
+        //Si variable viene indefinida le asigno 0 (para mostrar primera pagina)
+    if (page == undefined || page < 0) {
         page = 0;
     }
     //Desde que pagina comieza a mostrar (paginas que se salta)
@@ -31,10 +33,10 @@ const testimonyGet = async(req = request, res = response) => {
         let limit = Math.floor(testimonies.count / size);
 
         //Condición: si la pagina es mayor a 0, manda el enlace a la pagina anterior, por el contrario null
-        prev = page > 0 ? next = `http://localhost:3000/testimony?page=${Number(page)-1}` : null
+        prev = page > 0 ? next = `http://localhost:3000/testimony?page=${Number(page)}` : null
 
         //Condición: si la pagina es menora al total de paginas, manda el enlace a la pagina siguiente, por el contrario null
-        next = page < limit ? next = `http://localhost:3000/testimony?page=${Number(page)+1}` : null
+        next = page < limit ? next = `http://localhost:3000/testimony?page=${Number(page)+2}` : null
 
         return res.status(200).json({
             'testimonies': testimonies.rows,
