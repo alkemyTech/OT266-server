@@ -1,34 +1,59 @@
 const { request, response } = require("express");
-const {Testimony} = require("../db/models");
+const { Testimony } = require("../db/models");
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
 
 
-const testimonyGet = async (req = request, res = response) => {
-
+const testimonyGet = async(req = request, res = response) => {
+    //Recibe variable page
+    let page = req.query.page;
+    //Definir items por pagina
+    let size = 10;
+    //Si variable viene indefinida le asigno 0 (para mostrar primera pagina)
+    if (page == undefined) {
+        page = 0;
+    }
+    //Desde que pagina comieza a mostrar (paginas que se salta)
+    let pages = page * size
     try {
-        const testimonies = await Testimony.findAll({
+        const testimonies = await Testimony.findAndCountAll({
+            attributes: ['id', 'name', 'content', 'image'],
+            limit: size,
+            offset: pages,
             where: {
                 softDeleted: false
             }
-        }); 
+        });
+
+        let prev;
+        let next;
+        //Divide el total de datos por el tamaño por pagina y asigna a la variable 'limit' el numero entero menor
+        let limit = Math.floor(testimonies.count / size);
+
+        //Condición: si la pagina es mayor a 0, manda el enlace a la pagina anterior, por el contrario null
+        prev = page > 0 ? next = `http://localhost:3000/testimony?page=${Number(page)-1}` : null
+
+        //Condición: si la pagina es menora al total de paginas, manda el enlace a la pagina siguiente, por el contrario null
+        next = page < limit ? next = `http://localhost:3000/testimony?page=${Number(page)+1}` : null
 
         return res.status(200).json({
-            testimonies: testimonies
+            'testimonies': testimonies.rows,
+            prev,
+            next
         });
 
     } catch (error) {
         return res.status(400).json({
-            error : error
+            error: error
         })
     }
 
 }
 
 
-const testimonyGetOne = async (req = request, res = response) => {   
-    
-    const {id} = req.params;
+const testimonyGetOne = async(req = request, res = response) => {
+
+    const { id } = req.params;
 
     try {
         const testimony = await Testimony.findOne({
@@ -37,26 +62,26 @@ const testimonyGetOne = async (req = request, res = response) => {
                 softDeleted: false
             }
         })
-    
+
         res.status(200).json({
-            testimony : testimony,
+            testimony: testimony,
         })
 
     } catch (error) {
         res.status(400).json({
-            error : error
+            error: error
         })
     }
 }
 
 
-const testimonyPost = async (req = request, res = response) => {
+const testimonyPost = async(req = request, res = response) => {
 
     const {
-            name, 
-            content, 
-            image, 
-        } = req.body;
+        name,
+        content,
+        image,
+    } = req.body;
 
     const softDeleted = false;
 
@@ -76,17 +101,17 @@ const testimonyPost = async (req = request, res = response) => {
             error: error
         })
     }
-    
+
 }
 
 
-const testimonyPut = async (req = request, res = response) => {
+const testimonyPut = async(req = request, res = response) => {
 
-    const {id} = req.params;
+    const { id } = req.params;
 
     const {
-        name, 
-        description, 
+        name,
+        description,
         image
     } = req.body;
 
@@ -98,10 +123,10 @@ const testimonyPut = async (req = request, res = response) => {
 
     try {
         const testimony = await Testimony.findByPk(id)
-        
-        if(!testimony){
+
+        if (!testimony) {
             return res.status(404).json({
-                msg:`testimony not found ${id}`
+                msg: `testimony not found ${id}`
             })
         }
 
@@ -121,20 +146,20 @@ const testimonyPut = async (req = request, res = response) => {
 
 
 //virtual DELETE
-const testimonyDelete = async (req = request, res = response) => {
+const testimonyDelete = async(req = request, res = response) => {
 
-    const {id} = req.params;
-    
+    const { id } = req.params;
+
     const updatedTestimony = {
-        softDeleted:true
+        softDeleted: true
     }
 
     try {
         const testimony = await Testimony.findByPk(id)
-        
-        if(!testimony){
+
+        if (!testimony) {
             return res.status(404).json({
-                msg:`testimony not found ${id}`
+                msg: `testimony not found ${id}`
             })
         }
 
@@ -152,16 +177,16 @@ const testimonyDelete = async (req = request, res = response) => {
 }
 
 //phisical DELETE
-const testimonyPhisicalDelete = async (req = request, res = response) => {
-    
-    const {id} = req.params;
-    
+const testimonyPhisicalDelete = async(req = request, res = response) => {
+
+    const { id } = req.params;
+
     try {
         const testimony = await testimony.findByPk(id)
-        
-        if(!testimony){
+
+        if (!testimony) {
             return res.status(404).json({
-                msg:`testimony not found ${id}`
+                msg: `testimony not found ${id}`
             })
         }
 
