@@ -101,7 +101,7 @@ const slideInfoByOrganization = async (req , res) => {
     let id = req.body.id;
     let info 
     try {
-        const slideDataByIdOrg = await Slides.findOne({
+        const slideDataByIdOrg = await Slides.findAll({
             where: {
                 organizationId: id
             }
