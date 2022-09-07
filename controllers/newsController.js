@@ -6,16 +6,38 @@ const Op = Sequelize.Op;
 const fs = require('fs');
 
 const getAll = async(req = request, res = response) => {
+    const {page} = req.query;
+    
+    // Genero el tamaño de elementos. El limite es igual al tamaño. El offset se arma multiplicando
+    // el tamaño por el parametro recibido por query.
+    let size = 10;
+
     try {
-        const news = await News.findAll({
+        const news = await News.findAndCountAll({
+            limit: size,
+            offset: page * size,
             where: {
                 softDeleted: false,
             },
         });
 
+        // Genero el "limite" del paginado para utilizar en la funcion siguiente.
+        let limit = Math.floor(news.count / size);
+
+        // Valido si el numero de pagina es mayor al limite, si es asi, devuelvo null, de lo contrario,
+        // almaceno el string de la pagina previa.
+        let next =  (Number(page) + 1 > limit) ? null : `http://localhost:3000/news?page=${Number(page)+1}`;
+
+        // Valido si el numero de pagina es menor a cero, si es asi, devuelvo null, de lo contrario,
+        // almaceno el string de la pagina previa.
+        let prev = (Number(page) - 1 < 0) ? null : `http://localhost:3000/news?page=${Number(page)-1}`;
+
         return res.status(200).json({
-            news: news,
+            news: news.rows,
+            prev,
+            next
         });
+
     } catch (error) {
         return res.status(400).json({
             error: error,
