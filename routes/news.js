@@ -13,6 +13,14 @@ const { newsFormValidate } = require('../utils/validators/NewsForm/createNews');
  *  get:
  *      summary: To see all the news in the database
  *      tags: [News]
+ *      parameters:
+ *          - name: page
+ *            in: query
+ *            required: true
+ *            description: Numero de pagina buscada
+ *            schema: 
+ *              type: number
+ *              example: 1
  *      responses:
  *          200:
  *              description: Ok
@@ -154,5 +162,8 @@ router.put('/:id', verifyAdmin, putNews);
  *              description: Bad Request
  */
 router.delete('/delete/:id',verifyAdmin, deleteNews);
+
+
+
 
 module.exports = router;
