@@ -17,6 +17,9 @@ module.exports = {
       news_id: {
         type: Sequelize.INTEGER
       },
+      deletedAt: {
+        type: Sequelize.DATE
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
