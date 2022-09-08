@@ -11,6 +11,14 @@ const router = express.Router();
  *  get:
  *      summary: To see all members in the database
  *      tags: [Members]
+ *      parameters:
+ *          - in: query
+ *            name: page
+ *            required: true
+ *            description: Page to show
+ *            schema: 
+ *              type: number
+ *              example: 4
  *      responses:
  *          200:
  *              description: Ok

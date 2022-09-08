@@ -1,12 +1,34 @@
 const {Member} = require("../db/models");
 
 exports.listMembers = async (req, res) => {
+
+    req.query.page ? page = req.query.page : page = 0;
+    let size = 10;
+
     //block try catch; try to work with some instructions, catch to return an mistake in case it exists
     try {
         //Instruction to find all the members in the database
-        const allMembers = await Member.findAll();
+        const allMembers = await Member.findAndCountAll({
+            limit: size,
+            offset: page ? page * size : 0,
+        });
+
+        let limit = Math.floor(allMembers.count / size);
+
+        let next = (Number(page) + 1 > limit) 
+            ? null 
+            : `http://localhost:3000/members?page=${Number(page)+1}`;
+
+        let prev = (Number(page) - 1 < 0) 
+            ? null 
+            : `http://localhost:3000/members?page=${Number(page)-1}`;
+
         //Response
-        res.json(allMembers)
+        return res.status(200).json({
+            members: allMembers.rows,
+            prev,
+            next
+        });
     } catch (err) { res.status(500).json(err); }
 };
 
