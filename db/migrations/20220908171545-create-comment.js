@@ -20,7 +20,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       news_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'News',
+          key: 'id'
+        }
       },
       deletedAt: {
         type: Sequelize.DATE
