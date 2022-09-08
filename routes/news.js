@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { getAll, getById, createNews, putNews, deleteNews } = require('../controllers/newsController');
+const { getAll, getById, createNews, putNews, deleteNews, getNewsComments } = require('../controllers/newsController');
 const { verifyAdmin } = require('../middleware/verifyAdmin');
 const { newsFormValidate } = require('../utils/validators/NewsForm/createNews');
 
@@ -52,6 +52,32 @@ router.get('/', getAll);
  *              description: Bad Request
  */
 router.get('/:id', verifyAdmin, getById);
+
+/**
+ * @swagger
+ * /news/{id}/comments:
+ *  get:
+ *      summary: To see one new
+ *      tags: [News]
+ *      parameters:
+ *          - name: id
+ *            in: path
+ *            required: true
+ *            description: New's id
+ *            schema: 
+ *              type: number
+ *              example: 1
+ *      responses:
+ *          404:
+ *              description: Not Found
+ *          200:
+ *              description: Ok
+ *          404:
+ *              description: Not Found
+ *          400:
+ *              description: Bad Request
+ */
+router.get('/:id/comments', getNewsComments)
 
 /**
  * @swagger
@@ -161,7 +187,7 @@ router.put('/:id', verifyAdmin, putNews);
  *          400:
  *              description: Bad Request
  */
-router.delete('/delete/:id',verifyAdmin, deleteNews);
+router.delete('/delete/:id', verifyAdmin, deleteNews);
 
 
 
