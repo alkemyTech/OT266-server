@@ -7,13 +7,13 @@ const { getPagination, getPagingData } = require('../utils/paginator');
 
 
 const testimonyGet = async(req = request, res = response) => {
-    const { page = 1, size = 10 } = req.query;
+    const { page, size } = req.query;
 
     const { limit, offset } = getPagination(page, size);
 
     try {
         const testimonies = await Testimony.findAndCountAll({
-            attributes: ['id', 'name', 'content', 'image'],
+            attributes: ['name', 'content', 'image'],
             limit: limit,
             offset: offset,
             where: {
