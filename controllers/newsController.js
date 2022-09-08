@@ -5,6 +5,8 @@ const { sendEmail } = require("../utils/emailSender");
 const Op = Sequelize.Op;
 const fs = require('fs');
 
+const { getPagination, getPagingData } = require('../utils/paginator');
+
 const getAll = async(req = request, res = response) => {
     let page = null;
     // FIX: En el caso de que no haya un parametro page, le asigno "0" para que devuelva la primera pegina.
@@ -50,6 +52,36 @@ const getAll = async(req = request, res = response) => {
         });
     }
 };
+
+
+const getAllPaginate = async(req = request, res = response) => {
+    const { page = 1, size = 10 } = req.query;
+
+    const { limit, offset } = getPagination(page, size);
+    
+    try {
+        const news = await News.findAndCountAll({
+            limit: limit,
+            offset: offset,
+            where: {
+                softDeleted: false,
+            },
+        });
+
+        const response = getPagingData(news, page, limit, "news");
+       
+        return res.status(200).json({
+            response
+        });
+
+
+    } catch (error) {
+        return res.status(500).json({
+            error: error,
+        });
+    }
+};
+
 
 const getById = async(req = request, res = response) => {
     const { id } = req.params;
@@ -195,6 +227,7 @@ const phisicalDelete = async(req = request, res = response) => {
 
 module.exports = {
     getAll,
+    getAllPaginate,
     getById,
     createNews,
     putNews,

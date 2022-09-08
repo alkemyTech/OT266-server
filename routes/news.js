@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { getAll, getById, createNews, putNews, deleteNews } = require('../controllers/newsController');
+const { getAll, getById, createNews, putNews, deleteNews, getAllPaginate } = require('../controllers/newsController');
 const { verifyAdmin } = require('../middleware/verifyAdmin');
 const { newsFormValidate } = require('../utils/validators/NewsForm/createNews');
 
@@ -19,7 +19,7 @@ const { newsFormValidate } = require('../utils/validators/NewsForm/createNews');
  *          400:
  *              description: Bad Request
  */
-router.get('/', getAll);
+router.get('/', getAllPaginate);
 
 /**
  * @swagger
@@ -154,5 +154,8 @@ router.put('/:id', verifyAdmin, putNews);
  *              description: Bad Request
  */
 router.delete('/delete/:id',verifyAdmin, deleteNews);
+
+
+
 
 module.exports = router;
