@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { getAll, getById, createNews, putNews, deleteNews, getAllPaginate } = require('../controllers/newsController');
+const { getAll, getById, createNews, putNews, deleteNews } = require('../controllers/newsController');
 const { verifyAdmin } = require('../middleware/verifyAdmin');
 const { newsFormValidate } = require('../utils/validators/NewsForm/createNews');
 
@@ -13,13 +13,21 @@ const { newsFormValidate } = require('../utils/validators/NewsForm/createNews');
  *  get:
  *      summary: To see all the news in the database
  *      tags: [News]
+ *      parameters:
+ *          - name: page
+ *            in: query
+ *            required: true
+ *            description: Numero de pagina buscada
+ *            schema: 
+ *              type: number
+ *              example: 1
  *      responses:
  *          200:
  *              description: Ok
  *          400:
  *              description: Bad Request
  */
-router.get('/', getAllPaginate);
+router.get('/', getAll);
 
 /**
  * @swagger
