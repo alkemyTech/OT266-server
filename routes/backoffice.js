@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getAll } = require('../controllers/backOfficeController');
+const { verifyAdmin } = require('../middleware/verifyAdmin');
 
 /* GET contacts listing. */
 
@@ -16,6 +17,6 @@ const { getAll } = require('../controllers/backOfficeController');
  *          400:
  *              description: Bad Request
  */
-router.get('/contacts', getAll);
+router.get('/contacts', verifyAdmin, getAll);
 
 module.exports = router;

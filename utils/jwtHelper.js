@@ -1,4 +1,5 @@
 const jwt = require ('jsonwebtoken');
+const { token } = require('morgan');
 
 const secretToken = process.env.JWT_SECRET;
 
@@ -35,4 +36,13 @@ const verifyToken = async (tokenJwt) => {
     }
 };
 
-module.exports = { signToken7d, verifyToken };
+const getIdViaToken = async (token) => {
+    try{
+        let data = await jwt.verify(token, secretToken);
+        return data.id
+    }catch(e){
+        return null
+    }
+}
+
+module.exports = { signToken7d, verifyToken, getIdViaToken };
