@@ -44,13 +44,6 @@ const activityUpdate = async(req, res) => {
                 message: "Activity not exist."
             });
         }
-    } catch (err) {
-        return res.status(400).json({
-            message: err
-        });
-    }
-
-    try {
         activity.update(req.body, {
             where: { id: id }
         });
@@ -77,13 +70,6 @@ const activityDelete = async(req, res) => {
             });
         }
 
-    } catch (err) {
-        return res.status(400).json({
-            message: err
-        });
-    }
-
-    try {
         let softDeleteActivity = await Activity.destroy({
             where: {
                 id: id
@@ -92,11 +78,15 @@ const activityDelete = async(req, res) => {
         return res.status(200).send({
             message: "Activity deleted."
         })
+
     } catch (err) {
-        return res.status(404).json({
+        return res.status(400).json({
             message: err
         });
     }
+
+
+
 }
 
 module.exports = {
@@ -104,5 +94,4 @@ module.exports = {
     activityGet,
     activityUpdate,
     activityDelete
-
 }
