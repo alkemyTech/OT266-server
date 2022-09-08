@@ -7,53 +7,6 @@ const fs = require('fs');
 
 const { getPagination, getPagingData } = require('../utils/paginator');
 
-// const getAll = async(req = request, res = response) => {
-//     let page = null;
-//     // FIX: En el caso de que no haya un parametro page, le asigno "0" para que devuelva la primera pegina.
-//     req.query.page ? page = req.query.page : page = 0;
-
-//     // Genero el tamaño de elementos. El limite es igual al tamaño. El offset se arma multiplicando
-//     // el tamaño por el parametro recibido por query.
-//     let size = 10;
-    
-//     try {
-//         const news = await News.findAndCountAll({
-//             limit: size,
-//             offset: page ? page * size : 0,
-//             where: {
-//                 softDeleted: false,
-//             },
-//         });
-
-//         // Genero el "limite" del paginado para utilizar en la funcion siguiente.
-//         let limit = Math.floor(news.count / size);
-
-//         // Valido si el numero de pagina es mayor al limite, si es asi, devuelvo null, de lo contrario,
-//         // almaceno el string de la pagina previa.
-//         let next = (Number(page) + 1 > limit) 
-//             ? null 
-//             : `http://localhost:3000/news?page=${Number(page)+1}`;
-
-//         // Valido si el numero de pagina es menor a cero, si es asi, devuelvo null, de lo contrario,
-//         // almaceno el string de la pagina previa.
-//         let prev = (Number(page) - 1 < 0) 
-//             ? null 
-//             : `http://localhost:3000/news?page=${Number(page)-1}`;
-
-//         return res.status(200).json({
-//             news: news.rows,
-//             prev,
-//             next
-//         });
-
-//     } catch (error) {
-//         return res.status(400).json({
-//             error: error,
-//         });
-//     }
-// };
-
-
 const getAll = async(req = request, res = response) => {
     const { page = 1, size = 10 } = req.query;
 
