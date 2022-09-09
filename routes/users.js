@@ -4,7 +4,7 @@ var router = express.Router();
 //Import middleware
 const { verifyAdmin } = require('../middleware/verifyAdmin');
 const { verifyUser } = require('../middleware/verifyUser');
-const {activeIdFilter} = require('../middleware/activeIdFilter')
+const { activeIdFilter } = require('../middleware/activeIdFilter')
 
 //Import controllers
 const {

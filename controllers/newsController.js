@@ -1,11 +1,12 @@
 const { request, response } = require("express");
-const { News, Comment } = require("../db/models");
+const { News, Comment, User } = require("../db/models");
 const Sequelize = require("sequelize");
 const { sendEmail } = require("../utils/emailSender");
 const Op = Sequelize.Op;
 const fs = require('fs');
 
 const { getPagination, getPagingData } = require('../utils/paginator');
+const user = require("../db/models/user");
 
 const getAll = async(req = request, res = response) => {
     const { page = 1, size = 10 } = req.query;
@@ -179,33 +180,36 @@ const phisicalDelete = async(req = request, res = response) => {
 };
 
 const getNewsComments = async(req, res) => {
-    const { id } = req.params;
+    const id = req.params.id;
     try {
         const newsExists = await News.findByPk(id);
 
-        if (!newExists) {
+        if (!newsExists) {
             return res.status(404).json({
                 msg: `news not exist ${id}`,
             });
         }
 
         const comments = await Comment.findAll({
+            include: [{
+                    model: User,
+                    as: "user",
+                    attributes: ['firstName']
+                },
+                {
+                    model: News,
+                    as: "news",
+                    attributes: ['name']
+                }
+            ],
             where: {
-                softDeleted: false,
                 news_id: id
             },
+            attributes: ['body', 'updatedAt'],
         });
-        if (comments) {
-            res.status(200).json({
-                comments: comments,
-            });
-        } else {
-            res.status(404).json({
-                message: 'This news has no comments'
-            });
-        }
-
-
+        res.status(200).json({
+            comments: comments
+        });
     } catch (error) {
         return res.status(400).json({
             error: error,

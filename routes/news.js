@@ -68,8 +68,6 @@ router.get('/:id', verifyAdmin, getById);
  *              type: number
  *              example: 1
  *      responses:
- *          404:
- *              description: Not Found
  *          200:
  *              description: Ok
  *          404:
@@ -77,7 +75,7 @@ router.get('/:id', verifyAdmin, getById);
  *          400:
  *              description: Bad Request
  */
-router.get('/:id/comments', getNewsComments)
+router.get('/:id/comments', getNewsComments);
 
 /**
  * @swagger
