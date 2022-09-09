@@ -12,16 +12,16 @@ const swaggerOptions = {
         ],
         components: {
             securitySchemes: {
-                bearerAuth: {
-                    type: "http",
-                    scheme: "bearer",
-                    bearerFormat: "JWT"
+                ApiKeyAuth: {
+                    type: "apiKey",
+                    in: "header",
+                    name: "Authorization"
                 }
             }
         },
         security: [
             {
-                bearerAuth: []
+                ApiKeyAuth: []
             }
         ]
     },
