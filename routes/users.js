@@ -83,7 +83,7 @@ router.patch('/:id', activeIdFilter, verifyUser, updateUserPATCH);
  * /users/delete/{id}:
  *  delete:
  *      summary: To delete one category from the database
- *      tags: [Categories]
+ *      tags: [Users]
  *      parameters:
  *          - name: id
  *            in: path
