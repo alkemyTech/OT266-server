@@ -9,7 +9,7 @@ const router = express.Router();
  * @swagger
  * /members:
  *  get:
- *      summary: To see all members in the database
+ *      summary: To see all the members in the database
  *      tags: [Members]
  *      parameters:
  *          - in: query
@@ -31,7 +31,7 @@ router.get('/', Members.listMembers);
  * @swagger
  * /members/attributes:
  *  get:
- *      summary: To see all members in the database
+ *      summary: To see some attributes of the members in the database
  *      tags: [Members]
  *      responses:
  *          200:
@@ -94,7 +94,7 @@ router.post('/', Members.createMember);
  * @swagger
  * /members/update/{id}:
  *  put:
- *      summary: To update a member from the database
+ *      summary: To update one member from the database
  *      tags: [Members]
  *      parameters:
  *          - name: id
@@ -150,7 +150,7 @@ router.put('/update/:id', Members.editMember);
  * @swagger
  * /members/delete/{id}:
  *  delete:
- *      summary: To delete a member from the database
+ *      summary: To delete one member from the database
  *      tags: [Members]
  *      parameters:
  *          - name: id

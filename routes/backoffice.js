@@ -9,7 +9,7 @@ const { verifyAdmin } = require('../middleware/verifyAdmin');
  * @swagger
  * /backoffice/contacts:
  *  get:
- *      summary: To see all contacts in the database
+ *      summary: To see all the contacts in the database
  *      tags: [Backoffice]
  *      responses:
  *          200:

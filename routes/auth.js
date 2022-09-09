@@ -88,7 +88,7 @@ router.get('/login', authLoginGET)
  *          404:
  *              description: Not Found
  *          200:
- *              description: Alumno creado con exito
+ *              description: Ok
  *          400:
  *              description: Bad Request
  */

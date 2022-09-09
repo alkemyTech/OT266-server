@@ -52,7 +52,7 @@ router.get('/:id', verifyAdmin, testimonyGetOne);
  * @swagger
  * /testimony:
  *  post:
- *      summary: To create a testimony
+ *      summary: To create a new testimony
  *      tags: [Testimonies]
  *      requestBody:
  *          required: true
@@ -86,7 +86,7 @@ router.post('/',[verifyAdmin,testimonyFormValidate], testimonyPost);
  * @swagger
  * /testimony/{id}:
  *  put:
- *      summary: To update a testimony from the database
+ *      summary: To update one testimony from the database
  *      tags: [Testimonies]
  *      parameters:
  *          - name: id
@@ -130,7 +130,7 @@ router.put('/:id', [verifyAdmin,testimonyFormValidate], testimonyPut);
  * @swagger
  * /testimony/{id}:
  *  delete:
- *      summary: To delete a testimony from the database
+ *      summary: To delete one testimony from the database
  *      tags: [Testimonies]
  *      parameters:
  *          - name: id

@@ -11,7 +11,7 @@ const { contactFormValidate } = require('../utils/validators/contactForm/createC
  * @swagger
  * /contacts:
  *  get:
- *      summary: To see all contacts in the database
+ *      summary: To see all the contacts in the database
  *      tags: [Contacts]
  *      responses:
  *          200:
