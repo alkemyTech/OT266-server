@@ -1,10 +1,10 @@
-const { request, response } = require("express");
-const { Comments } = require("../db/models");
+const { Comment } = require("../db/models");
 
 
-const commentsGet = async (req = request, res = response) => {
+const commentsGet = async (req, res) => {
     try {
-        const comments = await Comments.findAll({
+        //Get "body" from all comments.
+        const comments = await Comment.findAll({
             attributes: ["body"],
             order: [["createdAt", "DESC"]],
         });
