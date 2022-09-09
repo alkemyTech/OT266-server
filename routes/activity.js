@@ -11,7 +11,7 @@ const { activityFormValidate } = require('../utils/validators/ActivityForm/creat
  * @swagger
  * /activities:
  *  get:
- *      summary: To see all activities in the database
+ *      summary: To see all the activities in the database
  *      tags: [Activities]
  *      responses:
  *          200:
@@ -25,7 +25,7 @@ router.get('/', activityGet);
  * @swagger
  * /activities:
  *  post:
- *      summary: To create an activity
+ *      summary: To create one activity
  *      tags: [Activities]
  *      security: []
  *      requestBody:
@@ -62,7 +62,7 @@ router.post('/', verifyAdmin, activityFormValidate, activityPost);
  * @swagger
  * /activities/{id}:
  *  put:
- *      summary: To update an activity from the database
+ *      summary: To update one activity from the database
  *      tags: [Activities]
  *      parameters:
  *          - name: id
@@ -106,7 +106,7 @@ router.put('/:id', verifyAdmin, activityUpdate);
  * @swagger
  * /activities/{id}:
  *  delete:
- *      summary: To delete an activity from the database
+ *      summary: To delete one activity from the database
  *      tags: [Activities]
  *      parameters:
  *          - name: id

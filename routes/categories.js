@@ -55,7 +55,7 @@ router.get('/:id',verifyAdmin, categoryGetOne);
  * @swagger
  * /category:
  *  post:
- *      summary: To create a category
+ *      summary: To create one category
  *      tags: [Categories]
  *      requestBody:
  *          required: true
@@ -89,7 +89,7 @@ router.post('/',[verifyAdmin, categoryFormValidate], categoryPost);
  * @swagger
  * /category/{id}:
  *  put:
- *      summary: To update a category from the database
+ *      summary: To update one category from the database
  *      tags: [Categories]
  *      parameters:
  *          - name: id
@@ -133,7 +133,7 @@ router.put('/:id',[verifyAdmin, categoryFormValidate], categoryPut);
  * @swagger
  * /category/{id}:
  *  delete:
- *      summary: To delete a category from the database
+ *      summary: To delete one category from the database
  *      tags: [Categories]
  *      parameters:
  *          - name: id

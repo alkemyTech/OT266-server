@@ -34,7 +34,7 @@ router.get('/', verifyAdmin, slidesGET)
  * @swagger
  * /slides:
  *  post:
- *      summary: To create a slide
+ *      summary: To create one slide
  *      tags: [Slides]
  *      requestBody:
  *          required: true
@@ -96,7 +96,7 @@ router.get('/:id', verifyAdmin, checkSlideExistsById, slideInfoById)
  * @swagger
  * /slides/{id}:
  *  put:
- *      summary: To update a slide from the database
+ *      summary: To update one slide from the database
  *      tags: [Slides]
  *      parameters:
  *          - name: id
@@ -142,7 +142,7 @@ router.put('/:id', verifyAdmin, checkSlideExistsById, slideUpdateById)
  * @swagger
  * /slides/{id}:
  *  delete:
- *      summary: To delete a slide from the database
+ *      summary: To delete one slide from the database
  *      tags: [Slides]
  *      parameters:
  *          - name: id

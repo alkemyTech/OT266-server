@@ -81,7 +81,7 @@ router.get('/:id/comments', getNewsComments);
  * @swagger
  * /news:
  *  post:
- *      summary: To create a news
+ *      summary: To create one new
  *      tags: [News]
  *      requestBody:
  *          required: true
@@ -109,7 +109,7 @@ router.get('/:id/comments', getNewsComments);
  *                          example: "news"    
  *      responses:
  *          201:
- *              description: news created successfully
+ *              description: New created successfully
  *          400:
  *              description: Bad Request
  */
@@ -119,7 +119,7 @@ router.post('/', verifyAdmin, newsFormValidate, createNews);
  * @swagger
  * /news/{id}:
  *  put:
- *      summary: To update a new from the database
+ *      summary: To update one new from the database
  *      tags: [News]
  *      parameters:
  *          - name: id
@@ -167,7 +167,7 @@ router.put('/:id', verifyAdmin, putNews);
  * @swagger
  * /news/delete/{id}:
  *  delete:
- *      summary: To delete a new from the database
+ *      summary: To delete one new from the database
  *      tags: [News]
  *      parameters:
  *          - name: id

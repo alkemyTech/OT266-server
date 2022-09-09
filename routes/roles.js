@@ -22,7 +22,7 @@ router.get('/', verifyAdmin, Roles.listRole);
  * @swagger
  * /roles/new:
  *  post:
- *      summary: To create a role
+ *      summary: To create one role
  *      tags: [Roles]
  *      requestBody:
  *          required: true
@@ -42,7 +42,7 @@ router.get('/', verifyAdmin, Roles.listRole);
  *                          example: "Usuario administrador"      
  *      responses:
  *          201:
- *              description: roles created successfully
+ *              description: Role created successfully
  *          400:
  *              description: Bad Request
  */
@@ -52,7 +52,7 @@ router.post('/new', verifyAdmin, Roles.createRole);
  * @swagger
  * /roles/update/{id}:
  *  put:
- *      summary: To update a roles from the database
+ *      summary: To update one role from the database
  *      tags: [Roles]
  *      parameters:
  *          - name: id
@@ -90,7 +90,7 @@ router.put('/update/:id', verifyAdmin, Roles.editRole);
  * @swagger
  * /roles/delete/{id}:
  *  delete:
- *      summary: To delete a roles from the database
+ *      summary: To delete one role from the database
  *      tags: [Roles]
  *      parameters:
  *          - name: id

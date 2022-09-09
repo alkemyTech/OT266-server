@@ -33,7 +33,7 @@ router.get('/', verifyAdmin, getAllUsersGET);
  * @swagger
  * /users/{id}:
  *  patch:
- *      summary: To update an user from the database
+ *      summary: To update one user from the database
  *      tags: [Users]
  *      parameters:
  *          - name: id
@@ -82,8 +82,8 @@ router.patch('/:id', activeIdFilter, verifyUser, updateUserPATCH);
  * @swagger
  * /users/delete/{id}:
  *  delete:
- *      summary: To delete a category from the database
- *      tags: [Categories]
+ *      summary: To delete one category from the database
+ *      tags: [Users]
  *      parameters:
  *          - name: id
  *            in: path
