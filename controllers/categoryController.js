@@ -3,14 +3,21 @@ const {Category} = require("../db/models");
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
 
+//Import utils
+const { getPagination, getPagingData } = require('../utils/paginator -alt');
 
-const categoryGet = async (req = request, res = response) => {
+
+const categoryGet = async (req, res) => {
 
     let currentPage = Number(req.query.page) || 0;
-    let offsetForQuery = (currentPage * 10);
+    //Size = Number of rows of the table
+    const size = Number(req.query.size) || 10;
 
-        const allCategories = await Category.findAll({
-            limit:10,
+    const { limitForQuery, offsetForQuery } = await getPagination(currentPage, size);
+
+    try {
+        const allCategories = await Category.findAndCountAll({
+            limit: limitForQuery,
             offset: offsetForQuery,
             where: {
                 softDeleted: false
@@ -18,60 +25,18 @@ const categoryGet = async (req = request, res = response) => {
             order:  [['id', 'ASC']],
         }); 
 
-        //Logic for page links
-        const countCategories = await Category.count({
-            where: {
-                softDeleted: false
-            }
-        })
-        //To know how many pages i need, the count of categories row / 10.
-        const pagesAvailable = Math.floor((countCategories / 10))
-        console.log('pageAvaib:', pagesAvailable)
-        console.log(`cuenta de rows:${countCategories} y la cantidad de paginas disponibles: ${pagesAvailable}`)
+        const response = getPagingData(allCategories, currentPage, limitForQuery, "category");
 
-        //Get array of pages with content
-        let pagesWithContent = [];
-        for (let i = 0; i <= pagesAvailable; i++) {
-            pagesWithContent.push(i)
-        }
-        //Al pages with content saved in an array called pages.
-        console.log('push after for: ', pagesWithContent)
+        return res.status(200).json({
+            response
+        });
 
-        //New array just with middle pages with content
-        let middlePagesWithContent = [];
-        for (let i = 1; i < pagesAvailable; i++) {
-            middlePagesWithContent.push(i)
-        }
-        console.log('middlepages:', middlePagesWithContent)
-
-        //Get array with 3 pages: previous,current,next
-        let pages = [];
-        //push into array for reference
-        if(currentPage == 0){
-            pages.push((currentPage));
-            pages.push((currentPage + 1));
-        } else if(middlePagesWithContent.includes(currentPage)){
-            pages.push((currentPage - 1));
-            pages.push((currentPage));
-            pages.push((currentPage + 1));
-        } else if(currentPage == pagesAvailable){
-            pages.push((currentPage - 1));
-            pages.push((currentPage));
-        }
-
-        dataForRes = {
-            allCategories,
-            pagesWithContent,
-            pages
-        }
-        //If search by param gets no results == array allCategories is 0.
-        if(allCategories.length == 0){
-            res.send(dataForRes)
-        }else if(allCategories.length > 0){
-            res.status(200).send(dataForRes);
-        }
+    } catch (error) {
+        return res.status(500).json({
+            error: error,
+        });
+    }
 }
-
 
 const categoryGetOne = async (req = request, res = response) => {   
     
