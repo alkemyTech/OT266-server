@@ -1,6 +1,5 @@
 const getPagination = (page, size) => {
     const limitForQuery = size ? size : 10;
-    //const offset = page > 0 ? (page - 1) * limit : 0;
     const offsetForQuery = page * limitForQuery;
     return { limitForQuery, offsetForQuery };
 };
