@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { getAll, getById, createNews, putNews, deleteNews } = require('../controllers/newsController');
+const { getAll, getById, createNews, putNews, deleteNews, getNewsComments } = require('../controllers/newsController');
 const { verifyAdmin } = require('../middleware/verifyAdmin');
 const { newsFormValidate } = require('../utils/validators/NewsForm/createNews');
 
@@ -55,9 +55,33 @@ router.get('/:id', verifyAdmin, getById);
 
 /**
  * @swagger
+ * /news/{id}/comments:
+ *  get:
+ *      summary: To see one new
+ *      tags: [News]
+ *      parameters:
+ *          - name: id
+ *            in: path
+ *            required: true
+ *            description: New's id
+ *            schema: 
+ *              type: number
+ *              example: 1
+ *      responses:
+ *          200:
+ *              description: Ok
+ *          404:
+ *              description: Not Found
+ *          400:
+ *              description: Bad Request
+ */
+router.get('/:id/comments', getNewsComments);
+
+/**
+ * @swagger
  * /news:
  *  post:
- *      summary: To create a news
+ *      summary: To create one new
  *      tags: [News]
  *      requestBody:
  *          required: true
@@ -85,7 +109,7 @@ router.get('/:id', verifyAdmin, getById);
  *                          example: "news"    
  *      responses:
  *          201:
- *              description: news created successfully
+ *              description: New created successfully
  *          400:
  *              description: Bad Request
  */
@@ -95,7 +119,7 @@ router.post('/', verifyAdmin, newsFormValidate, createNews);
  * @swagger
  * /news/{id}:
  *  put:
- *      summary: To update a new from the database
+ *      summary: To update one new from the database
  *      tags: [News]
  *      parameters:
  *          - name: id
@@ -143,7 +167,7 @@ router.put('/:id', verifyAdmin, putNews);
  * @swagger
  * /news/delete/{id}:
  *  delete:
- *      summary: To delete a new from the database
+ *      summary: To delete one new from the database
  *      tags: [News]
  *      parameters:
  *          - name: id
@@ -161,7 +185,7 @@ router.put('/:id', verifyAdmin, putNews);
  *          400:
  *              description: Bad Request
  */
-router.delete('/delete/:id',verifyAdmin, deleteNews);
+router.delete('/delete/:id', verifyAdmin, deleteNews);
 
 
 

@@ -24,7 +24,7 @@ router.get('/public', Organizations.listOrganizationpublic);
  * @swagger
  * /organization:
  *  get:
- *      summary: To see all the categories in the database
+ *      summary: To see all the organizations in the database
  *      tags: [Organization]
  *      responses:
  *          200:
@@ -38,7 +38,7 @@ router.get('/', verifyUser, Organizations.listOrganization);
  * @swagger
  * /organization/new:
  *  post:
- *      summary: To create a organization
+ *      summary: To create one organization
  *      tags: [Organization]
  *      requestBody:
  *          required: true
@@ -100,7 +100,7 @@ router.post('/new', verifyAdmin, Organizations.createOrganization);
  * @swagger
  * /organization/update/{id}:
  *  put:
- *      summary: To update an organization from the database
+ *      summary: To update one organization from the database
  *      tags: [Organization]
  *      parameters:
  *          - name: id
@@ -170,7 +170,7 @@ router.put('/update/:id', verifyAdmin, Organizations.editOrganization);
  * @swagger
  * /organization/delete/{id}:
  *  delete:
- *      summary: To delete an organization from the database
+ *      summary: To delete one organization from the database
  *      tags: [Organization]
  *      parameters:
  *          - name: id
