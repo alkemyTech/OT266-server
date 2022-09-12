@@ -5,14 +5,32 @@ const router = express.Router();
 const {commentPost} = require("../utils/validators/CommentPost/commentPost");
 
 //Import middlewares
-const {verifyAuth} = require('../middleware/verifyAuth')
+const {
+    verifyAuth,
+    verifyAdmin
+} = require('../middleware/verifyAuth')
 
 //Import handlers
 const {
-    commentsPost
+    commentsPost,
+    commentsGet
 } = require('../controllers/commentController')
 
 //Routes
+
+/**
+ * @swagger
+ * /comments:
+ *  get:
+ *     summary: Get all comments
+ *     tags: [Comments]
+ *     responses:
+ *         200:
+ *             description: Ok
+ *         500:
+ *             description: Internal Server Error
+ */
+router.get('/', verifyAdmin, commentsGet);
 
 /**
  * @swagger
@@ -49,3 +67,4 @@ const {
 router.post('/',[verifyAuth,commentPost] , commentsPost)
 
 module.exports = router;
+

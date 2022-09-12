@@ -5,6 +5,23 @@ const { Comment } = require('../db/models/index');
 const {getIdViaToken} = require('../utils/jwtHelper');
 
 //Handlers for routes
+const commentsGet = async (req, res) => {
+    try {
+        //Get "body" from all comments.
+        const comments = await Comment.findAll({
+            attributes: ["body"],
+            order: [["createdAt", "DESC"]],
+        });
+        return res.status(200).json({
+            comments: comments,
+        });
+    } catch (error) {
+        return res.status(400).json({
+            error: error,
+        });
+    }
+};
+
 const commentsPost = async (req,res) => {
     //Create user/body/news id variable for insert query
     let userIdQuery;
@@ -53,4 +70,7 @@ const commentsPost = async (req,res) => {
     }
 }
 
-module.exports = {commentsPost}
+module.exports = {
+    commentsGet,
+    commentsPost
+}
