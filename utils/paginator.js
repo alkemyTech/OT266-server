@@ -1,6 +1,6 @@
 //Build complete url with the entire req object
 const getUrl = (reqbody) => {
-    return `${reqbody.protocol}//${reqbody.get('Host')}${reqbody.baseUrl}`
+    return `${reqbody.protocol}://${reqbody.get('Host')}${reqbody.baseUrl}`
 }
 
 //Define query for db
@@ -37,13 +37,13 @@ const getPagingData = (data, page, limit, link) => {
     if(currentPage == 0 || currentPage == 1 ) {
         prevPage = null
     }else if(currentPage <= totalPages){
-        prevPage = url + `/?page=${(currentPage)-1}`
+        prevPage = url + `/?page=${(currentPage)-1}&size=${limit}`
     }
-
+//localhost:3000/members/?page=2&size=3
     //Next page link
     const nextPage =
         currentPage < totalPages ?
-        url + `/?page=${parseInt(currentPage)+1}` :
+        url + `/?page=${parseInt(currentPage)+1}&size=${limit}` :
         null;
 
 
