@@ -4,28 +4,28 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
 
 //Import utils
-const { getPagination, getPagingData } = require('../utils/paginator -alt');
+const { getUrl, getPagination, getPagingData } = require('../utils/paginator');
 
 
 const categoryGet = async (req, res) => {
 
-    let currentPage = Number(req.query.page) || 0;
-    //Size = Number of rows of the table
-    const size = Number(req.query.size) || 10;
+    const { page = 1, size } = req.query;
+    
+    let url = getUrl(req);
 
-    const { limitForQuery, offsetForQuery } = await getPagination(currentPage, size);
+    const { limit, offset } = getPagination(page, size, req.body);
 
     try {
         const allCategories = await Category.findAndCountAll({
-            limit: limitForQuery,
-            offset: offsetForQuery,
+            limit: limit,
+            offset: offset,
             where: {
                 softDeleted: false
             },
             order:  [['id', 'ASC']],
         }); 
 
-        const response = getPagingData(allCategories, currentPage, limitForQuery, "category");
+        const response = getPagingData(allCategories, page, limit, url);
 
         return res.status(200).json({
             response
