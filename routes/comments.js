@@ -13,7 +13,9 @@ const {
 //Import handlers
 const {
     commentsPost,
-    commentsGet
+    commentsGet,
+    commentsPut,
+    commentsDelete
 } = require('../controllers/commentController')
 
 //Routes
@@ -65,6 +67,8 @@ router.get('/', verifyAdmin, commentsGet);
  *              description: Internal Server Error
  */
 router.post('/',[verifyAuth,commentPost] , commentsPost)
+router.put('/',[verifyAuth,commentsPut] , commentsPut)
+router.delete('/',[verifyAuth,commentsDelete] , commentsDelete)
 
 module.exports = router;
 

@@ -70,7 +70,73 @@ const commentsPost = async (req,res) => {
     }
 }
 
+const commentsDelete = async (req = request, res = response) => {
+    
+    const {id} = req.params;
+    
+    try {
+        const comment = await comment.findByPk(id)
+        
+        if(!comment){
+            return res.status(404).json({
+                msg:`comment ${id} not found`
+            })
+        }
+
+        await comment.destroy();
+
+        return res.status(200).json({
+            msg: 'comment Deleted'
+        })
+
+    } catch (error) {
+        return res.status(400).json({
+            error: error
+        })
+    }
+}
+
+
+const commentsPut = async (req = request, res = response) => {
+
+    const {id} = req.params;
+
+    const {
+        body
+    } = req.body.body;
+
+    const updatedComment = {
+        body
+    }
+
+    try {
+        const Comment = await Comment.findByPk(id)
+        
+        if(!Comment){
+            return res.status(404).json({
+                msg:`Comment ${id} not found `
+            })
+        }
+
+        await Comment.update(updatedComment);
+
+        return res.status(200).json({
+            comment: Comment
+        })
+
+    } catch (error) {
+        return res.status(400).json({
+            error: error
+        })
+    }
+
+}
+
+
+
 module.exports = {
     commentsGet,
-    commentsPost
+    commentsPost,
+    commentsDelete,
+    commentsPut
 }
