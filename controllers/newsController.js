@@ -5,13 +5,15 @@ const { sendEmail } = require("../utils/emailSender");
 const Op = Sequelize.Op;
 const fs = require('fs');
 
-const { getPagination, getPagingData } = require('../utils/paginator');
+const { getUrl, getPagination, getPagingData } = require('../utils/paginator');
 const user = require("../db/models/user");
 
 const getAll = async(req = request, res = response) => {
-    const { page = 1, size = 10 } = req.query;
+    const { page = 1, size } = req.query;
+    
+    let url = getUrl(req);
 
-    const { limit, offset } = getPagination(page, size);
+    const { limit, offset } = getPagination(page, size, req.body);
 
     try {
         const news = await News.findAndCountAll({
@@ -22,7 +24,7 @@ const getAll = async(req = request, res = response) => {
             },
         });
 
-        const response = getPagingData(news, page, limit, "news");
+        const response = getPagingData(news, page, limit, url);
 
         return res.status(200).json({
             response

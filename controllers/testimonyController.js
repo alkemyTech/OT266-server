@@ -3,13 +3,15 @@ const { Testimony } = require("../db/models");
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
 
-const { getPagination, getPagingData } = require('../utils/paginator');
+const { getUrl, getPagination, getPagingData } = require('../utils/paginator');
 
 
 const testimonyGet = async(req = request, res = response) => {
-    const { page, size } = req.query;
+    const { page = 1, size } = req.query;
+    
+    let url = getUrl(req);
 
-    const { limit, offset } = getPagination(page, size);
+    const { limit, offset } = getPagination(page, size, req.body);
 
     try {
         const testimonies = await Testimony.findAndCountAll({
@@ -21,18 +23,18 @@ const testimonyGet = async(req = request, res = response) => {
             },
         });
 
-        const response = getPagingData(testimonies, page, limit, "testimonies");
+        const response = getPagingData(testimonies, page, limit, url);
 
         return res.status(200).json({
             response
         });
-
 
     } catch (error) {
         return res.status(500).json({
             error: error,
         });
     }
+
 };
 
 
