@@ -1,21 +1,25 @@
 const {Member} = require("../db/models");
-const { getPagination, getPagingData } = require("../utils/paginator");
+
+//Import utils
+const { getUrl, getPagination, getPagingData } = require('../utils/paginator');
 
 exports.listMembers = async (req, res) => {
 
-    const { page = 1, size = 10 } = req.query;
+    const { page = 1, size } = req.query;
+    
+    let url = getUrl(req);
 
-    const { limit, offset } = getPagination(page, size);
+    const { limit, offset } = getPagination(page, size, req.body);
 
     //block try catch; try to work with some instructions, catch to return an mistake in case it exists
     try {
         //Instruction to find and show all the members in the database by pages 
         const allMembers = await Member.findAndCountAll({
-            limit: size,
+            limit: limit,
             offset: offset
         });
 
-        const response = getPagingData(allMembers, page, limit, "members");
+        const response = getPagingData(allMembers, page, limit, url);
         //Response
         return res.status(200).json({
             response
