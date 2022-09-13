@@ -5,10 +5,8 @@ const router = express.Router();
 const {commentPost} = require("../utils/validators/CommentPost/commentPost");
 
 //Import middlewares
-const {
-    verifyAuth,
-    verifyAdmin
-} = require('../middleware/verifyAuth')
+const { verifyAuth } = require('../middleware/verifyAuth')
+const { verifyAdmin } = require('../middleware/verifyAdmin')
 
 //Import handlers
 const {
