@@ -4,43 +4,49 @@ const should = chai.should();
 const chaiHttp = require('chai-http');
 const app = require('../app');
 const Member = require('../db/models')
+require('dotenv').config()
 
 chai.use(chaiHttp);
 
 describe("testing the members' endpoints", () => {
 
-    it('should verify that there are 10 members in the page', (done) => {
+    let member = {
+        nameMember: "test member",
+        facebookUrl: "https:/facebook.com/test_member",
+        instagramUrl: "https:/instagram.com/test_member",
+        linkedinUrl: "https:/linkedin.com/in/test_member",
+        image: "test_member.jpg",
+        description: "test"
+    }
+
+    it('should verify that there 10 members in the page 1', (done) => {
+        let page=1;
         chai.request(app)
-        .get('/members')
+        .get('/members?' + page)
         .end((err, res) => {
             res.should.have.status(200);
-            res.body.should.be.a('object');
-            res.body.length.should.be.eql(10);       
+            res.body.should.be.a('object');      
             done();
         });
     });
 
 
     it('should show some attributes of the members', (done) => {
+        let token = process.env.TEST_TOKEN;
         chai.request(app)
         .get('/members/attributes')
+        .set({
+            Authorization: token
+        })
         .end((err, res) => {
             res.should.have.status(200);
-            res.body.should.be.a('object');
+            res.body.should.be.a('array');
             done();
         });
     });
 
 
     it('should POST a valid member', (done) => {
-        let member = {
-            nameMember: "test member",
-            facebookUrl: "https:/facebook.com/test_member",
-            instagramUrl: "https:/instagram.com/test_member",
-            linkedinUrl: "https:/linkedin.com/in/test_member",
-            image: "test_member.jpg",
-            description: "test"
-        }
         chai.request(app)
         .post('/members')
         .send(member)
@@ -51,52 +57,32 @@ describe("testing the members' endpoints", () => {
         });
     });
 
-    it('it should UPDATE a member given the id', async (done) => {
-        let member = new Member({
+    it('it should UPDATE a member given the id', (done) => {
+        chai.request(app)
+        .put('/members/update/' + 10)
+        .send({
             nameMember: "test member",
             facebookUrl: "https:/facebook.com/test_member",
             instagramUrl: "https:/instagram.com/test_member",
             linkedinUrl: "https:/linkedin.com/in/test_member",
             image: "test_member.jpg",
             description: "test"
-        });
-        member.save((err, member) => {
-                chai.request(server)
-                .put('/members/update/' + member.id)
-                .send({
-                    nameMember: "member updated",
-                    facebookUrl: "https:/facebook.com/test_member",
-                    instagramUrl: "https:/instagram.com/test_member",
-                    linkedinUrl: "https:/linkedin.com/in/test_member",
-                    image: "test_member.jpg",
-                    description: "test"
-                })
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.member.should.have.property('nameMember').eql("member updated");
-                done();
-            });
+        })
+        .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            res.body.member.should.have.property('nameMember').eql("test member");
+            done();
         });
     });
 
-    it('it should DELETE a member given the id', async (done) => {
-        let member = new Member({
-            nameMember: "test member",
-            facebookUrl: "https:/facebook.com/test_member",
-            instagramUrl: "https:/instagram.com/test_member",
-            linkedinUrl: "https:/linkedin.com/in/test_member",
-            image: "test_member.jpg",
-            description: "test"
-        });
-        member.save((err, member) => {
-                chai.request(server)
-                .delete('/members/delete/' + member.id)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                done();
-            });
+    it('it should DELETE a member given the id', (done) => {
+        chai.request(app)
+        .delete('/members/delete/' + 8)
+        .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            done();
         });
     });
 })
