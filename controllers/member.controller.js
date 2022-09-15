@@ -60,7 +60,7 @@ exports.createMember = async (req, res) => {
         //instruction to save the new member in the data base
         await newMember.save();
         //response
-        res.status(201).json('Member created successfully');
+        res.status(201).json({ msg: 'Member created successfully' });
     } catch (err) { res.status(500).json(err); }
 }
 
