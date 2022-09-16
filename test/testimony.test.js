@@ -93,3 +93,169 @@ describe("GET ONE /testimony", ()=>{
            })
     })
 })
+
+describe("POST /testimony", ()=>{
+    it("should return status 201", (done) => {
+        chai.request(server)
+            .post('/testimony')
+            .set({
+                Authorization: token
+            })
+            .send(testimonyTest)
+            .end((err,res)=>{
+                res.should.have.status(201);
+                done()
+            })
+    })
+
+    it("should return an authorization error", (done) => {
+        chai.request(server)
+           .post('/testimony')
+           .send(testimonyTest)
+           .end((err,res)=>{
+               res.should.have.status(403);
+               done()
+           })
+    })
+
+    it("should return a validation error", (done) => {
+        chai.request(server)
+           .post('/testimony')
+           .set({
+                Authorization: token
+            })
+           .send({image: 'test'})
+           .end((err,res)=>{
+               res.should.have.status(400);
+               done()
+           })
+    })
+
+    after(async () =>{
+        const testimony = await Testimony.findOne({
+            where: {name:'test'}
+        });
+        if(testimony){
+            await testimony.destroy();
+        }
+    })
+})
+
+describe("PUT /testimony", ()=>{
+
+    var newId;
+
+    before(async () => {
+        const newTestimony = new Testimony(testimonyTest);
+        await newTestimony.save();
+        newId = newTestimony.dataValues.id;
+    })
+    
+
+    it("should return status 200", (done) => {
+        chai.request(server)
+            .put('/testimony/' + newId)
+            .set({
+                Authorization: token
+            })
+            .send(testimonyTest)
+            .end((err,res)=>{
+                res.should.have.status(200);
+                done()
+            })
+    })
+
+    it("should return an authorization error", (done) => {
+        chai.request(server)
+           .put('/testimony/' + newId)
+           .end((err,res)=>{
+               res.should.have.status(403);
+               done()
+           })
+    })
+
+    it("should return status 404", (done) => {
+        let token = process.env.TEST_TOKEN;
+        chai.request(server)
+           .put('/testimony/' + "0")
+           .set({
+               Authorization: token
+           })
+           .send(testimonyTest)
+           .end((err,res)=>{
+               res.should.have.status(404);
+               done()
+           })
+    })
+
+    it("should return a validation error", (done) => {
+        chai.request(server)
+           .put('/testimony/' + newId)
+           .set({
+                Authorization: token
+            })
+           .send({})
+           .end((err,res)=>{
+               res.should.have.status(400);
+               done()
+           })
+    })
+
+    after(async () => {
+        const testimony = await Testimony.findOne({
+            where: {name:'test'}
+        });
+        await testimony.destroy();
+    })
+})
+
+describe("DELETE /testimony", ()=>{
+    var newId;
+
+    before(async () => {
+        const newTestimony = new Testimony(testimonyTest);
+        await newTestimony.save();
+        newId = newTestimony.dataValues.id;
+    })
+
+    it("should return status 200", (done) => {
+        chai.request(server)
+            .delete('/testimony/' + newId)
+            .set({
+                Authorization: token
+            })
+            .end((err,res)=>{
+                res.should.have.status(200);
+                done()
+            })
+    })
+
+    it("should return an authorization error", (done) => {
+        chai.request(server)
+           .delete('/testimony/' + newId)
+           .end((err,res)=>{
+               res.should.have.status(403);
+               done()
+           })
+    })
+
+    it("should return status 404", (done) => {
+        let token = process.env.TEST_TOKEN;
+        chai.request(server)
+           .delete('/testimony/' + "0")
+           .set({
+               Authorization: token
+           })
+           .end((err,res)=>{
+               res.should.have.status(404);
+               done()
+           })
+    })
+
+    after(async () => {
+        const testimony = await Testimony.findOne({
+            where: {name:'test'}
+        });
+        await testimony.destroy();
+    })
+}) 
