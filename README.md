@@ -25,55 +25,53 @@ npx sequelize-cli db:seed:all
 ``` bash
 npm start
 ```
-### Miembros
+### Members
 
-_Todas las peticiones se harán en formato JSON_
+#### Members per page
 
-_Para visualizar los miembros por página, es obligatorio proporcionar la página a visualizar, tener en cuenta que si no hay miembros en la página que se proporcione aparecerá un null_
+- Set the page you wanna see
 
-```
-{
-    "page":1
-}
-```
-_Para visualizar nombre e imagen de los miembros, es obligatorio estar autenticado como administrador_
+![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/Page.PNG?raw=true)
 
-_Para crear un miembro tendrás que llenar todos los datos de este esquema en el body correspondiente, acá un pequeño ejemplo:_
+- If the page that you set doesn't have content to show, it is gonna display this
 
-```
-{
-    "nameMember": "member",
-    "facebookUrl": "https:/facebook.com/member",
-    "instagramUrl": "https:/instagram.com/member",
-    "linkedinUrl": "https:/linkedin.com/in/member",
-    "image": "member.jpg",
-    "description": "member"
-}
-```
+![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/null.PNG?raw=true)
 
-_Para actualizar la información de un miembro, tendrás que proporcionar el id y llenar todos los datos de este esquema en el body correspondiente, acá un pequeño ejemplo:_
+#### Attributes of the members
 
-```
-{
-    "id":1
-}
-```
+- To display some members' attributes, such as name and image, log in as an administrator (the data of the administrators will be provided only by the developers).
 
-```
-{
-    "nameMember": "member",
-    "facebookUrl": "https:/facebook.com/member",
-    "instagramUrl": "https:/instagram.com/member",
-    "linkedinUrl": "https:/linkedin.com/in/member",
-    "image": "member.jpg",
-    "description": "member"
-}
-```
+![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/token.PNG?raw=true)
 
-_Para eliminar un miembro, tendrás que proporcionar el id_
+#### To create a new member inside the database
 
-```
-{
-    "id":1
-}
-```
+You only need to complete every field in the next schema to create in a successfully way a new member.
+
+![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/body.PNG?raw=true)
+
+- nameMember is the name of the member
+- facebookUrl is the url address of the facebook page of the member
+- instagramUrl is the url address of the instagram page of the member
+- linkedinUrl is the url address of the linkedin page of the member
+- image is gonna be the image that the member will show to the world
+- description is about the rol of the member inside the organization
+
+#### To update a member's information inside the database
+
+You only need to complete every field in the next schema to update the information of a member
+
+![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/update.PNG?raw=true)
+
+- id is gonna be the identification of the member you wanna update
+- nameMember is the name of the member
+- facebookUrl is the url address of the facebook page of the member
+- instagramUrl is the url address of the instagram page of the member
+- linkedinUrl is the url address of the linkedin page of the member
+- image is gonna be the image that the member will show to the world
+- description is about the rol of the member inside the organization
+
+#### To delete a member's information from the database
+
+![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/id.PNG?raw=true)
+
+- id is gonna be the identification of the member you wanna delete
