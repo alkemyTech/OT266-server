@@ -9,7 +9,7 @@ const activityPost = async(req, res) => {
             image: req.body.image
         };
         const createActivity = await Activity.create(body);
-        return res.status(200).json({
+        return res.status(201).json({
             'name': createActivity.name,
             'content': createActivity.content,
             'image': createActivity.image
@@ -25,7 +25,7 @@ const activityPost = async(req, res) => {
 const activityGet = async(req, res) => {
     try {
         const activity = await Activity.findAll({
-            attributes: ['name', 'content', 'image'],
+            attributes: ['id', 'name', 'content', 'image'],
         });
         res.status(200).json(activity);
     } catch (err) {
@@ -40,7 +40,7 @@ const activityUpdate = async(req, res) => {
     try {
         activity = await Activity.findByPk(id);
         if (!activity) {
-            return res.json({
+            return res.status(404).json({
                 message: "Activity not exist."
             });
         }
