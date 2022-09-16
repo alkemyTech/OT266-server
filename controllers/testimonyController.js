@@ -50,6 +50,12 @@ const testimonyGetOne = async(req = request, res = response) => {
             }
         })
 
+        if(!testimony){
+            return res.status(404).json({
+                msg: `testimony with id:${id}, not found `
+            })
+        }
+
         res.status(200).json({
             testimony: testimony,
         })
