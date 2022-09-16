@@ -1,8 +1,13 @@
 const {Member} = require("../db/models");
 
-//Import utils
+/**
+ * * functions to show the members per pages.
+ */
 const { getUrl, getPagination, getPagingData } = require('../utils/paginator');
 
+/**
+ * * function that show the members per pages.
+ */
 exports.listMembers = async (req, res) => {
 
     const { page = 1, size } = req.query;
@@ -27,6 +32,9 @@ exports.listMembers = async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 };
 
+/**
+ * * function that show some attributes of the members.
+ */
 exports.listMembersAttributes = async (req, res) => {
     //block try catch; try to work with some instructions, catch to return an error in case it exists
     try {
@@ -39,6 +47,9 @@ exports.listMembersAttributes = async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 };
 
+/**
+ * * function to create a member.
+ */
 exports.createMember = async (req, res) => {
     //block try catch; try to work with some instructions, catch to return an mistake in case it exists
     try {
@@ -64,6 +75,9 @@ exports.createMember = async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 }
 
+/**
+ * * function to edit the information a member's information.
+ */
 exports.editMember = async (req, res) => {
     //instruction to obtain and save the id of the member
     const {id} = req.params;
@@ -98,6 +112,9 @@ exports.editMember = async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 }
 
+/**
+ * * function to delete a member.
+ */
 exports.deleteMember = async (req, res) => {
     //block try catch; try to work with some instructions, catch to return an mistake in case it exists
     try {
