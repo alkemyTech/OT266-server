@@ -65,13 +65,10 @@ describe('Insert a activity', () => {
     });
 
     after(async() => {
-        const activity = await Activity.findOne({
-            where: { name: 'test' }
+        const activity = await Activity.destroy({
+            where: { name: 'test' },
+            force: true
         });
-        if (activity) {
-            await activity.destroy();
-        }
-
     });
 });
 
@@ -130,45 +127,62 @@ describe('update the activity', () => {
             });
     });
 
+    after(async() => {
+        const activity = await Activity.findOne({
+            where: { name: 'test' }
+        });
+        await activity.destroy({
+            force: true
+        });
+    });
+
 });
 
-// describe('delete activity', () => {
+describe('delete activity', () => {
+    var idTest;
 
-//     it('should delete activity, status 200', (done) => {
-//         chai.request(app)
-//             .get('/activities')
-//             .end(function(err, res) {
-//                 console.log(res.body)
-//                 expect(res).to.have.status(200);
-//                 chai.request(app)
-//                     .del('/activities/30')
-//                     .set({ Authorization: token })
-//                     .end(function(err, res) {
-//                         console.log(res.body)
-//                         expect(res).to.have.status(200);
-//                         chai.request(app)
-//                             .get('/activities')
-//                             .end(function(err, res) {
-//                                 console.log(res.body)
-//                                 expect(res).to.have.status(200);
-//                                 done();
-//                             });
-//                     });
-//             });
-//     });
-// });
+    before(async() => {
+        const newActivity = new Activity(activityTest);
+        await newActivity.save();
+        idTest = newActivity.dataValues.id;
+    })
 
+    it('should delete activity, status 200', (done) => {
+        chai.request(app)
+            .del('/activities/' + idTest)
+            .set({ Authorization: token })
+            .end(function(err, res) {
+                console.log(res.body)
+                expect(res).to.have.status(200);
+                done();
+            });
+    });
 
+    it('should return authorization error, status 403', (done) => {
+        chai.request(app)
+            .del('/activities/' + idTest)
+            .end(function(err, res) {
+                expect(res).to.have.status(403);
+                done();
+            });
+    });
 
-// describe('delete activity with id 50: ', () => {
-//     it('should show: Activity not exist.', (done) => {
-//         chai.request(app)
-//             .del('/activities/50')
-//             .set({ Authorization: token })
-//             .end(function(err, res) {
-//                 console.log(res.body)
-//                 expect(res).to.have.status(404);
-//                 done();
-//             });
-//     });
-// });
+    it('Should return activity not exist. status 404', (done) => {
+        chai.request(app)
+            .del('/activities/' + 0)
+            .set({ Authorization: token })
+            .end(function(err, res) {
+                console.log(res.body)
+                expect(res).to.have.status(404);
+                done();
+            });
+    });
+
+    after(async() => {
+        const activity = await Activity.destroy({
+            where: { id: idTest },
+            force: true
+        });
+    });
+
+});
