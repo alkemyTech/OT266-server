@@ -12,8 +12,8 @@ const validateResult = (req,res,next) => {
         return next()
     } catch (error) {
         let errores = error.array();
-        console.log(errores);
-        return res.json(errores)
+        //console.log(errores);
+        return res.status(400).json(errores)
     }
 }
 
