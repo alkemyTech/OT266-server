@@ -57,6 +57,8 @@ router.get('/register', authRegisterGET);
  *              description: Internal Server Error
  */
 router.post('/register',registerFormValidate, authRegisterPOST)
+    //For testing register post route
+    //router.post('/register', authRegisterPOST)
 
 //For login
 router.get('/login', authLoginGET)
@@ -93,6 +95,8 @@ router.get('/login', authLoginGET)
  *              description: Bad Request
  */
 router.post('/login',loginFormValidate, authLoginPOST)
+    //For testing login post route
+    //router.post('/login', authLoginPOST)
 
 //For getting the user information
 
