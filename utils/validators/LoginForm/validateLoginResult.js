@@ -13,7 +13,7 @@ const validateResult = (req,res,next) => {
     } catch (error) {
         let errores = error.array();
         //console.log(errores);
-        res.json(errores)
+        res.status(400).json(errores)
     }
 }
 
