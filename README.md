@@ -25,9 +25,11 @@ npx sequelize-cli db:seed:all
 ``` bash
 npm start
 ```
-### Members
+## Members
 
 #### Members per page
+
+_In this endpoint you are gonna find all the members of the organization, these members are listed per pages_
 
 - Set the page you wanna see
 
@@ -72,6 +74,6 @@ You only need to complete every field in the next schema to update the informati
 
 #### To delete a member's information from the database
 
-![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/id.PNG?raw=true)
+- To delete a member you need to write its id, the id is the identification of the member you wanna delete
 
-- id is gonna be the identification of the member you wanna delete
+![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/id.PNG?raw=true)
