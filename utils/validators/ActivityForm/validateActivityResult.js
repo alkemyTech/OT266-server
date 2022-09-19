@@ -14,7 +14,6 @@ const validateResult = (req, res, next) => {
         let error = err.array();
         console.log(error);
         return res.status(400).json(error)
-
     }
 }
 
