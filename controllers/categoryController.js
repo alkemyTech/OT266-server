@@ -3,34 +3,40 @@ const {Category} = require("../db/models");
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
 
+//Import utils
+const { getUrl, getPagination, getPagingData } = require('../utils/paginator');
 
-const categoryGet = async (req = request, res = response) => {
+
+const categoryGet = async (req, res) => {
+
+    const { page = 1, size } = req.query;
+    
+    let url = getUrl(req);
+
+    const { limit, offset } = getPagination(page, size, req.body);
 
     try {
-        const categories = await Category.findAll({
+        const allCategories = await Category.findAndCountAll({
+            limit: limit,
+            offset: offset,
             where: {
                 softDeleted: false
-            }
+            },
+            order:  [['id', 'ASC']],
         }); 
 
-        const categoriesNames = [];
-
-        categories.forEach(category => {
-            categoriesNames.push(category.name);
-        });
+        const response = getPagingData(allCategories, page, limit, url);
 
         return res.status(200).json({
-            categories: categoriesNames
+            response
         });
 
     } catch (error) {
-        return res.status(400).json({
-            error : error
-        })
+        return res.status(500).json({
+            error: error,
+        });
     }
-
 }
-
 
 const categoryGetOne = async (req = request, res = response) => {   
     
