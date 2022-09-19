@@ -27,7 +27,7 @@ describe("Get all the news: ", () => {
       });
   });
 
-  it("should verify that there are 10 testimonies in the page", (done) => {
+  it("should verify that there are 10 news in the page", (done) => {
     chai
       .request(server)
       .get("/news")
