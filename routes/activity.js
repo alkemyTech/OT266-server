@@ -100,7 +100,7 @@ router.post('/', verifyAdmin, activityFormValidate, activityPost);
  *          200:
  *              Ok
  */
-router.put('/:id', verifyAdmin, activityUpdate);
+router.put('/:id', verifyAdmin, activityFormValidate, activityUpdate);
 
 /**
  * @swagger
