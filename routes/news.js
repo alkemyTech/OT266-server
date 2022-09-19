@@ -165,7 +165,7 @@ router.put('/:id', verifyAdmin, putNews);
 
 /**
  * @swagger
- * /news/delete/{id}:
+ * /news/{id}:
  *  delete:
  *      summary: To delete one new from the database
  *      tags: [News]
@@ -185,7 +185,7 @@ router.put('/:id', verifyAdmin, putNews);
  *          400:
  *              description: Bad Request
  */
-router.delete('/delete/:id', verifyAdmin, deleteNews);
+router.delete('/:id', verifyAdmin, deleteNews);
 
 
 

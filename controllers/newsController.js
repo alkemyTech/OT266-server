@@ -98,6 +98,8 @@ const putNews = async(req = request, res = response) => {
 
     const { name, content, image, type } = req.body;
 
+    if(!name || !content || !image || !type) return res.status(400).json({message: 'Fields can\'t be empty'}) 
+
     const updatedNews = {
         name,
         content,
@@ -133,10 +135,10 @@ const deleteNews = async(req = request, res = response) => {
     const updatedNews = {
         softDeleted: true,
     };
-
+  
     try {
         const news = await News.findByPk(id);
-
+        
         if (!news) {
             return res.status(404).json({
                 msg: `news with id ${id} not found`,
