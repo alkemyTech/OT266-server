@@ -12,12 +12,9 @@ const validateResult = (req, res, next) => {
         return next()
     } catch (err) {
         let error = err.array();
-<<<<<<< HEAD
         console.log(error);
         return res.status(400).json(error)
-=======
-        return res.json(error)
->>>>>>> d54d219c0efee2fe6eb2f04340abd1c247e44664
+
     }
 }
 
