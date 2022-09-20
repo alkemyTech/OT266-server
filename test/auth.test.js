@@ -180,8 +180,8 @@ describe('Testing /auth/login routes', ()=> {
 
         //Create data with random email
             let validEmailRegister = {
-                firstName: "Juan",
-                lastName: "Riquelme",
+                firstName: "For Testing",
+                lastName: "Gomez",
                 password: '123',
                 email: `${newEmail}@test.com`
             }
@@ -276,5 +276,16 @@ describe('Testing /auth/register routes', ()=> {
                 res.should.be.a('object');
                 done()
             })
-    })
+        })
+    
+        //After creation successfully, ill remove it from DB
+        after(async () =>{
+            const userCreated = await User.findOne({
+                where: {firstName:'For Testing'}
+            });
+            if(userCreated){
+                await userCreated.destroy();
+            }
+        })
+
 })
