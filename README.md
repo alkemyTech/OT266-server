@@ -43,11 +43,11 @@ Los campos obligatorios son:
 - email (correo electronico)
 - password (contraseña)
 
-![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/registerBody.PNG?raw=true)
+![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-95/public/images/registerBody.png?raw=true)
 
 Una vez registrado se enviara un email de bienvenida al correo electronico del usuario creado anteriormente.
 
-![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/welcome.PNG?raw=true)
+![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-95/public/images/welcome.png?raw=true)
 
 ### Para Logearse
 
@@ -59,14 +59,14 @@ Una vez registrado se enviara un email de bienvenida al correo electronico del u
 
   - password (contraseña)
 
-![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/loginBody.PNG?raw=true)
+![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-95/public/images/loginBody.png?raw=true)
 
 
 Si los campos son correctos se devolvera un codigo de estado 200 (OK) y como respuesta los datos del usuario junto al token JWT.
 
 En el caso de que los datos sean incorrectos se devolvera un codigo de estado 400 (Bad Request) y en el caso de que el usuario no exista, un 404 (Not Found).
 
-![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-93/public/images/authResponse.PNG?raw=true)
+![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-95/public/images/authResponse.png?raw=true)
 
 ### Para obtener la informacion del usuario autenticado
 
