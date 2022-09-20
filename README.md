@@ -30,9 +30,9 @@ npm start
 
 Estos endpoints sirven para autenticarse usando el estandar de seguridad basado en tokens JWT (JSON Web Token).
 
-#### Para Registrarse
+### Para Registrarse
 
-_En este endpoint vas a poder registrar un nuevo usuario, es necesario agregar los datos minimos y necesarios_
+_En este endpoint se puede registrar un nuevo usuario, es necesario agregar los datos minimos y necesarios._
 
 _(no es necesario estar autenticado para acceder a este endpoint)_
 
@@ -48,6 +48,10 @@ Los campos obligatorios son:
 Una vez registrado se enviara un email de bienvenida al correo electronico del usuario creado anteriormente.
 
 ![EJEMPLO](https://github.com/alkemyTech/OT266-server/blob/OT266-95/public/images/welcome.png?raw=true)
+
+En caso de que falten campos, se devolvera una respuesta con codigo de estado 400 (Bad Request).
+
+En caso de que el usuario ya exista, se devolvera una respuesta con codigo de estado 409 (Conflict).
 
 ### Para Logearse
 
