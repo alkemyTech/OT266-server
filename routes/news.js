@@ -11,19 +11,26 @@ const { newsFormValidate } = require('../utils/validators/NewsForm/createNews');
  * @swagger
  * /news:
  *  get:
- *      summary: To see all the news in the database
+ *      summary: Endpoint to see all the news in the database
  *      tags: [News]
  *      parameters:
  *          - name: page
  *            in: query
  *            required: true
- *            description: Numero de pagina buscada
+ *            description: Number of page
  *            schema: 
  *              type: number
  *              example: 1
+ *          - name: size
+ *            in: query
+ *            required: false
+ *            description: Length of the list
+ *            schema: 
+ *              type: number
+ *              example: 10
  *      responses:
  *          200:
- *              description: Ok
+ *              description: Ok - Return a list of news. Default length 10, size query determinates length.
  *          400:
  *              description: Bad Request
  */
@@ -33,7 +40,7 @@ router.get('/', getAll);
  * @swagger
  * /news/{id}:
  *  get:
- *      summary: To see one new
+ *      summary: Endpoint to display just one news information (News selected by ID via params)
  *      tags: [News]
  *      parameters:
  *          - name: id
@@ -45,9 +52,9 @@ router.get('/', getAll);
  *              example: 1
  *      responses:
  *          200:
- *              description: Ok
+ *              description: Ok - Returns information of selected news
  *          404:
- *              description: Not Found
+ *              description: Could not found news via the ID
  *          400:
  *              description: Bad Request
  */
@@ -57,7 +64,7 @@ router.get('/:id', verifyAdmin, getById);
  * @swagger
  * /news/{id}/comments:
  *  get:
- *      summary: To see one new
+ *      summary: Endpoint to get all comments related to a news (News selected by ID via params)
  *      tags: [News]
  *      parameters:
  *          - name: id
@@ -69,9 +76,9 @@ router.get('/:id', verifyAdmin, getById);
  *              example: 1
  *      responses:
  *          200:
- *              description: Ok
+ *              description: Ok - Returns all comments of the selected news
  *          404:
- *              description: Not Found
+ *              description: Could not found news via the ID
  *          400:
  *              description: Bad Request
  */
@@ -81,7 +88,7 @@ router.get('/:id/comments', getNewsComments);
  * @swagger
  * /news:
  *  post:
- *      summary: To create one new
+ *      summary: Endpoint to create a new News
  *      tags: [News]
  *      requestBody:
  *          required: true
@@ -109,7 +116,7 @@ router.get('/:id/comments', getNewsComments);
  *                          example: "news"    
  *      responses:
  *          201:
- *              description: New created successfully
+ *              description: OK - Successfully created - Returns the new created news
  *          400:
  *              description: Bad Request
  */
@@ -119,7 +126,7 @@ router.post('/', verifyAdmin, newsFormValidate, createNews);
  * @swagger
  * /news/{id}:
  *  put:
- *      summary: To update one new from the database
+ *      summary: Endpoint to update one news information(News selected by ID via params) 
  *      tags: [News]
  *      parameters:
  *          - name: id
@@ -154,10 +161,10 @@ router.post('/', verifyAdmin, newsFormValidate, createNews);
  *                          type: string
  *                          example: "news" 
  *      responses:
- *          404:
- *              description: Not Found
  *          200:
- *              Ok
+ *               OK - Successfully updated - Returns the updated news
+ *          404:
+ *              description: Could not found news via the ID
  *          400:
  *              description: Bad Request
  */
@@ -167,7 +174,7 @@ router.put('/:id', verifyAdmin, putNews);
  * @swagger
  * /news/{id}:
  *  delete:
- *      summary: To delete one new from the database
+ *      summary: Endpoint to soft-delete one news from the database (News selected by ID via params)
  *      tags: [News]
  *      parameters:
  *          - name: id
@@ -178,10 +185,10 @@ router.put('/:id', verifyAdmin, putNews);
  *              type: number
  *              example: 1
  *      responses:
- *          404:
- *              description: Not Found
  *          200:
- *              Ok
+ *              OK - Successfully soft-deleted
+ *          404:
+ *              description: Could not found news via the ID
  *          400:
  *              description: Bad Request
  */
