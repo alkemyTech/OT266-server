@@ -42,7 +42,7 @@ const swaggerOptions = {
             },
             {
                 name: "News",
-                description: "Operations about news",
+                description: "Endpoints related to news",
             },
             {
                 name: "Organization",
@@ -738,22 +738,32 @@ const swaggerOptions = {
             "/news": {
                 get: {
                     tags: ["News"],
-                    summary: "To see all the news in the database",
+                    summary: "Endpoint to see all the news in the database",
                     parameters: [
                         {
                             name: "page",
                             in: "query",
-                            description: "Page to show",
+                            description: "Number of page to display",
                             required: true,
                             schema: {
                                 type: "integer",
                                 example: 1,
                             },
                         },
+                        {
+                            name: "size",
+                            in: "query",
+                            description: "Length of list to display",
+                            required: false,
+                            schema: {
+                                type: "integer",
+                                example: 10,
+                            }
+                        }
                     ],
                     responses: {
                         200: {
-                            description: "Successful operation",
+                            description: "Ok - Return a list of news paginated. Default length 10, size query determinates length.",
                         },
                         400: {
                             description: "Bad Request",
@@ -762,7 +772,7 @@ const swaggerOptions = {
                 },
                 post: {
                     tags: ["News"],
-                    summary: "To create a new",
+                    summary: "Endpoint to create a new News",
                     requestBody: {
                         content: {
                             "application/json": {
@@ -775,7 +785,7 @@ const swaggerOptions = {
                     },
                     responses: {
                         201: {
-                            description: "Created",
+                            description: "OK - Successfully created - Returns the new created news",
                         },
                         400: {
                             description: "Bad Request",
@@ -791,7 +801,7 @@ const swaggerOptions = {
             "/news/{id}": {
                 get: {
                     tags: ["News"],
-                    summary: "To see a new from the database",
+                    summary: "Endpoint to display just one news information (News selected by ID via params)",
                     parameters: [
                         {
                             name: "id",
@@ -806,13 +816,13 @@ const swaggerOptions = {
                     ],
                     responses: {
                         200: {
-                            description: "Successful operation",
+                            description: "Ok - Returns information of selected news",
                         },
                         400: {
                             description: "Bad Request",
                         },
                         404: {
-                            description: "Not Found",
+                            description: "Could not found news via the ID",
                         },
                     },
                     security: [
@@ -823,7 +833,7 @@ const swaggerOptions = {
                 },
                 put: {
                     tags: ["News"],
-                    summary: "To update the information of a new",
+                    summary: "Endpoint to update one news information(News selected by ID via params)",
                     parameters: [
                         {
                             name: "id",
@@ -840,7 +850,7 @@ const swaggerOptions = {
                         content: {
                             "application/json": {
                                 schema: {
-                                    $ref: "#/components/schemas/Activity",
+                                    $ref: "#/components/schemas/NewsUpdate",
                                 },
                             },
                         },
@@ -848,13 +858,13 @@ const swaggerOptions = {
                     },
                     responses: {
                         200: {
-                            description: "Successful operation",
+                            description: "OK - Successfully updated - Returns the updated news",
                         },
                         400: {
                             description: "Bad Request",
                         },
                         404: {
-                            description: "Not Found",
+                            description: "Could not found news via the ID",
                         },
                     },
                     security: [
@@ -865,7 +875,7 @@ const swaggerOptions = {
                 },
                 delete: {
                     tags: ["News"],
-                    summary: "To delete a new",
+                    summary: "Endpoint to soft-delete one news from the database (News selected by ID via params)",
                     parameters: [
                         {
                             name: "id",
@@ -880,13 +890,13 @@ const swaggerOptions = {
                     ],
                     responses: {
                         200: {
-                            description: "Successful operation",
+                            description: "OK - Successfully soft-deleted",
                         },
                         400: {
                             description: "Bad Request",
                         },
                         404: {
-                            description: "Not Found",
+                            description: "Could not found news via the ID",
                         },
                     },
                     security: [
@@ -899,7 +909,7 @@ const swaggerOptions = {
             "/news/{id}/comments": {
                 get: {
                     tags: ["News"],
-                    summary: "To see the comments of a new",
+                    summary: "Endpoint to get all comments related to a news (News selected by ID via params)",
                     parameters: [
                         {
                             name: "id",
@@ -914,13 +924,13 @@ const swaggerOptions = {
                     ],
                     responses: {
                         200: {
-                            description: "Successful operation",
+                            description: "Ok - Returns array of all comments of the selected news",
                         },
                         400: {
                             description: "Bad Request",
                         },
                         404: {
-                            description: "Not Found",
+                            description: "Could not found news via the ID",
                         },
                     },
                 },
@@ -1719,21 +1729,44 @@ const swaggerOptions = {
                     properties: {
                         name: {
                             type: "string",
-                            example: "tituaslo",
+                            example: "News title",
                         },
                         content: {
                             type: "string",
                             example:
-                                "David Rush, de Idaho, Estados Unidos, acaba de batir el Récord Mundial Guinness de lanzamiento de panchos. ¿De cuánto fue la distancia? Bastante impresionante: 51 metros, más de media cancha de fútbol, pulverizando el récord anterior de 47,5 metros.",
+                                "Here has to be sent the content of the new News",
                         },
                         image: {
                             type: "string",
                             example:
-                                "https://i0.wp.com/www.periodismo.com/wp-content/subid/Record-Mundial-de-lanzamiento-de-panchos.jpg?fit=1920%2C1080&ssl=1",
+                                "News url image to be displayed",
                         },
                         type: {
                             type: "string",
                             example: "new",
+                        },
+                    },
+                },
+                NewsUpdate: {
+                    type: "object",
+                    properties: {
+                        name: {
+                            type: "string",
+                            example: "New news title",
+                        },
+                        content: {
+                            type: "string",
+                            example:
+                                "This could be a redesign of the content of the news",
+                        },
+                        image: {
+                            type: "string",
+                            example:
+                                "New image url",
+                        },
+                        type: {
+                            type: "string",
+                            example: "newType",
                         },
                     },
                 },
