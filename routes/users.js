@@ -98,6 +98,6 @@ router.patch('/:id', activeIdFilter, verifyUser, updateUserPATCH);
  *          400:
  *              description: Bad Request
  */
-router.delete('/delete/:id', verifyUser, deleteUserById);
+router.delete('/delete/:id', activeIdFilter, verifyUser, deleteUserById);
 
 module.exports = router;
