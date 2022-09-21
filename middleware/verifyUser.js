@@ -15,11 +15,13 @@ const verifyUser = async (req, res, next) => {
         try {
             const payload = await verifyToken(token);
 
-            if(payload.id != id){
-                return res.status(403).json({
-                    error:'Access denied',
-                    message:"You don't have permission to access"
-                })
+            if(payload.rol != 1){
+                if(payload.id != id){
+                    return res.status(403).json({
+                        error:'Access denied',
+                        message:"You don't have permission to access"
+                    })
+                }
             }  
     
             next();
