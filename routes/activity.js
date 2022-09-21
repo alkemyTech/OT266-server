@@ -85,7 +85,7 @@ router.post('/', verifyAdmin, activityFormValidate, activityPost);
  *                    properties:
  *                      name:
  *                          type: string
- *                          example: "Ignacio Martinez"
+ *                          example: "Programas de educación general"
  *                      content:
  *                          type: string
  *                          example: "Es un programa destinado a jóvenes a partir del tercer año de secundaria, cuyo objetivo es garantizar su permanencia en la escuela y construir un proyecto de vida que da sentido al colegio."
