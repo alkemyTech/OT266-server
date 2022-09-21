@@ -282,6 +282,18 @@ const swaggerOptions = {
                 get: {
                     tags: ["Categories"],
                     summary: "To see all the categories in the database",
+                    parameters: [
+                        {
+                            name: "page",
+                            in: "query",
+                            description: "Page to show",
+                            required: true,
+                            schema: {
+                                type: "integer",
+                                example: 1,
+                            },
+                        },
+                    ],
                     responses: {
                         200: {
                             description: "Successful operation",
@@ -452,7 +464,7 @@ const swaggerOptions = {
                 },
                 post: {
                     tags: ["Comments"],
-                    summary: "To create a new category",
+                    summary: "To create a new comment",
                     requestBody: {
                         content: {
                             "application/json": {
@@ -978,12 +990,12 @@ const swaggerOptions = {
             "/organization/update/{id}": {
                 put: {
                     tags: ["Organization"],
-                    summary: "To update the information of a category",
+                    summary: "To update the information of a organization",
                     parameters: [
                         {
                             name: "id",
                             in: "path",
-                            description: "ID of the category",
+                            description: "ID of the organization",
                             required: true,
                             schema: {
                                 type: "integer",
@@ -1309,6 +1321,18 @@ const swaggerOptions = {
                 get: {
                     tags: ["Testimonies"],
                     summary: "To see all the testimonies in the database",
+                    parameters: [
+                        {
+                            name: "page",
+                            in: "query",
+                            description: "Page to show",
+                            required: true,
+                            schema: {
+                                type: "integer",
+                                example: 1,
+                            },
+                        },
+                    ],
                     responses: {
                         200: {
                             description: "Successful operation",
