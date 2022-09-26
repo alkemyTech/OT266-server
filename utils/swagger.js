@@ -287,12 +287,22 @@ const swaggerOptions = {
                             name: "page",
                             in: "query",
                             description: "Page to show",
-                            required: true,
+                            required: false,
                             schema: {
                                 type: "integer",
                                 example: 1,
                             },
                         },
+                        {
+                            name: "size",
+                            in: "query",
+                            description: "Page sizes",
+                            required: false,
+                            schema: {
+                                type: "integer",
+                                example: 10,
+                            },
+                        }
                     ],
                     responses: {
                         200: {
@@ -1336,12 +1346,22 @@ const swaggerOptions = {
                             name: "page",
                             in: "query",
                             description: "Page to show",
-                            required: true,
+                            required: false,
                             schema: {
                                 type: "integer",
                                 example: 1,
                             },
                         },
+                        {
+                            name: "size",
+                            in: "query",
+                            description: "Pages Sizes",
+                            required: false,
+                            schema: {
+                                type: "integer",
+                                example: 10,
+                            },
+                        }
                     ],
                     responses: {
                         200: {
