@@ -100,6 +100,7 @@ const authLoginPOST = async (req,res) => {
             let dataForToken = {
                 id: searchUser.id,
                 name: searchUser.firstName,
+                email: searchUser.email,
                 rol:searchUser.roleId
             }
 
