@@ -5,7 +5,7 @@ const registerFormValidate = [
     check('firstName', 'Please enter a valid name')
         .exists()
         .notEmpty().withMessage('Please enter your name')
-        .isAlpha().withMessage('Please just enter letters only in your name'),
+        .isAlpha('en-US', {ignore: ' '}).withMessage('Please just enter letters only in your name'),
 
     check('lastName', 'Please enter a valid last name')
         .exists()
