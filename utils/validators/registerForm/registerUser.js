@@ -5,12 +5,14 @@ const registerFormValidate = [
     check('firstName', 'Please enter a valid name')
         .exists()
         .notEmpty().withMessage('Please enter your name')
-        .isAlpha('en-US', {ignore: ' '}).withMessage('Please just enter letters only in your name'),
+        .isAlpha('en-US', {ignore: ' '}).withMessage('Please just enter letters only in your name')
+        .isLength({min:3,max:24}).withMessage('Minimun: 3 letters / Max: 24 letters'),
 
     check('lastName', 'Please enter a valid last name')
         .exists()
         .notEmpty().withMessage('Please enter your last name')
-        .isAlpha().withMessage('Please just enter letters in your lastname'),
+        .isAlpha().withMessage('Please just enter letters in your lastname')
+        .isLength({min:3,max:24}).withMessage('Minimun: 3 letters / Max: 24 letters'),
 
     check('email','Please enter your registered email')
         .exists()
@@ -19,7 +21,8 @@ const registerFormValidate = [
 
     check('password','Please enter your password')
         .exists()
-        .notEmpty().withMessage('Please enter your password'),
+        .notEmpty().withMessage('Please enter your password')
+        .isLength({min:8}).withMessage('Minimun: 8 letters'),
 
     (req, res, next) => {
         validateResult(req,res,next)
