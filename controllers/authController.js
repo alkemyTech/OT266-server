@@ -11,17 +11,22 @@ const { sendEmail } = require('../utils/emailSender');
 
 //Register
 const authRegisterGET = async (req,res) => {
-    res.send('Peticion GET a /auth/register -> Aqui form con campos: firstName,lastName,email,password')
+    res.status(200).send('Peticion GET a /auth/register -> Aqui form con campos: firstName,lastName,email,password')
 }
 const authRegisterPOST = async (req,res) => {
     let { firstName, lastName, email, password } = req.body;
+
+    //If any input is undefined send 401
+    if( firstName == undefined || lastName == undefined || email == undefined || password == undefined){
+        return res.status(400).json({"Error":"One or more invalid inputs"})
+    }
 
     let existeEmail = await checkEmailExists(email)
 
     //Si existeEmail es true, existe el user en la DB y hay que devolver que el correo ya existe.
     //Caso contrario, se hace el insert en la DB
     if(existeEmail == true){
-        res.send('El correo ya tiene una cuenta hecha')
+        res.status(409).json({'Error message':'Email already registered'})
     } else {
         try {
             //Hash password - Sync
@@ -50,20 +55,27 @@ const authRegisterPOST = async (req,res) => {
                 //Firmo token
                     let JWT = await signToken7d(dataForToken)
 
-            res.send(`User creado ${JSON.stringify(newUser)}, JWT post registro: ${JWT}`)
+            res.status(201).send(`User creado ${JSON.stringify(newUser)}, JWT post registro: ${JWT}`)
         } catch (error) {
-            res.json(error)
+            res.status(400).json(error)
         }
     }
 }
 
 //Login
 const authLoginGET = async (req,res) => {
-    res.send('Peticion GET a /auth/login -> Aqui form con campos: email,password')
+    res.status(200).json({'Respuesta':'Peticion GET a /auth/login -> Aqui form con campos: email,password'})
 }
 
 const authLoginPOST = async (req,res) => {
     let {email,password} = req.body;
+    //If there is not email / not password send status 400 with error 
+    if(email == undefined){
+        return res.status(401).json({"Error message:": "Not email found"})
+    }
+    if( password == undefined){
+        return res.status(401).json({"Error message:": "Not password found"})
+    }
     //Busco email
     const searchUser = await User.findOne({
         where: {
@@ -73,7 +85,7 @@ const authLoginPOST = async (req,res) => {
 
     //searchUser == null : no existe el usuario, else si existe
     if (searchUser == null) {
-        res.send('{ok: false}, No existe user')
+        res.status(401).json({"Error message:": "Not email found"})
     } else {
         //De la busqueda searchUser, saco el hash de la password.
         let hashedPass = searchUser.password
@@ -88,16 +100,17 @@ const authLoginPOST = async (req,res) => {
             let dataForToken = {
                 id: searchUser.id,
                 name: searchUser.firstName,
+                email: searchUser.email,
                 rol:searchUser.roleId
             }
 
             //Firmo token
             let JWT = await signToken7d(dataForToken)
 
-            res.json({"Email":searchUser.email,"Password":isPass,"JWT Token": JWT})
+            res.status(200).json({"Email":searchUser.email,"Password":isPass,"JWT Token": JWT})
         } else {
             //Password introducida es incorrecta
-            res.json({"Email":searchUser.email,"Password":isPass})
+            res.status(401).json({"Email":searchUser.email,"Password":isPass})
         }
     }
 }

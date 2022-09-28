@@ -5,15 +5,19 @@ const Slides = require("../controllers/slidesController");
 
 exports.listOrganizationpublic = async (req, res) => {
     try {
-       
-        const slide = await Slides.slideInfoByOrganization(req,res)
-        const allOrganizations = await Organization.findOne({
-            where: {
-                id: req.body.id
-            }
-        })
-        data = {Organziation : allOrganizations , Slides: slide.slideDataByIdOrg }
-          res.json(data)
+
+        if(req.body.url_image){   
+            url_image = req.body.url_image
+            name_image = req.body.name_image
+            exten = req.body.extension
+            image_Result = await ImageAWS.uploadFile(url_image, name_image, exten)
+            console.log(image_Result)
+        }
+        const allOrganizations = await Organization.findAll({
+            attributes: { exclude: ['id', 'email', 'welcomeText', 'aboutUsText', 'createdAt', 'updatedAt', 'deletedAt' ]  }
+          });
+        res.json(allOrganizations)
+
     } catch (error) {
         console.log(error);
     }
@@ -33,6 +37,7 @@ exports.createOrganization = async (req, res) => {
         const data = req.body;
         const newOrganization = await Organization.create(data);
         await newOrganization.save();
+        res.status(201).send("Organization created successfully");
     } catch (error) {
         console.log(error);
     }

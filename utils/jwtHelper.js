@@ -12,6 +12,7 @@ const signToken7d = async (userData) => {
     let token = await jwt.sign ({
             id: userData.id,
             name: userData.name,
+            email: userData.email,
             rol: userData.rol
         }, 
             secretToken,

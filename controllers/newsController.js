@@ -7,6 +7,7 @@ const fs = require('fs');
 
 const { getUrl, getPagination, getPagingData } = require('../utils/paginator');
 const user = require("../db/models/user");
+const { verifyToken } = require("../utils/jwtHelper");
 
 const getAll = async(req = request, res = response) => {
     const { page = 1, size } = req.query;
@@ -71,6 +72,11 @@ const getById = async(req = request, res = response) => {
 const createNews = async(req = request, res = response) => {
     const { name, content, image, type } = req.body;
 
+    const token = req.header('Authorization');
+    const payload = await verifyToken(token, process.env.JWT_SECRET);
+
+    sendEmail(payload.email, name, 'Su noticia ha sido creada satisfactoriamente');
+
     const softDeleted = false;
 
     const createdNews = new News({
@@ -97,6 +103,8 @@ const putNews = async(req = request, res = response) => {
     const { id } = req.params;
 
     const { name, content, image, type } = req.body;
+
+    if(!name || !content || !image || !type) return res.status(400).json({message: 'Fields can\'t be empty'}) 
 
     const updatedNews = {
         name,
@@ -133,10 +141,10 @@ const deleteNews = async(req = request, res = response) => {
     const updatedNews = {
         softDeleted: true,
     };
-
+  
     try {
         const news = await News.findByPk(id);
-
+        
         if (!news) {
             return res.status(404).json({
                 msg: `news with id ${id} not found`,
