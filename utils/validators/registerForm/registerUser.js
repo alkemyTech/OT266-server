@@ -22,7 +22,7 @@ const registerFormValidate = [
     check('password','Please enter your password')
         .exists()
         .notEmpty().withMessage('Please enter your password')
-        .isLength({min:8}).withMessage('Minimun: 8 letters'),
+        .isLength({min:8}).withMessage('Minimun: 8 characters'),
 
     (req, res, next) => {
         validateResult(req,res,next)

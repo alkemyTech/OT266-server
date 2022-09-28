@@ -1631,19 +1631,19 @@ const swaggerOptions = {
                     properties: {
                         firstName: {
                             type: "string",
-                            example: "j",
+                            example: "Guido",
                         },
                         lastName: {
                             type: "string",
-                            example: "a",
+                            example: "Li",
                         },
                         email: {
                             type: "string",
-                            example: "j@gmail.com",
+                            example: "alkemydemo266@hotmail",
                         },
                         password: {
                             type: "string",
-                            example: "123456",
+                            example: "1234567",
                         },
                     },
                 },
@@ -1652,11 +1652,11 @@ const swaggerOptions = {
                     properties: {
                         email: {
                             type: "string",
-                            example: "j@gmail.com",
+                            example: "alkemydemo266@hotmail.com",
                         },
                         password: {
                             type: "string",
-                            example: "123456",
+                            example: "1234567",
                         },
                     },
                 },
