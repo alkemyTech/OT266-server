@@ -36,6 +36,18 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true
       },
+      urlFacebook: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+      urlLinkedin: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+      urlInstagram: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
       deletedAt: {
         type: Sequelize.DATE
       },

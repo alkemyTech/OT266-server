@@ -1,5 +1,5 @@
 //Models
-const { Slides } = require('../db/models/index');
+const { Slides } = require('../db/models');
 
 //Import modules
 const fs = require('fs')
@@ -7,7 +7,8 @@ const utils = require('util')
 const unlinkFile = utils.promisify(fs.unlink);
 
 //Import utils
-const  {uploadFile} = require('../utils/imageUpload2')
+const  {uploadFile} = require('../utils/imageUpload2');
+const { info } = require('console');
 
 
 //for GET-> http://localhost:3000/slides
@@ -87,12 +88,30 @@ const slidesPOST = async(req,res) => {
 
 //for GET-> http://localhost:3000/slides/:id
 const slideInfoById = async(req,res) => {
+    
     let id = Number(req.params.id) || 0;
-
     //findByPk query with params id, if exits send all data, if it does not exist send 404 error
     let slideDataById = await Slides.findByPk(id)
     //Res send data
     res.json(slideDataById)
+}
+
+// This function its for organization
+const slideInfoByOrganization = async (req , res) => {   
+    let id = req.body.id;
+    let info 
+    try {
+        const slideDataByIdOrg = await Slides.findAll({
+            where: {
+                organizationId: id
+            }
+        })
+        info = {slideDataByIdOrg : slideDataByIdOrg}
+    } catch (error) {
+      
+        info = {error : error}
+    }
+   return info
 }
 
 //for PUT-> http://localhost:3000/slides/:id
@@ -167,4 +186,10 @@ const deleteUserById = async(req, res) => {
     }
 }
 
-module.exports = {slidesGET,slidesPOST,slideInfoById,slideUpdateById,deleteUserById}
+
+
+
+
+
+
+module.exports = {slidesGET,slidesPOST,slideInfoById,slideUpdateById,deleteUserById,slideInfoByOrganization}

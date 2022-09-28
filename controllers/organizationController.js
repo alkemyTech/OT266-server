@@ -1,8 +1,11 @@
 const {Organization} = require("../db/models");
 const ImageAWS = require("../utils/imageUpload");
+const Slides = require("../controllers/slidesController");
+
 
 exports.listOrganizationpublic = async (req, res) => {
     try {
+
         if(req.body.url_image){   
             url_image = req.body.url_image
             name_image = req.body.name_image
@@ -14,6 +17,7 @@ exports.listOrganizationpublic = async (req, res) => {
             attributes: { exclude: ['id', 'email', 'welcomeText', 'aboutUsText', 'createdAt', 'updatedAt', 'deletedAt' ]  }
           });
         res.json(allOrganizations)
+
     } catch (error) {
         console.log(error);
     }
